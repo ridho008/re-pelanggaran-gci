@@ -17,16 +17,17 @@
                 <label for="user_id">Pengguna</label>
                 <select name="user_id" id="user_id" class="form-control @error('user_id') is-invalid @enderror">
                    <option value="">-- Pilih Pengguna --</option>
-                   @foreach($users as $user)
-
-                   @if($user->id === $report->user_id)
-                   <option value="{{ $report->user_id }}" selected>{{ $user->fullname }}</option>
-
-                   @else
-                   <option value="{{ $user->id }}">{{ $user->fullname }}</option>
-                   @endif
-
-                   @endforeach
+                   @forelse($users as $user)
+                        @if($user->tb_user_id != 1)
+                           @if($user->tb_user_id == $report->user_id)
+                              <option value="{{ $user->tb_user_id }}" selected>{{ $user->fullname }}</option>
+                           @else
+                              <option value="{{ $user->tb_user_id }}">{{ $user->fullname }}</option>
+                           @endif
+                        @endif
+                      @empty
+                      <option value="" class="bg-danger">Data Pengguna Kosong.</option>
+                   @endforelse
                 </select>
                 @error('user_id')
                     <span class="invalid-feedback" role="alert">
@@ -34,15 +35,15 @@
                     </span>
                 @enderror
              </div>
-             {{-- <div class="form-group">
+             <div class="form-group">
                 <label for="description">Deskripsi</label>
-                <textarea name="description" class="form-g" id="description" cols="30" rows="10" value="{{ old('description') }}"></textarea>
+                <textarea name="description" class="form-group" id="editor1" cols="30" rows="10" value="{{ old('description') }}">{{ old('description', $report->description) }}</textarea>
                 @error('description')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>
                 @enderror
-             </div> --}}
+             </div>
              <div class="form-group">
                 <label for="reporting_date">Tanggal Lihat Pelanggaran</label>
                 <input type="date" name="reporting_date" class="form-control @error('reporting_date') is-invalid @enderror" value="{{ old('reporting_date', $report->reporting_date) }}">

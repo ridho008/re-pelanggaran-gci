@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Report;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class ReportController extends Controller
 {
@@ -35,10 +36,21 @@ class ReportController extends Controller
      */
     public function create()
     {
-        $users = User::select('id', 'fullname')
-                ->get();
+        // $users = User::select('id', 'fullname', 'role')
+                // ->get();
+        // $reports = Report::select('user_id')->get();
+        // dd($reports);
+
+        // $reports = User::join('report', 'users.id', '=', 'report.user_id')
+        //         ->get(['users.*', 'report.*']);
+
+        $reports = DB::table('report')
+            ->rightJoin('users', 'users.id', '=', 'report.user_id')
+            ->select('users.id as tb_user_id', 'report.user_id as tb_report_user_id', 'users.fullname', 'users.id as tb_users_id')
+            ->get();
+        // dd($reports);
         $data = [
-            'users' => $users,
+            'reports' => $reports,
         ];
         return view('admin.reports.create', $data);
     }
@@ -53,6 +65,7 @@ class ReportController extends Controller
     {
         $request->validate([
             'user_id' => 'required',
+            'description' => 'required',
             'reporting_date' => 'required',
             'proof_fhoto' => 'mimes:jpg,bmp,png',
             'status' => 'required',
@@ -66,6 +79,7 @@ class ReportController extends Controller
 
         $user = Report::create([
             'user_id' => $request->input('user_id'),
+            'description' => $request->input('description'),
             'proof_fhoto' => $filename,
             'reporting_date' => $request->input('reporting_date'),
             'status' => $request->input('status'),
@@ -97,7 +111,11 @@ class ReportController extends Controller
     public function edit(Report $report, User $user, $id)
     {
         // $id = id table report
-        $resultUser = $user->select('id', 'fullname')->get();
+        // $resultUser = $user->select('id', 'fullname')->get();
+        $resultUser = DB::table('report')
+            ->rightJoin('users', 'users.id', '=', 'report.user_id')
+            ->select('users.id as tb_user_id', 'report.user_id as tb_report_user_id', 'users.fullname', 'users.id as tb_users_id')
+            ->get();
         $row = Report::findOrFail($id);
         // dd($row->user_id);
         $data = [
@@ -118,6 +136,7 @@ class ReportController extends Controller
     {
         $request->validate([
             'user_id' => 'required',
+            'description' => 'required',
             'reporting_date' => 'required',
             'proof_fhoto' => 'mimes:jpg,bmp,png',
             'status' => 'required',
@@ -135,6 +154,7 @@ class ReportController extends Controller
         Report::where('id', $id)
             ->update([
             'user_id' => $request->input('user_id'),
+            'description' => $request->input('description'),
             'proof_fhoto' => $filename,
             'reporting_date' => $request->input('reporting_date'),
             'status' => $request->input('status'),

@@ -22,7 +22,7 @@
 
     <!-- Custom styles for this template-->
     <link href="{{ asset('assets/css/sb-admin-2.min.css') }}" rel="stylesheet">
-
+    <script src="{{ asset('assets/vendor/ckeditor/ckeditor.js') }}"></script>
 </head>
 
 <body id="page-top">
@@ -278,6 +278,11 @@
         </div>
     </div>
 
+    <script>
+        CKEDITOR.replace( 'editor1' );
+    </script>
+
+    
     <!-- Bootstrap core JavaScript-->
     <script src="{{ asset('assets/vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>

@@ -17,5 +17,6 @@ class Report extends Model
         'proof_fhoto',
         'reporting_date',
         'user_id',
+        'description',
     ];
 }
