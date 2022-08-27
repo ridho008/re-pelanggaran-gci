@@ -63,8 +63,14 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
    Route::get('/admin/report/edit/{id}', [ReportController::class, 'edit'])->where('id', '[0-9]+')->name('admin.report.edit');
    Route::put('/admin/report/update/{id}', [ReportController::class, 'update'])->where('id', '[0-9]+')->name('admin.report.update');
 
-
    Route::delete('/admin/report/destroy/{id}', [ReportController::class, 'destroy'])->where('id', '[0-9]+')->name('admin.report.destroy');
+   Route::get('/admin/report/detail/{id}', [ReportController::class, 'detail'])->where('id', '[0-9]+')->name('admin.report.detail');
+
+   // Reply Comments
+   Route::post('/admin/report/reply/{id}', [ReportController::class, 'replyComment'])->where('id', '[0-9]+')->name('admin.report.comment');
+
+   // Menus Verifikasi
+   Route::get('/admin/verif', [ReportController::class, 'verified'])->name('admin.reports.verified');
 
 
 });

@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use App\Models\Report;
 
 class User extends Authenticatable
 {
@@ -47,5 +48,10 @@ class User extends Authenticatable
     protected function role(): Attribute
     {
         return new Attribute(get: fn ($value) =>  ["user", "admin"][$value]);
+    }
+
+    public function reports()
+    {
+        return $this->hasMany(Report::class);
     }
 }

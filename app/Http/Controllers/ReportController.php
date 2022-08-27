@@ -179,4 +179,54 @@ class ReportController extends Controller
         Report::destroy($id);
         return redirect()->route('reports.admin')->with('success', 'Berhasil menghapus data.');
     }
+
+    public function detail($id)
+    {
+        // $report = User::join('report', 'users.id', '=', 'report.user_id')
+        //         ->where('report.user_id', '=', 'users.id')
+        //         ->get();
+
+        // $report = DB::table('users')
+        //         ->join('report', function($join) use ($id) {
+        //             $join->on('users.id', '=', 'report.user_id')
+        //                 ->where('users.id', '=', $id);
+        //         })->get();
+
+        // $report = DB::table('report')
+        // ->join('users', 'id', '=', 'report.user_id')
+        // ->where('users.id', '=', "report.$id")
+        // ->select('report.*')
+        // ->get();
+
+        // $report = Report::find($id)->users();
+
+        $report = User::join('report', 'report.user_id', '=', 'users.id')
+            ->where('report.id', $id)->first();
+        // dd($report);
+        $data = [
+            'report' => $report,
+        ];
+        return view('admin.reports.detail', $data);
+    }
+
+    public function replyComment(Request $request, $id)
+    {
+        $request->validate([
+            'reply' => 'required',
+        ]);
+
+        Report::where('id', $id)->update([
+            'reply' => $request->input('reply')
+        ]);
+
+        return back()->with('success', 'Pesan berhasil dikirim.');
+    }
+
+    public function verified()
+    {
+        $data = [
+            'reports' => $reports,
+        ];
+        return view('admin.reports.verified', $data);
+    }
 }

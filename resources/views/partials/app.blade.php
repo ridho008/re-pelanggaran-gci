@@ -81,7 +81,7 @@
                         <h6 class="collapse-header">Custom Data</h6>
                         <a class="collapse-item" href="{{ route('users.admin') }}">Pengguna</a>
                         <a class="collapse-item" href="{{ route('reports.admin') }}">Pelaporan</a>
-                        <a class="collapse-item" href="utilities-border.html">Verifikasi</a>
+                        <a class="collapse-item" href="{{ route('admin.reports.verified') }}">Verifikasi</a>
                     </div>
                 </div>
             </li>

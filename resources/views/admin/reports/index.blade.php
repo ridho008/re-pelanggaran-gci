@@ -48,11 +48,12 @@
                         @endif
                      </td>
                      <td>
-                        <a href="{{ route('admin.report.edit', $report->id) }}" class="btn btn-info btn-block mb-1"><i class="fas fa-edit"></i></a>
+                        <a href="{{ route('admin.report.edit', $report->id) }}" class="btn btn-info btn-circle btn-block mb-1"><i class="fas fa-edit"></i></a>
+                        <a href="{{ route('admin.report.detail', $report->id) }}" class="btn btn-secondary btn-circle btn-block mb-1"><i class="fas fa-info"></i></a>
                         <form action="{{ route('admin.report.destroy', $report->id) }}" method="post">
                            @csrf
                            @method('DELETE')
-                           <button type="submit" class="btn btn-danger btn-block" onclick="return confirm('Yakin ?')"><i class="fas fa-trash-alt"></i></button>
+                           <button type="submit" class="btn btn-danger btn-block btn-circle" onclick="return confirm('Yakin ?')"><i class="fas fa-trash-alt"></i></button>
                         </form>
                      </td>
                   </tr>
