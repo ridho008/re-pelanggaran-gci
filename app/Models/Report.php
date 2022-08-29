@@ -19,6 +19,7 @@ class Report extends Model
         'reporting_date',
         'user_id',
         'description',
+        'reply_comment'
     ];
 
     public function users()

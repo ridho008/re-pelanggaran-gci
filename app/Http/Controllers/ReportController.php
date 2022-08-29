@@ -216,7 +216,7 @@ class ReportController extends Controller
         ]);
 
         Report::where('id', $id)->update([
-            'reply' => $request->input('reply')
+            'reply_comment' => $request->input('reply')
         ]);
 
         return back()->with('success', 'Pesan berhasil dikirim.');
@@ -224,9 +224,21 @@ class ReportController extends Controller
 
     public function verified()
     {
+        $reports = User::join('report', 'users.id', '=', 'report.user_id')
+                ->get(['users.*', 'report.*']);
         $data = [
             'reports' => $reports,
         ];
         return view('admin.reports.verified', $data);
+    }
+
+    public function status(Request $request, $id)
+    {
+        Report::where('id', $id)
+            ->update([
+                'status' => $request->input('status')
+            ]);
+
+        return back()->with('success', 'Status berhasil diperbarui.');
     }
 }

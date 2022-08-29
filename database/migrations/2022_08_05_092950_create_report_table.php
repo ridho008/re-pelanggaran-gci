@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             // bukti foto
             $table->string('proof_fhoto')->nullable();
+            $table->text('reply_comment')->nullable();
             // tanggal melihat pelanggaran
             $table->date('reporting_date')->nullable();
             $table->integer('status')->nullable();

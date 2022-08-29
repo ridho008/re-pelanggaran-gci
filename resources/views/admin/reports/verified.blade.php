@@ -2,6 +2,8 @@
 
 @section('title', 'Verifikasi Laporan - GCI')
 @section('content')
+<h1 class="h3 mb-4 text-gray-800"><i class="fas fa-file"></i> Verifikasi Data Pelaporan</h1>
+@include('partials.messages')
 <div class="card-body">
    <div class="row">
       <div class="col-md-12">
@@ -14,7 +16,6 @@
                          <th>Bukti</th>
                          <th>Tanggal Laporan</th>
                          <th>Status</th>
-                         <th style="width: 20px;">Aksi</th>
                      </tr>
                  </thead>
                  <tbody>
@@ -32,21 +33,53 @@
                              <span class="alert-danger">Foto Belum Diupload.</span>
                              @endif
                           </td> 
-                          <td>{{ $report->reporting_date }}</td>
+                          <td>{{ date('d-m-Y', strtotime($report->reporting_date)) }}</td>
                           <td>
+                           <form action="{{ route('admin.report.status', $report->id) }}" method="post" class="form-inline">
+                              @csrf
+                              @method('put')
+                              {{-- Setujui --}}
                              @if($report->status === 0)
-                             <span class="alert-success">Setuju</span>
+                             <div class="form-group">
+                                <select name="status" class="form-control">
+                                   <option value="">-- Status --</option>
+                                   <option value="0" {{ $report->status === 0 ? "selected" : ""  }}>Setujui</option>
+                                   <option value="1" {{ $report->status === 1 ? "selected" : ""  }}>Tolak</option>
+                                   <option value="2" {{ $report->status === 2 ? "selected" : ""  }}>Proses Verifikasi</option>
+                                </select>
+                              </div>
+                              <div class="form-group mx-sm-3">
+                                 <button type="submit" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></button>
+                              </div>
+                             {{-- <button type="submit" class="btn btn-success btn-sm"><i class="fas fa-check"></i> Setuju</a> --}}
+                              {{-- Tolak --}}
+                             @elseif($report->status === 1)
+                             <div class="form-group">
+                                <select name="status" class="form-control">
+                                   <option value="">-- Status --</option>
+                                   <option value="0" {{ $report->status === 0 ? "selected" : ""  }}>Setujui</option>
+                                   <option value="1" {{ $report->status === 1 ? "selected" : ""  }}>Tolak</option>
+                                   <option value="2" {{ $report->status === 2 ? "selected" : ""  }}>Proses Verifikasi</option>
+                                </select>
+                             </div>
+                             <div class="form-group mx-sm-3">
+                                <button type="submit" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></button>
+                             </div>
                              @else
-                             <span class="alert-warning">Tolak</span>
+                             <div class="form-group">
+                                <select name="status" class="form-control">
+                                   <option value="">-- Status --</option>
+                                   <option value="0" {{ $report->status === 0 ? "selected" : ""  }}>Setujui</option>
+                                   <option value="1" {{ $report->status === 1 ? "selected" : ""  }}>Tolak</option>
+                                   <option value="2" {{ $report->status === 2 ? "selected" : ""  }}>Proses Verifikasi</option>
+                                </select>
+                              </div>
+                             <div class="form-group mx-sm-3">
+                                <button type="submit" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></button>
+                             </div>
+                             {{-- <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-times"></i> Tolak</a> --}}
                              @endif
-                          </td>
-                          <td>
-                             <a href="{{ route('admin.report.edit', $report->id) }}" class="btn btn-info btn-block mb-1"><i class="fas fa-edit"></i></a>
-                             <form action="{{ route('admin.report.destroy', $report->id) }}" method="post">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-block" onclick="return confirm('Yakin ?')"><i class="fas fa-trash-alt"></i></button>
-                             </form>
+                           </form>
                           </td>
                        </tr>
                        @empty
@@ -60,4 +93,28 @@
       </div>
    </div>
 </div>
+
+<script>
+   // function getNameOptions(data)
+   // {
+   //    alert(data.options[select.selectedIndex].value);
+   // }
+   // var select = document.getElementsByClassName("getNameOptions");
+   // select.addEventListener("change", function() {
+   //    var value = select.options[select.selectedIndex].value;
+   //    console.log(value);
+   // });
+   // console.log(select);
+
+   // function getNameOptions() {
+   //    var select = document.getElementsByClassName('optionsStatus');
+   //    var option = select.options[select.selectedIndex];
+
+   //    var valueOK =  option.value;
+   //    var valueText = option.text;
+   //    console.log(valueOK);
+   //    // console.log(valueText);
+   // }
+   // getNameOptions();
+</script>
 @endsection

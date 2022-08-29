@@ -63,7 +63,8 @@
                <select name="status" id="status" class="form-control @error('status') is-invalid @enderror">
                   <option value="">-- Pilih Status --</option>
                   <option value="0">Setujui</option>
-                  <option value="1">Batalkan</option>
+                  <option value="2">Proses Verifikasi</option>
+                  <option value="1">Tolak</option>
                </select>
                @error('status')
                    <span class="invalid-feedback" role="alert">

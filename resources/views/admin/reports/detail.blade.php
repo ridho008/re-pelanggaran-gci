@@ -5,7 +5,6 @@
 
 
 {{-- <h1 class="h3 mb-4 text-gray-800"><i class="fas fa-file"></i> </h1> --}}
-
 <div class="card-body">
     <div class="row">
        <div class="col-md-8">
@@ -41,13 +40,13 @@
                                  <div class="col-md-6">
                                     <div class="h6 mb-0 font-weight-bold text-gray-800">Isi Laporan Pelanggaran</div>
                                     <p>
-                                       {{ $report->description }}
+                                       {{ strip_tags($report->description) }}
                                     </p>
                                  </div>
                                  <div class="col-md-6">
                                     <div class="h6 mb-0 font-weight-bold text-gray-800">Balasan</div>
                                     <p>
-                                       Balasan Admin
+                                       {{ strip_tags($report->reply_comment) }}
                                     </p>
                                  </div>
                                  <div class="row">
@@ -98,11 +97,11 @@
                       </span>
                   @enderror
                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                  <button type="submit" class="btn btn-primary">Kirim</button>
+                </div>
             </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-            <button type="button" class="btn btn-primary">Kirim</button>
           </div>
         </div>
       </div>

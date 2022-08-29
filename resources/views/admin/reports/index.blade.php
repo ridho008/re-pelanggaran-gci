@@ -43,8 +43,10 @@
                      <td>
                         @if($report->status === 0)
                         <span class="alert-success">Setuju</span>
+                        @elseif($report->status === 1)
+                        <span class="alert-danger">Tolak</span>
                         @else
-                        <span class="alert-warning">Tolak</span>
+                        <span class="alert-primary">Proses Verifikasi</span>
                         @endif
                      </td>
                      <td>

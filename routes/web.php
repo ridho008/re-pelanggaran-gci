@@ -71,6 +71,7 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
 
    // Menus Verifikasi
    Route::get('/admin/verif', [ReportController::class, 'verified'])->name('admin.reports.verified');
+   Route::put('/admin/report/status/{id}', [ReportController::class, 'status'])->where('id', '[0-9]+')->name('admin.report.status');
 
 
 });
