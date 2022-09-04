@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class LoginController extends Controller
 {
@@ -43,17 +44,24 @@ class LoginController extends Controller
     public function login(Request $request)
     {
         $input = $request->all();
+        // dd($users->is_active);
 
         $this->validate($request, [
             'email' => 'required|email',
             'password' => 'required',
         ]);
+        $user = User::where('email', $request['email'])->first();
+        // dd($user->is_active);
 
         if(auth()->attempt(array('email' => $input['email'], 'password' => $input['password']))) {
             if (auth()->user()->role == 'admin') {
                 return redirect()->route('admin.index');
             } else if (auth()->user()->role == 'user') {
-                return redirect()->route('user.index');
+                if($user->is_active === 0) {
+                    return back()->with('loginError', 'Akun belum diverifikasi, Silahkan ditunggu.');
+                } else {
+                    // return redirect()->route('user.index');
+                }
             }
         } else {
             return back()->with('loginError', 'Login gagal!');

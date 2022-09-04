@@ -24,9 +24,8 @@
                   <thead class="text-center">
                       <tr>
                           <th>No</th>
-                          <th>Pengguna Pelanggar</th>
+                          <th>Pengguna</th>
                           <th>Bukti</th>
-                          <th>Pelapor</th>
                           <th>Tanggal Laporan</th>
                           <th>Status</th>
                           <th style="width: 20px;">Aksi</th>
@@ -39,20 +38,14 @@
                      @forelse($reports as $key => $report)
                         <tr>
                            <td>{{ $key + $reports->firstitem() }}</td>
-                           <td>{{ $report->users->fullname }}</td>
+                           <td>{{ $report->fullname }}</td>
                            <td>
-                              @if(!$request)
-                              <span class="alert alert-danger">Format tidak sesuai</span>
+                              @if($report->proof_fhoto != null)
+                              <img src="{{ asset('assets/img/pelaporan/' . $report->proof_fhoto) }}" alt="{{ $report->proof_fhoto }}" width="100">
                               @else
-                                 @if($report->proof_fhoto != null)
-                                 <img src="{{ asset('assets/img/pelaporan/' . $report->proof_fhoto) }}" alt="{{ $report->proof_fhoto }}" width="100">
-                                 @else
-                                 <span class="alert-danger">Foto Belum Diupload.</span>
-                                 @endif
-                              
+                              <span class="alert-danger">Foto Belum Diupload.</span>
                               @endif
                            </td> 
-                           <td>{{ $report->report->fullname }}</td>
                            <td>{{ $report->reporting_date }}</td>
                            <td>
                               @if($report->status === 0)

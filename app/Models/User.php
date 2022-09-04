@@ -24,6 +24,7 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
+        'is_active',
     ];
 
     /**
@@ -50,8 +51,23 @@ class User extends Authenticatable
         return new Attribute(get: fn ($value) =>  ["user", "admin"][$value]);
     }
 
+    // protected function is_active(): Attribute
+    // {
+    //     return new Attribute(get: fn ($value) =>  [0, 1][$value]);
+    // }
+
     public function reports()
     {
         return $this->hasMany(Report::class);
+    }
+
+    // public function reportings()
+    // {
+    //     return $this->hasMany(Report::class);
+    // }
+
+    public function report()
+    {
+        return $this->hasOne(Report::class);
     }
 }

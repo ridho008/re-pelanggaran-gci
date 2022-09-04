@@ -6,6 +6,7 @@ use App\Models\Report;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class ReportController extends Controller
 {
@@ -18,15 +19,51 @@ class ReportController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        // select count(*) as aggregate from `users` inner join `report` on `users`.`id` = `report`.`user_id` inner join `report` on `users`.`id` = `report`.`reporting`
         // $reports = Report::select('id', 'user_id', 'proof_fhoto', 'reporting_date', 'status')->get();
-        $reports = User::join('report', 'users.id', '=', 'report.user_id')
-                ->get(['users.*', 'report.*']);
+        // $reports = User::join('report', 'users.id', '=', 'report.reporting')
+        //         ->paginate(5);
+                // ->get(['users.*', 'report.*']);
+        // select count(*) as aggregate from `users` inner join `report` on `users`.`id` as `tb_users_1` = `report`.`user_id` inner join `report` on `users`.`id` as `tb_users_2` = `report`.`reporting`
+        // $reports = DB::table('report')
+        //     ->join('users', 'users.id', '=', 'report.reporting')
+        //     ->join('users', 'users.id as users2', '=', 'report.user_id')
+        //     ->select('users.*', 'report.*', 'report.user_id as ruid')
+        //     ->paginate(5);
+
+        // $reports = DB::table('report')
+        //     ->join('users', 'users.id', '=', 'report.reporting')
+        //     ->join('users as user2', 'users.id', '=', 'report.user_id')
+        //     ->select('users.*', 'report.*')
+        //     ->paginate(5);
+
+        // dd($reports);
+
+        $reports = Report::with('users')->paginate(5);
+        // dd($reports);
+
+        $request->validate([
+            'proof_fhoto' => 'mimes:jpg,bmp,png',
+        ]);
+        
         $data = [
+            'request' => $request,
             'reports' => $reports,
         ];
         return view('admin.reports.index', $data);
+    }
+
+    public function pageAgree()
+    {
+        $reports = User::join('report', 'users.id', '=', 'report.user_id')
+                ->where('status', '=', 0)
+                ->paginate(5);
+        $data = [
+            'reports' => $reports,
+        ];
+        return view('admin.reports.agree', $data);
     }
 
     /**
@@ -79,6 +116,7 @@ class ReportController extends Controller
 
         $user = Report::create([
             'user_id' => $request->input('user_id'),
+            'reporting' => auth()->user()->id,
             'description' => $request->input('description'),
             'proof_fhoto' => $filename,
             'reporting_date' => $request->input('reporting_date'),
@@ -200,11 +238,59 @@ class ReportController extends Controller
 
         // $report = Report::find($id)->users();
 
-        $report = User::join('report', 'report.user_id', '=', 'users.id')
-            ->where('report.id', $id)->first();
-        // dd($report);
+        // $users = Report::join('users', 'users.id', '=', 'report.user_id')
+        //     ->leftjoin('users as users2', 'users.id', '=', 'report.reporting')
+        //     ->where('report.id', $id)->first();
+
+        // $users = DB::table('users')
+        //     ->join('report', 'users.id', '=', 'report.user_id')
+        //     ->join('report as r2', 'users.id', '=', 'report.reporting')
+        //     ->select('report.*', 'users.*')
+        //     ->where('report.id', $id)
+        //     ->get();
+
+        // $report = User::with(["report" => function($q){
+        //     $q->where('report.id', '=', 1);
+        // }]);
+
+        // $users = Report::whereRelation('users', 'id', '=', $id)->get();
+
+        // bisa
+        // $users = Report::with(['users' => function ($query) use ($id) {
+        //     $query->where('id', '=', $id);
+
+        // }])->get();
+
+        $users = Report::with('users')->where('id', '=', $id)->get();
+
+        // dd($users);
+
+        // $users = User::with('reports')->where('id', $id)->get();
+        // $user = User::find($id);
+        // $deliveries = $user->reports;
+
+        // $users = User::whereHas(
+        //         'reports', function ($query) use ($id) {
+        //             $query->where('report.id', $id);
+        //         }
+        //     )
+        //     ->with('reports')
+        //     ->first();
+
+        // $users = User::with('reports')
+        //     ->whereHas('id', function($query) use ($id) {
+        //         $query->whereUserId($id);
+        //     })->get();
+
+        // dd($users);
+
+        // $reports = Report::with('users')->paginate(5);
+        // $report = Report::where('id', $id)->get();
+         
+        // $report = Report::where('id', $id)->get();
+        // $posts = User::whereBelongsTo($reports)->get();
         $data = [
-            'report' => $report,
+            'report' => $users,
         ];
         return view('admin.reports.detail', $data);
     }
@@ -234,11 +320,17 @@ class ReportController extends Controller
 
     public function status(Request $request, $id)
     {
+        $request->validate([
+            'status' => 'required',
+        ]);
+
         Report::where('id', $id)
             ->update([
-                'status' => $request->input('status')
+                'status' => $request->input('status'),
+                'updated_at' => Carbon::now(),
             ]);
 
-        return back()->with('success', 'Status berhasil diperbarui.');
+        $request->session()->flash('success', 'Status berhasil diperbarui.');
+        return back();
     }
 }

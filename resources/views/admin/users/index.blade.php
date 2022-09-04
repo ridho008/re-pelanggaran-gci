@@ -22,12 +22,9 @@
                 </tr>
             </thead>
             <tbody>
-               @php
-               $no = 1;
-               @endphp
-               @foreach($users as $user)
+               @foreach($users as $key => $user)
                <tr>
-                  <td>{{ $no++ }}</td>
+                  <td>{{ $key + $users->firstitem() }}</td>
                   <td>{{ $user->fullname }}</td>
                   <td>{{ $user->email }}</td>
                   <td>{{ $user->role }}</td>
@@ -43,6 +40,11 @@
                @endforeach
             </tbody>
         </table>
+    </div>
+    <div class="row">
+       <div class="col-md-6">
+          {{ $users->links() }}
+       </div>
     </div>
 </div>
 

@@ -19,11 +19,27 @@ class Report extends Model
         'reporting_date',
         'user_id',
         'description',
-        'reply_comment'
+        'reply_comment',
+        'reporting'
     ];
 
     public function users()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function report()
+    {
+        return $this->belongsTo(User::class, 'reporting', 'id');
+    }
+
+    public function reportings()
+    {
+        return $this->belongsTo(User::class, 'reporting', 'id');
     }
 }

@@ -67,7 +67,8 @@
                <select name="status" id="status" class="form-control @error('status') is-invalid @enderror">
                   <option value="">-- Pilih Status --</option>
                   <option value="0" {{ $report->status === 0 ? "selected" : "" }}>Setujui</option>
-                  <option value="1" {{ $report->status === 1 ? "selected" : "" }}>Batalkan</option>
+                  <option value="2" {{ $report->status === 2 ? "selected" : "" }}>Proses Verifikasi</option>
+                  <option value="1" {{ $report->status === 1 ? "selected" : "" }}>Tolak</option>
                </select>
                @error('status')
                    <span class="invalid-feedback" role="alert">

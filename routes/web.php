@@ -41,6 +41,7 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
    Route::get('/dashboard', [HomeController::class, 'userDashboard'])->name('user.index');
 });
 
+Route::post('/loginAccount', [LoginController::class, 'login'])->name('loginAccount');
 Route::get('/logout', [LoginController::class, 'logout']);
 
 Route::middleware(['auth', 'user-access:admin'])->group(function () {
@@ -72,6 +73,10 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
    // Menus Verifikasi
    Route::get('/admin/verif', [ReportController::class, 'verified'])->name('admin.reports.verified');
    Route::put('/admin/report/status/{id}', [ReportController::class, 'status'])->where('id', '[0-9]+')->name('admin.report.status');
+
+   // Halaman Penolakan
+   Route::get('/admin/report/agree', [ReportController::class, 'pageAgree'])->name('admin.report.agree');
+
 
 
 });

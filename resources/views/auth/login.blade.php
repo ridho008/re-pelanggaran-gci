@@ -10,7 +10,7 @@
 
                 <div class="card-body">
                     @include('partials.messages')
-                    <form method="POST" action="{{ route('login') }}">
+                    <form method="POST" action="{{ route('loginAccount') }}">
                         @csrf
 
                         <div class="row mb-3">

@@ -22,6 +22,8 @@ return new class extends Migration
             $table->string('password');
             $table->tinyInteger('role')->default(0)->comment('1 = Admin, 0 : User');
             $table->string('image')->default('default.svg')->nullable();
+            // ketika mendaftar, harus verifikasi terlebih dahulu oleh admin
+            $table->integer('is_active')->comment('0 = nonActive, 1 = Active')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
