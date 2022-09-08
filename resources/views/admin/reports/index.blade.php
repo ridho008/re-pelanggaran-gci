@@ -4,16 +4,14 @@
 @section('content')
 
 
-<h1 class="h3 mb-4 text-gray-800"><i class="fas fa-file"></i> Pelaporan</h1>
+<h1 class="h3 mb-4 text-gray-800"><i class="fas fa-file"></i> Semua Pelaporan</h1>
 @include('partials.messages')
 <div class="row">
    <div class="col-md-6">
       <a href="{{ route('admin.report.create') }}" class="btn btn-primary"><i class="fas fa-plus"></i> Tambah Data</a>
    </div>
    <div class="col-md-6">
-      <a href="{{ route('admin.report.agree') }}" class="btn btn-success float-right ml-1"><i class="fas fa-check"></i> Setujui</a>
-      <a href="" class="btn btn-info float-right ml-1">Proses Verifikasi</a>
-      <a href="" class="btn btn-danger float-right ml-1">Tolak</a>
+      @include('partials.menu-status-report')
    </div>
 </div>
 <div class="row">
@@ -24,7 +22,8 @@
                   <thead class="text-center">
                       <tr>
                           <th>No</th>
-                          <th>Pengguna Pelanggar</th>
+                          <th>Judul</th>
+                          <th>Pelanggar</th>
                           <th>Bukti</th>
                           <th>Pelapor</th>
                           <th>Tanggal Laporan</th>
@@ -39,6 +38,7 @@
                      @forelse($reports as $key => $report)
                         <tr>
                            <td>{{ $key + $reports->firstitem() }}</td>
+                           <td>{{ $report->title == null ? "judul kosong" : $report->title }}</td>
                            <td>{{ $report->users->fullname }}</td>
                            <td>
                               @if(!$request)

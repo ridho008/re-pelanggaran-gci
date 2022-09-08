@@ -4,7 +4,7 @@
 @section('content')
 
 
-<h1 class="h3 mb-4 text-gray-800"><i class="fas fa-file"></i> Pelaporan Persetujuan</h1>
+<h1 class="h3 mb-4 text-gray-800"><i class="fas fa-file"></i> Pelaporan Telah Verifikasi</h1>
 @include('partials.messages')
 <div class="row">
    <div class="col-md-6">

@@ -39,6 +39,10 @@ Route::post('/register', [RegisterController::class, 'registration'])->name('reg
 
 Route::middleware(['auth', 'user-access:user'])->group(function () {
    Route::get('/dashboard', [HomeController::class, 'userDashboard'])->name('user.index');
+
+   // Report Users
+   Route::get('/reports', [ReportController::class, 'indexReportUser'])->name('user.report');
+   Route::post('/report/create', [ReportController::class, 'createReport'])->name('user.report.create');
 });
 
 Route::post('/loginAccount', [LoginController::class, 'login'])->name('loginAccount');
@@ -76,6 +80,10 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
 
    // Halaman Penolakan
    Route::get('/admin/report/agree', [ReportController::class, 'pageAgree'])->name('admin.report.agree');
+   Route::get('/admin/report/reject', [ReportController::class, 'pageReject'])->name('admin.report.reject');
+   Route::get('/admin/report/verification', [ReportController::class, 'pageVerification'])->name('admin.report.verification');
+   // Details Page
+   Route::put('/admin/report/detailStatus/{id}', [ReportController::class, 'detailStatus'])->where('id', '[0-9]+')->name('admin.report.detail.status');
 
 
 

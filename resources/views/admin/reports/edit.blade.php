@@ -14,6 +14,15 @@
              @method('put')
              <input type="hidden" name="old_proof_fhoto" value="{{ $report->proof_fhoto }}">
              <div class="form-group">
+                <label for="title">Judul Pelanggaran</label>
+                <input type="text" name="title" class="form-control @error('title') is-invalid @enderror" value="{{ old('title', $report->title) }}" autofocus="on">
+                @error('title ')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
+             </div>
+             <div class="form-group">
                 <label for="user_id">Pengguna</label>
                 <select name="user_id" id="user_id" class="form-control @error('user_id') is-invalid @enderror">
                    <option value="">-- Pilih Pengguna --</option>

@@ -19,9 +19,15 @@
                            <div class="text-xs font-weight-bold text-uppercase mb-1">
                            <h3 class="text-success">Perincian Data Pelaporan <strong> {{ $r->report->fullname }}</strong></h3>
                            @include('partials.messages')
+                           <div class="row">
+                              <div class="col-md-12">
+                                 <div class="h6 mb-0 font-weight-bold text-gray-800">Judul Pelanggaran</div>
+                                    <p>{{ $r->title }}</p>
+                              </div>
+                           </div>
                               <div class="row">
                                  <div class="col-md-4">
-                                    <div class="h6 mb-0 font-weight-bold text-gray-800">Nama Lengkap Pelanggaran</div>
+                                    <div class="h6 mb-0 font-weight-bold text-gray-800">Nama Pelanggaran</div>
                                     <p>{{ $r->user->fullname }}</p>
                                  </div>
                                  <div class="col-md-4">
@@ -32,9 +38,11 @@
                                     <div class="h6 mb-0 font-weight-bold text-gray-800">Status</div>
                                     <p>
                                        @if($r->status === 0)
-                                       <span class="alert-success">Setuju</span>
+                                       <span class="alert-success">Setujui</span>
+                                       @elseif($r->status === 1)
+                                       <span class="alert-danger">Tolak</span>
                                        @else
-                                       <span class="alert-warning">Tolak</span>
+                                       <span class="alert-info">Proses Verifikasi</span>
                                        @endif
                                     </p>
                                  </div>
@@ -50,7 +58,6 @@
                                  <div class="col-md-4">
                                     <div class="h6 mb-0 font-weight-bold text-gray-800">Pelapor</div>
                                     <p>
-                                       {{-- {{ $report->fullname }} --}}
                                        {{ $r->report->fullname }}
                                     </p>
                                  </div>
@@ -64,11 +71,22 @@
                                  @endif
                               </div>
                               <div class="row">
-                                 <div class="col">
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#replyModal">
-                                      Balas
-                                    </button>
-                                    <a href="{{ route('reports.admin') }}" class="btn btn-secondary">Kembali</a>
+                                 <div class="col-md-12">
+                                    <form action="{{ route('admin.report.detail.status', $r->id) }}" method="post" class="form-inline">
+                                       @csrf
+                                       @method('put')
+                                       <div class="form-group">
+                                          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#replyModal">
+                                            Balas
+                                          </button>
+                                       </div>
+                                       <div class="form-group mx-sm-2">
+                                          <button type="submit" class="btn btn-primary" onclick="return confirm('Yakin ?')"><i class="fas fa-check"></i> Setujui</button>
+                                       </div>
+                                       <div class="form-group">
+                                          <a href="{{ route('reports.admin') }}" class="btn btn-secondary">Kembali</a>
+                                       </div>
+                                    </form>
                                  </div>
                               </div>
                               
@@ -83,13 +101,13 @@
           <img id="myImg" class="rounded-circle" src="{{ asset('assets/img/pelaporan/'. $r->proof_fhoto) }}" alt="{{ $r->proof_fhoto }}" style="width:100%;max-width:300px">
   
           <!-- The Modal -->
-          <div id="myModal" class="modal">
+          <div id="myModal" class="modal-photo">
 
             <!-- The Close Button -->
             <span class="close">&times;</span>
 
             <!-- Modal Content (The Image) -->
-            <img class="modal-content" id="img01">
+            <img class="modal-content-photo" id="img01">
 
             <!-- Modal Caption (Image Text) -->
             <div id="caption"></div>

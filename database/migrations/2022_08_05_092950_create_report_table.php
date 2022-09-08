@@ -16,9 +16,10 @@ return new class extends Migration
         Schema::create('report', function (Blueprint $table) {
             $table->id();
             // pelaku
-            // $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
             // pelapor
-            $table->unsignedBigInteger('reporting_id_detail')->nullable();
+            $table->unsignedBigInteger('reporting')->nullable();
+            $table->string('title')->nullable();
             $table->text('description')->nullable();
             // bukti foto
             $table->string('proof_fhoto')->nullable();

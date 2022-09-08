@@ -20,7 +20,8 @@ class Report extends Model
         'user_id',
         'description',
         'reply_comment',
-        'reporting'
+        'reporting',
+        'title'
     ];
 
     public function users()

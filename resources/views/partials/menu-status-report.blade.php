@@ -1,0 +1,4 @@
+<a href="{{ route('admin.report.agree') }}" class="btn btn-success btn-sm float-right ml-1 {{ (Request::path() == 'admin/report/agree' ? 'active' : '') }}"><i class="fas fa-check"></i> Setujui</a>
+<a href="{{ route('admin.report.verification') }}" class="btn btn-info btn-sm float-right ml-1 {{ (Request::path() == 'admin/report/verification' ? 'active' : '') }}">Proses Verifikasi</a>
+<a href="{{ route('admin.report.reject') }}" class="btn btn-danger btn-sm float-right ml-1 {{ (Request::path() == 'admin/report/reject' ? 'active' : '') }}">Tolak</a>
+<a href="{{ route('reports.admin') }}" class="btn btn-secondary btn-sm float-right ml-1 {{ (Request::path() == 'admin/reports' ? 'active' : '') }}">Lihat Semua</a>

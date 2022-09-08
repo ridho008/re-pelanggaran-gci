@@ -12,12 +12,21 @@
              @csrf
              @method('post')
              <div class="form-group">
+                <label for="title">Judul Pelanggaran</label>
+                <input type="text" name="title" class="form-control @error('title') is-invalid @enderror" value="{{ old('title') }}" autofocus="on">
+                @error('title ')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
+             </div>
+             <div class="form-group">
                 <label for="user_id">Pengguna</label>
                 <select name="user_id" id="user_id" class="form-control @error('user_id') is-invalid @enderror">
                    <option value="">-- Pilih Pengguna --</option>
                    @forelse($reports as $report)
                      @if(!$report->tb_report_user_id)
-                        @if($report->tb_user_id != 1)
+                        @if($report->role != 1)
                         <option value="{{ $report->tb_user_id }}">{{ $report->fullname }}</option>
                         @endif
                      @endif

@@ -1,5 +1,23 @@
 @php
+
+$reports = \DB::table('report')
+            ->join('users', 'users.id', '=', 'report.user_id')
+            ->select('report.*', 'users.*')
+            ->where('status', 2)
+            ->orWhere('status', null)
+            ->take(5)
+            ->orderBy('report.id', 'desc')
+            ->get();
+
+$reportsCount = \DB::table('report')
+            ->where('status', 2)
+            ->orWhere('status', null)
+            ->get();
+            
     $user = auth()->user()->role;
+
+    // Notification
+    // $users = Report::join('users')->where('id', '=', $id)->get();
 @endphp
 <!DOCTYPE html>
 <html lang="en">
@@ -87,8 +105,24 @@
             </li>
             @endif
 
+            @if($user == 'user')
+            <hr class="sidebar-divider">
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Pengelola Data
+            </div>
+
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('user.report') }}">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Pelaporan</span></a>
+            </li>
+
             <!-- Divider -->
             <hr class="sidebar-divider">
+
+            @endif
 
             <!-- Heading -->
             <div class="sidebar-heading">
@@ -100,28 +134,6 @@
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Profil Saya</span></a>
             </li>
-
-            <!-- Nav Item - Pages Collapse Menu -->
-            {{-- <li class="nav-item active">
-                <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true"
-                    aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-folder"></i>
-                    <span>Pages</span>
-                </a>
-                <div id="collapsePages" class="collapse show" aria-labelledby="headingPages"
-                    data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Login Screens:</h6>
-                        <a class="collapse-item" href="login.html">Login</a>
-                        <a class="collapse-item" href="register.html">Register</a>
-                        <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
-                        <div class="collapse-divider"></div>
-                        <h6 class="collapse-header">Other Pages:</h6>
-                        <a class="collapse-item" href="404.html">404 Page</a>
-                        <a class="collapse-item active" href="blank.html">Blank Page</a>
-                    </div>
-                </div>
-            </li> --}}
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
@@ -189,6 +201,39 @@
                             </div>
                         </li>
 
+                        <!-- Nav Item - Alerts -->
+                        @if($user == 'admin')
+                        <li class="nav-item dropdown no-arrow mx-1">
+                            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-bell fa-fw"></i>
+                                <!-- Counter - Alerts -->
+                                <span class="badge badge-danger badge-counter">{{ $reportsCount->count() }}</span>
+                            </a>
+                            <!-- Dropdown - Alerts -->
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="alertsDropdown">
+                                <h6 class="dropdown-header">
+                                    Pelanggaran Masuk
+                                </h6>
+                                @forelse($reports as $report)
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div>
+                                        <div class="small text-gray-500"> {{ date('d-m-Y', strtotime($report->reporting_date)) }}</div>
+                                        <span class="font-weight-bold">{{ $report->title == null ? "Judul Kosong" : $report->title }}</span>
+                                    </div>
+                                </a>
+                                @empty
+                                <div class="dropdown-item d-flex align-items-center">
+                                        <div class="small text-gray-500 mr-1"> {{ date('d-m-Y') }}</div>
+                                        <span class="font-weight-bold">Pelaporan Kosong</span>
+                                    </div>
+                                @endforelse
+                                <a class="dropdown-item text-center small text-gray-500" href="{{ route('admin.report.verification') }}">Tampilkan Semua Pelanggaran</a>
+                            </div>
+                        </li>
+                        @endif
+
                         <div class="topbar-divider d-none d-sm-block"></div>
 
                         <!-- Nav Item - User Information -->
@@ -205,10 +250,6 @@
                                 <a class="dropdown-item" href="{{ route('myprofile') }}">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Settings
                                 </a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">

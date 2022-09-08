@@ -54,15 +54,16 @@ class LoginController extends Controller
         // dd($user->is_active);
 
         if(auth()->attempt(array('email' => $input['email'], 'password' => $input['password']))) {
-            if (auth()->user()->role == 'admin') {
-                return redirect()->route('admin.index');
-            } else if (auth()->user()->role == 'user') {
-                if($user->is_active === 0) {
-                    return back()->with('loginError', 'Akun belum diverifikasi, Silahkan ditunggu.');
-                } else {
-                    // return redirect()->route('user.index');
-                }
+            if($user->is_active === 0) {
+                return back()->with('loginError', 'Akun belum diverifikasi, Silahkan ditunggu.');
+            } else {
+                return redirect()->route('user.index');
             }
+            // if (auth()->user()->role == 'admin') {
+            //     return redirect()->route('admin.index');
+            // } else if (auth()->user()->role == 'user') {
+                
+            // }
         } else {
             return back()->with('loginError', 'Login gagal!');
         }
