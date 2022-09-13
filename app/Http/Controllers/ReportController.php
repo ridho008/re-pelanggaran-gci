@@ -18,7 +18,7 @@ class ReportController extends Controller
     public function index(Request $request)
     {
         $reports = Report::with('users')->paginate(5);
-
+        // dd($reports);
         $request->validate([
             'proof_fhoto' => 'mimes:jpg,bmp,png',
         ]);
@@ -219,11 +219,13 @@ class ReportController extends Controller
     public function indexReportUser(Request $request)
     {
         $id = auth()->user()->id;
-        $reports = Report::with('users')->where('reporting', '=', $id)->paginate(5);
-        // dd($reports);
+        $reports = Report::with('users')->where('reporting', '=', $id)->paginate(6);
+        $users = User::select('id', 'fullname', 'role')->get();
+        // dd($users);
         
         $data = [
             'reports' => $reports,
+            'users' => $users,
         ];
         return view('user.reports.index', $data);
     }
@@ -245,6 +247,7 @@ class ReportController extends Controller
         $request->validate([
             'title' => 'required',
             'description' => 'required',
+            'user_id' => 'required',
             'reporting_date' => 'required',
             'proof_fhoto' => 'mimes:jpg,bmp,png',
         ]);
@@ -256,16 +259,67 @@ class ReportController extends Controller
         }
 
         $user = Report::create([
+            'user_id' => $request->input('user_id'),
             'reporting' => auth()->user()->id,
             'title' => $request->input('title'),
             'description' => $request->input('description'),
             'proof_fhoto' => $filename,
             'reporting_date' => $request->input('reporting_date'),
-            'status' => 0,
+            'status' => 2,
         ]);
 
         $user->save();
 
         return back()->with('success', 'Laporan Berhasil Ditambahkan.');
+    }
+
+    public function editReport($id)
+    {
+        $data = Report::where('id', $id)->get()[0];
+        return json_encode($data);
+        // return response()->json([
+        //     'success' => true,
+        //     'message' => 'Detail Data Post',
+        //     'data'    => $report  
+        // ]); 
+    }
+
+    public function getImg($id)
+    {
+        $data = Report::where('id', $id)->get()[0];
+        return json_encode($data);
+    }
+
+    public function updateReport(Request $request)
+    {
+        $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+            'reporting_date' => 'required',
+            'proof_fhoto' => 'mimes:jpg,bmp,png',
+        ]);
+
+        if($request->file('proof_fhoto') != null){
+            $file= $request->file('proof_fhoto');
+            $filename= date('YmdHi').$file->getClientOriginalName();
+            $file->move('assets/img/pelaporan/users/', $filename);
+            unlink('assets/img/pelaporan/users/' . $request->input('old_proof_fhoto'));
+        } else {
+            $filename = $request->input('old_proof_fhoto');
+        }
+
+        $id = $request->input('id');
+
+        Report::where('id', $id)
+            ->update([
+            'reporting' => auth()->user()->id,
+            'title' => $request->input('title'),
+            'description' => $request->input('description'),
+            'proof_fhoto' => $filename,
+            'reporting_date' => $request->input('reporting_date'),
+            'status' => 2,
+        ]);
+
+        return back()->with('success', 'Laporan Berhasil Diperbarui.');
     }
 }

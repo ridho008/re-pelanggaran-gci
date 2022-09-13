@@ -28,6 +28,11 @@ $reportsCount = \DB::table('report')
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
+    @if($user == 'user')
+      @if(Request::path() == 'reports')
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+      @endif
+    @endif
     <meta name="author" content="">
 
     <title>@yield('title')</title>
@@ -217,7 +222,7 @@ $reportsCount = \DB::table('report')
                                     Pelanggaran Masuk
                                 </h6>
                                 @forelse($reports as $report)
-                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                <a class="dropdown-item d-flex align-items-center" href="{{ route('admin.report.detail', $report->id) }}">
                                     <div>
                                         <div class="small text-gray-500"> {{ date('d-m-Y', strtotime($report->reporting_date)) }}</div>
                                         <span class="font-weight-bold">{{ $report->title == null ? "Judul Kosong" : $report->title }}</span>
@@ -325,6 +330,8 @@ $reportsCount = \DB::table('report')
 
     
     <!-- Bootstrap core JavaScript-->
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="{{ asset('assets/vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
@@ -333,7 +340,8 @@ $reportsCount = \DB::table('report')
 
     <!-- Custom scripts for all pages-->
     <script src="{{ asset('assets/js/sb-admin-2.min.js') }}"></script>
-
+    {{-- JS with Page --}}
+    @include('partials.page-js')
 </body>
 
 </html>

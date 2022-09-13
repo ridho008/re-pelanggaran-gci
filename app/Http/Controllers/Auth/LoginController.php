@@ -41,7 +41,7 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    public function login(Request $request)
+    public function myLogin(Request $request)
     {
         $input = $request->all();
         // dd($users->is_active);
@@ -50,20 +50,15 @@ class LoginController extends Controller
             'email' => 'required|email',
             'password' => 'required',
         ]);
-        $user = User::where('email', $request['email'])->first();
-        // dd($user->is_active);
+        // dd($user);
 
         if(auth()->attempt(array('email' => $input['email'], 'password' => $input['password']))) {
-            if($user->is_active === 0) {
-                return back()->with('loginError', 'Akun belum diverifikasi, Silahkan ditunggu.');
-            } else {
+            if (auth()->user()->role == 'admin') {
+                return redirect()->route('admin.index');
+            } else if (auth()->user()->role == 'user') {
                 return redirect()->route('user.index');
             }
-            // if (auth()->user()->role == 'admin') {
-            //     return redirect()->route('admin.index');
-            // } else if (auth()->user()->role == 'user') {
-                
-            // }
+            
         } else {
             return back()->with('loginError', 'Login gagal!');
         }

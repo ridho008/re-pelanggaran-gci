@@ -39,20 +39,32 @@
                         <tr>
                            <td>{{ $key + $reports->firstitem() }}</td>
                            <td>{{ $report->title == null ? "judul kosong" : $report->title }}</td>
-                           <td>{{ $report->users->fullname }}</td>
+                           <td>
+                              @if($report->user_id == null)
+                                 <p class="text-warning font-weight-bold">Belum Terkonfirmasi</p>
+                              @else
+                                 {{ $report->users->fullname }}
+                              @endif
+                           </td>
                            <td>
                               @if(!$request)
                               <span class="alert alert-danger">Format tidak sesuai</span>
                               @else
-                                 @if($report->proof_fhoto != null)
-                                 <img src="{{ asset('assets/img/pelaporan/' . $report->proof_fhoto) }}" alt="{{ $report->proof_fhoto }}" width="100">
+                                 @if($report->proof_fhoto)
+                                 <img src="{{ asset('/assets/img/pelaporan/' . $report->proof_fhoto) }}" alt="{{ $report->proof_fhoto }}" width="100">
                                  @else
                                  <span class="alert-danger">Foto Belum Diupload.</span>
                                  @endif
                               
                               @endif
                            </td> 
-                           <td>{{ $report->report->fullname }}</td>
+                           <td>
+                           @if($report->reporting == null)
+                              <p class="text-warning font-weight-bold">Belum Terkonfirmasi</p>
+                           @else
+                              {{ $report->report->fullname }}
+                           @endif
+                           </td>
                            <td>{{ $report->reporting_date }}</td>
                            <td>
                               @if($report->status === 0)

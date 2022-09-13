@@ -7,12 +7,17 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">{{ __('Login') }}</div>
-
+                {{-- if (auth()->user()->role == 'admin') {
+                    return redirect()->route('admin.index');
+                } else if (auth()->user()->role == 'user') {
+                    
+                } --}}
                 <div class="card-body">
                     @include('partials.messages')
                     <form method="POST" action="{{ route('loginAccount') }}">
                         @csrf
-
+                        @method('post')
+                        <input type="hidden" name="is_active" value="0">
                         <div class="row mb-3">
                             <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
 

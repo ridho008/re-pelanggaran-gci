@@ -22,7 +22,7 @@ use App\Http\Controllers\Auth\RegisterController;
 //     return view('welcome');
 // });
 
-// Route::get('/', [HomeController::class, 'index']);
+Route::get('/', [HomeController::class, 'index']);
 // // Route::get('/', [HomeController::class, 'index'])->middleware('guest');
 // // Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
 // // middleware('guest') apakah pengguna telah login ?
@@ -35,6 +35,8 @@ use App\Http\Controllers\Auth\RegisterController;
 // Route::post('/registration', [HomeController::class, 'registration']);
 
 Auth::routes();
+Route::post('/loginAccount', [LoginController::class, 'myLogin'])->name('loginAccount');
+Route::get('/logout', [LoginController::class, 'logout']);
 Route::post('/register', [RegisterController::class, 'registration'])->name('register-user');
 
 Route::middleware(['auth', 'user-access:user'])->group(function () {
@@ -43,10 +45,13 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
    // Report Users
    Route::get('/reports', [ReportController::class, 'indexReportUser'])->name('user.report');
    Route::post('/report/create', [ReportController::class, 'createReport'])->name('user.report.create');
+   Route::put('/report/update', [ReportController::class, 'updateReport'])->name('user.report.update');
+   Route::get('/report/edit/{id}', [ReportController::class, 'editReport'])->where('id', '[0-9]+')->name('user.report.edit');
+   Route::get('/report/getImg/{id}', [ReportController::class, 'getImg'])->where('id', '[0-9]+')->name('user.report.getImg');
+   Route::resource('ajax-posts', 'ReportController');
 });
 
-Route::post('/loginAccount', [LoginController::class, 'login'])->name('loginAccount');
-Route::get('/logout', [LoginController::class, 'logout']);
+
 
 Route::middleware(['auth', 'user-access:admin'])->group(function () {
    Route::get('/admin/dashboard', [HomeController::class, 'index'])->name('admin.index');
@@ -79,9 +84,9 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
    Route::put('/admin/report/status/{id}', [ReportController::class, 'status'])->where('id', '[0-9]+')->name('admin.report.status');
 
    // Halaman Penolakan
-   Route::get('/admin/report/agree', [ReportController::class, 'pageAgree'])->name('admin.report.agree');
-   Route::get('/admin/report/reject', [ReportController::class, 'pageReject'])->name('admin.report.reject');
-   Route::get('/admin/report/verification', [ReportController::class, 'pageVerification'])->name('admin.report.verification');
+   Route::get('/admin/reports/agree', [ReportController::class, 'pageAgree'])->name('admin.report.agree');
+   Route::get('/admin/reports/reject', [ReportController::class, 'pageReject'])->name('admin.report.reject');
+   Route::get('/admin/reports/verification', [ReportController::class, 'pageVerification'])->name('admin.report.verification');
    // Details Page
    Route::put('/admin/report/detailStatus/{id}', [ReportController::class, 'detailStatus'])->where('id', '[0-9]+')->name('admin.report.detail.status');
 

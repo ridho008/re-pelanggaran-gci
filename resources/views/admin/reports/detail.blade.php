@@ -17,7 +17,14 @@
                        <div class="col mr-2">
                            @foreach($report as $r)
                            <div class="text-xs font-weight-bold text-uppercase mb-1">
-                           <h3 class="text-success">Perincian Data Pelaporan <strong> {{ $r->report->fullname }}</strong></h3>
+                           <h3 class="text-success">Perincian Data Pelaporan <strong> 
+                              
+                              @if($r->reporting == null)
+                              <p class="text-warning font-weight-bold">Belum Terkonfirmasi</p>
+                              @else
+                              {{ $r->report->fullname }}
+                              @endif
+                           </strong></h3>
                            @include('partials.messages')
                            <div class="row">
                               <div class="col-md-12">
@@ -28,7 +35,11 @@
                               <div class="row">
                                  <div class="col-md-4">
                                     <div class="h6 mb-0 font-weight-bold text-gray-800">Nama Pelanggaran</div>
-                                    <p>{{ $r->user->fullname }}</p>
+                                    @if($r->user_id == null)
+                                       <p class="text-warning font-weight-bold">Belum Terkonfirmasi</p>
+                                    @else
+                                       {{ $r->users->fullname }}
+                                    @endif
                                  </div>
                                  <div class="col-md-4">
                                     <div class="h6 mb-0 font-weight-bold text-gray-800">Tanggal Pelaporan</div>
@@ -57,9 +68,12 @@
                                  </div>
                                  <div class="col-md-4">
                                     <div class="h6 mb-0 font-weight-bold text-gray-800">Pelapor</div>
-                                    <p>
-                                       {{ $r->report->fullname }}
-                                    </p>
+
+                                    @if($r->reporting == null)
+                                    <p class="text-warning font-weight-bold">Belum Terkonfirmasi</p>
+                                    @else
+                                    {{ $r->report->fullname }}
+                                    @endif
                                  </div>
                                  @if($r->reply_comment != null)
                                  <div class="col-md-4">
