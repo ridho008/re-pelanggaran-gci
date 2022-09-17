@@ -222,6 +222,11 @@ class ReportController extends Controller
         $reports = Report::with('users')->where('reporting', '=', $id)->paginate(6);
         $users = User::select('id', 'fullname', 'role')->get();
         // dd($users);
+
+        // $data = Report::with('users')->where('id', '=', $id)->get()[0];
+        // $data->users->fullname;
+        // dd($data->report->fullname);
+        // dd($data->user_id);
         
         $data = [
             'reports' => $reports,
@@ -290,6 +295,20 @@ class ReportController extends Controller
         return json_encode($data);
     }
 
+    public function detailReport($id)
+    {
+        $data = Report::with('users')->where('id', '=', $id)->get()[0];
+        // dd($data->user_id);
+        // $data->users->fullname;
+        // $data->report->fullname;
+        $arr = [
+            'fullnameUser' => $data->users->fullname,
+            'fullnameReport' => $data->report->fullname,
+            'data' => $data,
+        ];
+        return json_encode($arr);
+    }
+
     public function updateReport(Request $request)
     {
         $request->validate([
@@ -312,6 +331,7 @@ class ReportController extends Controller
 
         Report::where('id', $id)
             ->update([
+            'user_id' => $request->input('user_id'),
             'reporting' => auth()->user()->id,
             'title' => $request->input('title'),
             'description' => $request->input('description'),
@@ -321,5 +341,76 @@ class ReportController extends Controller
         ]);
 
         return back()->with('success', 'Laporan Berhasil Diperbarui.');
+    }
+
+    public function destroyReport($id) {
+        $reportRow = Report::findOrFail($id);
+
+        if($reportRow->proof_fhoto != null) {
+            unlink('assets/img/pelaporan/users/' . $reportRow->proof_fhoto);
+        }
+
+        Report::find($id)->delete($id);
+
+        return back()->with('success', 'Laporan Berhasil dihapus.');
+    }
+
+    public function getUserId($id)
+    {
+        $user = User::where('id', $id)->pluck('id', 'fullname');
+        
+        return response()->json($user);
+    }
+
+    public function getReportNotifByUserID($id)
+    {
+        $user = Report::where('reporting', $id)->where('status', 2)->get();
+        $data = [
+            'user' => $user,
+            'count' => $user->count(),
+        ];
+        return response()->json($data);
+    }
+
+    public function agreeReportUser()
+    {
+        $id = auth()->user()->id;
+        $reports = Report::with('users')->where('reporting', '=', $id)->where('status', 0)->paginate(6);
+        $users = User::select('id', 'fullname', 'role')->get();
+        // dd($users);
+        
+        $data = [
+            'reports' => $reports,
+            'users' => $users,
+        ];
+        return view('user.reports.index', $data);
+    }
+
+    public function rejectReportUser()
+    {
+        $id = auth()->user()->id;
+        $reports = Report::with('users')->where('reporting', '=', $id)->where('status', 1)->paginate(6);
+        $users = User::select('id', 'fullname', 'role')->get();
+        // dd($users);
+        
+        $data = [
+            'reports' => $reports,
+            'users' => $users,
+        ];
+        return view('user.reports.index', $data);
+    }
+
+    public function verifReportUser()
+    {
+        $id = auth()->user()->id;
+        $reports = Report::with('users')->where('reporting', '=', $id)->where('status', 2)->paginate(6);
+        $users = User::select('id', 'fullname', 'role')->get();
+        // dd($users);
+        
+        $data = [
+            'reports' => $reports,
+            'users' => $users,
+        ];
+        return view('user.reports.index', $data);
     }
 }

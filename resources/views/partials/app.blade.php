@@ -16,6 +16,8 @@ $reportsCount = \DB::table('report')
             
     $user = auth()->user()->role;
 
+    // dd(auth()->user()->id);
+
     // Notification
     // $users = Report::join('users')->where('id', '=', $id)->get();
 @endphp
@@ -207,6 +209,60 @@ $reportsCount = \DB::table('report')
                         </li>
 
                         <!-- Nav Item - Alerts -->
+                        @if($user == 'user')
+                        <input type="hidden" id="idUserLogin" value="{{ auth()->user()->id }}">
+                        <li class="nav-item dropdown no-arrow mx-1">
+                            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-bell fa-fw"></i>
+                                <!-- Counter - Alerts -->
+                                <span class="badge badge-danger badge-counter"></span>
+                            </a>
+                            <!-- Dropdown - Alerts -->
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="alertsDropdown">
+                                <h6 class="dropdown-header">
+                                    Laporan Belum di Setujui
+                                </h6>
+                                <div class="notifUser">
+                                    
+                                </div>
+                                
+                                <div class="dropdown-item d-flex align-items-center">
+                                        <div class="small text-gray-500 mr-1"></div>
+                                        <span class="font-weight-bold">Pelaporan Kosong</span>
+                                    </div>
+                                <a class="dropdown-item text-center small text-gray-500" href="{{ route('user.report') }}">Tampilkan Semua Laporan</a>
+                            </div>
+                        </li>
+
+                        {{-- Laporan Pelanggaran yang telah di lakukan oleh user --}}
+                        <li class="nav-item dropdown no-arrow mx-1">
+                            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-envelope fa-fw"></i>
+                                <!-- Counter - Alerts -->
+                                <span class="badge badge-danger badge-counter"></span>
+                            </a>
+                            <!-- Dropdown - Alerts -->
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="alertsDropdown">
+                                <h6 class="dropdown-header">
+                                    Laporan Pelanggaran
+                                </h6>
+                                <div class="notifUser">
+                                    
+                                </div>
+                                
+                                <div class="dropdown-item d-flex align-items-center">
+                                        <div class="small text-gray-500 mr-1"></div>
+                                        <span class="font-weight-bold">Pelaporan Kosong</span>
+                                    </div>
+                                <a class="dropdown-item text-center small text-gray-500" href="{{ route('user.report') }}">Tampilkan Semua Laporan</a>
+                            </div>
+                        </li>
+                        @endif
+
                         @if($user == 'admin')
                         <li class="nav-item dropdown no-arrow mx-1">
                             <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"

@@ -48,7 +48,17 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
    Route::put('/report/update', [ReportController::class, 'updateReport'])->name('user.report.update');
    Route::get('/report/edit/{id}', [ReportController::class, 'editReport'])->where('id', '[0-9]+')->name('user.report.edit');
    Route::get('/report/getImg/{id}', [ReportController::class, 'getImg'])->where('id', '[0-9]+')->name('user.report.getImg');
-   Route::resource('ajax-posts', 'ReportController');
+
+   Route::get('/report/detail/{id}', [ReportController::class, 'detailReport'])->where('id', '[0-9]+')->name('user.report.detail');
+   Route::post('/report/delete/{id}', [ReportController::class, 'destroyReport'])->where('id', '[0-9]+')->name('user.report.delete');
+   
+   Route::get('/report/getUserId/{id}', [ReportController::class, 'getUserId'])->where('id', '[0-9]+')->name('user.report.getUserId');
+   Route::get('/report/getUserNotifId/{id}', [ReportController::class, 'getReportNotifByUserID'])->where('id', '[0-9]+')->name('user.report.getReportNotifByUserID');
+
+   // Routing Menu Reports
+   Route::get('/reports/agree', [ReportController::class, 'agreeReportUser'])->name('reports.agree');
+   Route::get('/reports/verification', [ReportController::class, 'verifReportUser'])->name('reports.verification');
+   Route::get('/reports/reject', [ReportController::class, 'rejectReportUser'])->name('reports.reject');
 });
 
 

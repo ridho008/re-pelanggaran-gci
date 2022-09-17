@@ -1,14 +1,33 @@
 
-@if(auth()->user()->role == 'user')
-  @if(Request::path() == 'reports')
 <script type="text/javascript">
+@if(auth()->user()->role == 'user')
+  // view notif users
+  var userID = $('#idUserLogin').val();
+  $.ajax({
+    url: `/report/getUserNotifId/${userID}`,
+    method: 'GET',
+    dataType: 'json',
+    success:function(response){
+        $('.badge-counter').html(response.count);
+      $.each(response.user, function(key, value) {
+        var html = `<a class="dropdown-item d-flex align-items-center" href="">
+                        <div>
+                            <div class="small text-gray-500">${value.reporting_date}</div>
+                            <span class="font-weight-bold">${value.title}</span>
+                        </div>
+                    </a>`;
+        $('.notifUser').append(html);
+
+      });
+    }
+  });
     $(function() {
       $.ajaxSetup({
           headers: {
               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
           }
       });
-      // <input type="hidden" name="_token" value="GFEtNN34mC7Md41NL2anx0WZSFaIIuNlo1t4dwv8">
+
       $('#formReportTambah').click(function() {
           $('#reportModalLabel').html('Buat Pelaporan Pelanggaran');
           $('.modal-body form').attr('action', '{{ route('user.report.create') }}');
@@ -30,47 +49,22 @@
           $('#viewImg span').hide();
        });
 
-      // $('.myImg').click(function() {
-      //   // console.log('ok');
-      //   // $('#myImg').attr('data-id', '');
-      //   $('#getImgModal').attr('src', '');
-
-      //   var id = $(this).data('id');
-      //   console.log(id);
-      //   $.ajax({
-      //       url: `/report/getImg/${id}`,
-      //       method: "GET",
-      //       dataType: 'json',
-      //       success:function(response){
-      //         console.log(response)
-      //           //fill data to form
-      //           $('#getImgModal').attr('src', 'http://127.0.0.1:8000/assets/img/pelaporan/users/' + response.proof_fhoto);
-      //       }
-      //   });
-      // });
-
       $('.formReportEdit').click(function() {
         $('#reportModalLabel').html('Edit Data Pelaporan');
         $('.modal-body form').attr('action', '{{ route('user.report.update') }}');
         $('.modal-footer button[type=submit]').html('Edit');
         $('#csrf').val('{{ csrf_token() }}');
         $('.thod input').attr('id', 'method').val('put');
-        // $('#getImgModal').attr('src', '');
-        // $('#myImg').attr('src', '');
         $('#see-photo').show();
         $('.form-group #output').attr('src', '');
-        // $('#proof_fhoto').attr('src', '');
-
-        
 
         var id = $(this).data('id');
-        // console.log(id);
+
         $.ajax({
             url: `/report/edit/${id}`,
             method: "GET",
             dataType: 'json',
             success:function(response){
-              // console.log(response)
                 //fill data to form
                 $('#id').val(response.id);
                 $('#title').val(response.title);
@@ -79,37 +73,83 @@
                 $('#old_proof_fhoto').val(response.proof_fhoto);
                 $('#myImg').show();
 
-                // $('#myImg').attr('data-id', response.id);
                 $('.getImgModal').attr('src', 'http://127.0.0.1:8000/assets/img/pelaporan/users/' + response.proof_fhoto);
                 $('.myImg').attr('src', 'http://127.0.0.1:8000/assets/img/pelaporan/users/' + response.proof_fhoto);
 
                 $('#viewImg span').hide();
                 $('#proof_fhoto').change(function() {
                   $('#viewImg span').show();
-                  // $('#viewImg').prepend(`<p class='font-weight-bold'>Ganti Foto?</p>`);
                 });
 
-                //open modal
-                // $('#modal-edit').modal('show');
+                // selected option edit report
+                $('#pelapor option[value="'+response.user_id+'"]').prop('selected', true);
+
+                if(response.proof_fhoto == null) {
+                  $('#see-photo').hide();
+                }
+
             }
         });
-
-        // $.ajax({
-        {{-- //   url: '{{ route('user.report.edit') }}', --}}
-        //   method : 'post',
-        //    dataType : 'json',
-        //    data : {id: id},
-        //    success: function(data) {
-
-        //    }
-        // });
-
-        // $.get('ajax-posts/'+id+'/edit', function (data) {
-        //     $('#title').val(data.title);
-        //     $('#body').val(data.body);  
-        // })
       });
+
+      $('.formReportDetail').click(function() {
+        var id = $(this).data('id');
+
+        $.ajax({
+            url: `/report/detail/${id}`,
+            method: "GET",
+            dataType: 'json',
+            success:function(response){
+                $('.imgDetailModal').attr('src', `http://127.0.0.1:8000/assets/img/pelaporan/users/${response.data.proof_fhoto}`);
+                $('.reporting_date').html(`<strong>Tanggal Pelaporan</strong> ${response.data.reporting_date}`);
+                $('.title').html(`<strong>Judul</strong> ${response.data.title}`);
+                $('.description').html(`<strong>Deskripsi</strong> ${response.data.description}`);
+                
+                $('.pelapor').html(`<strong>Pelapor</strong> ${response.fullnameReport}`);
+                $('#reportDetailModalLabel').html(`<strong>Rincian</strong> ${response.data.title}`);
+
+
+
+                if(response.data.status == 0) {
+                  $('.status').html(`<strong>Status</strong> Setujui`);
+                } else if(response.data.status == 1) {
+                  $('.status').html(`<strong>Status</strong> Tolak`);
+                } else if(response.data.status == 2) {
+                  $('.status').html(`<strong>Status</strong> Proses Verifikasi`);
+                }
+
+                if(response.data.reply_comment == null) {
+                  $('.reply_comment').html(`<strong>Pesan</strong> Belum ada balasan dari admin`);
+                } else if(response.data.reply_comment != null) {
+                  $('.reply_comment').html(`<strong>Pesan</strong> ${response.data.reply_comment}`);
+                }
+
+                if(response.fullnameUser == null) {
+                  $('.user_id').html(`<strong>Pelaku</strong> <span class='text-danger'>Field pelaku wajib diisi.</span> `);
+                } else if(response.fullnameUser != null) {
+                  $('.user_id').html(`<strong>Pelaku</strong> ${response.fullnameUser}`);
+                }
+
+                
+
+                $('#pelapor').change(function() {
+                  var id = $(this).val();
+                  $.ajax({
+                    url: `/report/getUserId/${id}`,
+                    method: "GET",
+                    dataType: 'json',
+                    success:function(data) {
+                    }
+                  });
+                });
+            }
+        });
+      });
+
+      
+
+
+
     });
-</script>
-  @endif
 @endif
+</script>
