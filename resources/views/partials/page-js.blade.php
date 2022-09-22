@@ -1,5 +1,45 @@
 
 <script type="text/javascript">
+// Logout
+$('#modalLogout').click(function() {
+  $('.buttonLogout').html('Keluar');
+});
+
+@if(auth()->user()->role == 'admin')
+  $('#formtypesVioTambah').click(function() {
+    $('#typesVioModalLabel').html('Tambah Data Jenis Pelanggaran');
+    $('.modal-body form').attr('action', '{{ route('typesVio.admin.store') }}');
+    $('.modal-footer button[type=submit]').html('Simpan');
+    $('#sum_points option').prop('selected', false);
+    $('#name_violation').val('');
+    $('#csrf').val('{{ csrf_token() }}');
+    $('.modal-body input[name=_method]').val('post');
+  });
+
+  $('.formTypesVEdit').click(function() {
+    $('#typesVioModalLabel').html('Ubah Data Jenis Pelanggaran');
+    $('.modal-body form').attr('action', '{{ route('typesVio.admin.update') }}');
+    $('.modal-footer button[type=submit]').html('Ubah');
+    $('#csrf').val('{{ csrf_token() }}');
+    $('.modal-body input[name=_method]').val('put');
+
+    var id = $(this).data('id');
+    console.log(id);
+
+    $.ajax({
+        url: `/admin/typesvio/edit/${id}`,
+        method: "GET",
+        dataType: 'json',
+        success:function(response){
+          console.log(response);
+          $('#id').val(response.id);
+          $('#name_violation').val(response.name_violation);
+          $('#sum_points option[value="'+response.sum_points+'"]').prop('selected', true);
+        }
+    });
+  });
+@endif
+
 @if(auth()->user()->role == 'user')
   // view notif users
   var userID = $('#idUserLogin').val();
@@ -47,6 +87,7 @@
           $('.form-group #output').show();
           $('.form-group #output').attr('src', '');
           $('#viewImg span').hide();
+          $('#pelapor option').prop('selected', false);
        });
 
       $('.formReportEdit').click(function() {
@@ -83,6 +124,7 @@
 
                 // selected option edit report
                 $('#pelapor option[value="'+response.user_id+'"]').prop('selected', true);
+                
 
                 if(response.proof_fhoto == null) {
                   $('#see-photo').hide();
@@ -100,6 +142,7 @@
             method: "GET",
             dataType: 'json',
             success:function(response){
+              console.log(response);
                 $('.imgDetailModal').attr('src', `http://127.0.0.1:8000/assets/img/pelaporan/users/${response.data.proof_fhoto}`);
                 $('.reporting_date').html(`<strong>Tanggal Pelaporan</strong> ${response.data.reporting_date}`);
                 $('.title').html(`<strong>Judul</strong> ${response.data.title}`);

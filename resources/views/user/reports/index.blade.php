@@ -235,12 +235,14 @@
                            <label for="user_id">Pelaku</label>
                            <select name="user_id" id="pelapor" class="form-control">
                               <option value="">-- Pelaku --</option>
+                                 <option value="{{ $nameDontKnow->id }}">{{ $nameDontKnow->fullname }}</option>
                               @foreach($users as $user)
-                                 @if($user->role == "user")
+                                 @if($user->role == "user" && $user->fullname != 'Tidak Tahu')
                                  <option value="{{ $user->id }}">{{ $user->fullname }}</option>
                                  @endif
                               @endforeach
                            </select>
+                           <div class="alert alert-info">Bila tidak tahu pelaku, pilih <strong>Tidak Tahu</strong></div>
                         </div>
                         <div class="form-group">
                            <label for="description">Keterangan</label>

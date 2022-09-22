@@ -39,7 +39,13 @@
                              <span class="alert-danger">Foto Belum Diupload.</span>
                              @endif
                           </td> 
-                          <td>{{ $report->report->fullname }}</td>
+                          <td>
+                           @if($report->reporting == null)
+                              <p class="text-warning font-weight-bold">Belum Terkonfirmasi</p>
+                           @else
+                           {{ $report->report->fullname }}
+                           @endif
+                           </td>
                           <td>{{ date('d-m-Y', strtotime($report->reporting_date)) }}</td>
                           <td>
                            <form action="{{ route('admin.report.status', $report->id) }}" method="post" class="form-inline">

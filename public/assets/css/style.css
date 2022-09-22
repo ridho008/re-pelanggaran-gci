@@ -77,3 +77,48 @@
     width: 100%;
   }
 } 
+
+/*Email*/
+.container-fluid-email {
+  width: 800px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  box-sizing: border-box;
+  margin: 30px auto;
+}
+
+.container-email {
+  border: 2px solid #eee;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.container-email > div {
+  text-align: center;
+}
+
+.button-email {
+  background-color: #ec2127;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 3px;
+}
+
+hr {
+  color: #eee;
+}
+
+.footer-email {
+  width: 800px;
+  color: #ddd;
+  padding: 20px;
+  color: rgba(55, 65, 81);
+  text-align: center;
+}
+

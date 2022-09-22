@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\SendEmail;
 
 class ReportController extends Controller
 {
@@ -221,6 +223,7 @@ class ReportController extends Controller
         $id = auth()->user()->id;
         $reports = Report::with('users')->where('reporting', '=', $id)->paginate(6);
         $users = User::select('id', 'fullname', 'role')->get();
+        $userTidakTahu = User::where('fullname', 'Tidak Tahu')->first();
         // dd($users);
 
         // $data = Report::with('users')->where('id', '=', $id)->get()[0];
@@ -231,6 +234,7 @@ class ReportController extends Controller
         $data = [
             'reports' => $reports,
             'users' => $users,
+            'nameDontKnow' => $userTidakTahu,
         ];
         return view('user.reports.index', $data);
     }
@@ -245,6 +249,22 @@ class ReportController extends Controller
 
         $request->session()->flash('success', 'Status berhasil diperbarui.');
         return back();
+    }
+
+    public function buttonAgreeAdmin($id)
+    {
+        $fullname = auth()->user()->fullname;
+        $email = auth()->user()->email;
+
+        $data = [
+            'name' => $fullname,
+            'email' => $email,
+            'body' => 'Testing Kirim Email di Santri Koding'
+        ];
+        
+        Mail::to('yudi89877@gmail.com')->send(new SendEmail($data));
+        
+        dd("Email Berhasil dikirim.");
     }
 
     public function createReport(Request $request)

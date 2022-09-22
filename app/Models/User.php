@@ -61,6 +61,11 @@ class User extends Authenticatable
         return $this->hasMany(Report::class);
     }
 
+    public function points()
+    {
+        return $this->hasMany(Point::class);
+    }
+
     // public function reportings()
     // {
     //     return $this->hasMany(Report::class);

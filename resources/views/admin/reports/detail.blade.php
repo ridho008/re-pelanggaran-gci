@@ -85,7 +85,7 @@
                                  @endif
                               </div>
                               <div class="row">
-                                 <div class="col-md-12">
+                                 <div class="col-md-2">
                                     <form action="{{ route('admin.report.detail.status', $r->id) }}" method="post" class="form-inline">
                                        @csrf
                                        @method('put')
@@ -94,13 +94,21 @@
                                             Balas
                                           </button>
                                        </div>
-                                       <div class="form-group mx-sm-2">
+                                    </form>
+                                 </div>
+                                 <div class="col-md-2">
+                                    <form action="{{ route('admin.report.detail.buttonAgreeAdmin', $r->id) }}" method="post" class="form-inline">
+                                       @csrf
+                                       @method('put')
+                                       <div class="form-group">
                                           <button type="submit" class="btn btn-primary" onclick="return confirm('Yakin ?')"><i class="fas fa-check"></i> Setujui</button>
                                        </div>
-                                       <div class="form-group">
-                                          <a href="{{ route('reports.admin') }}" class="btn btn-secondary">Kembali</a>
-                                       </div>
                                     </form>
+                                 </div>
+                                 <div class="col-md-2">
+                                    <div class="form-group">
+                                       <a href="{{ route('reports.admin') }}" class="btn btn-secondary">Kembali</a>
+                                    </div>
                                  </div>
                               </div>
                               
@@ -150,7 +158,7 @@
                </div>
                <div class="form-group">
                   <label for="reply"><strong>Balas Pesan</strong></label>
-                  <textarea name="reply" id="editor1" cols="30" rows="10" class="form-control @error('user_id') is-invalid @enderror">{{ old('reply') }}</textarea>
+                  <textarea name="reply" id="editor1" cols="30" rows="10" class="form-control @error('user_id') is-invalid @enderror">{{ old('reply', $r->reply_comment) }}</textarea>
                   @error('reply')
                       <span class="invalid-feedback" role="alert">
                           <strong>{{ $message }}</strong>

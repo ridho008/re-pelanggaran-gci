@@ -3,8 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\TypesViolationsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\PointController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 /*
@@ -99,6 +101,17 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
    Route::get('/admin/reports/verification', [ReportController::class, 'pageVerification'])->name('admin.report.verification');
    // Details Page
    Route::put('/admin/report/detailStatus/{id}', [ReportController::class, 'detailStatus'])->where('id', '[0-9]+')->name('admin.report.detail.status');
+   Route::put('/admin/report/buttonAgreeAdmin/{id}', [ReportController::class, 'buttonAgreeAdmin'])->where('id', '[0-9]+')->name('admin.report.detail.buttonAgreeAdmin');
+
+   // Points
+   Route::get('/admin/points', [PointController::class, 'index'])->name('points.admin');
+
+   // Types Violations
+   Route::get('/admin/typesvio', [TypesViolationsController::class, 'index'])->name('typesVio.admin');
+   Route::post('/admin/typesvio/store', [TypesViolationsController::class, 'store'])->name('typesVio.admin.store');
+   Route::get('/admin/typesvio/edit/{id}', [TypesViolationsController::class, 'getTypesVByID'])->where('id', '[0-9]+')->name('typesVio.admin.edit');
+   Route::put('/admin/typesvio/update', [TypesViolationsController::class, 'update'])->name('typesVio.admin.update');
+   Route::delete('/admin/typesvio/destroy/{id}', [TypesViolationsController::class, 'destroy'])->where('id', '[0-9]+')->name('typesVio.admin.destroy');
 
 
 

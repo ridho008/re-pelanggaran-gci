@@ -106,6 +106,8 @@ $reportsCount = \DB::table('report')
                         <h6 class="collapse-header">Custom Data</h6>
                         <a class="collapse-item" href="{{ route('users.admin') }}">Pengguna</a>
                         <a class="collapse-item" href="{{ route('reports.admin') }}">Pelaporan</a>
+                        <a class="collapse-item" href="{{ route('points.admin') }}">Point Pelanggaran</a>
+                        <a class="collapse-item" href="{{ route('typesVio.admin') }}">Jenis Pelanggaran</a>
                         <a class="collapse-item" href="{{ route('admin.reports.verified') }}">Verifikasi</a>
                     </div>
                 </div>
@@ -313,9 +315,9 @@ $reportsCount = \DB::table('report')
                                     Profile
                                 </a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal" id="modalLogout">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Logout
+                                    Keluar
                                 </a>
                             </div>
                         </li>
@@ -363,17 +365,17 @@ $reportsCount = \DB::table('report')
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Keluar Akun?</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-body">Pilih tombol "Keluar" jika anda ingin keluar akun.</div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Tutup</button>
                     <form action="/logout" method="post">
                         @csrf
-                        <button type="submit" class="btn btn-primary">Logout</button>
+                        <button type="submit" class="btn btn-primary buttonLogout">Logout</button>
                     </form>
                 </div>
             </div>
