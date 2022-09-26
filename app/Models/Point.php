@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use App\Models\Report;
+use App\Models\TypesViolations;
 
 class Point extends Model
 {
@@ -14,17 +15,35 @@ class Point extends Model
     protected $fillable = [
         'user_id',
         'report_id',
-        'point',
+        'reporting_point',
+        'typevio_id',
         'total_point',
     ];
 
-    public function points()
+    // pemanggilan di controller
+    public function reports()
     {
-        return $this->belongsTo(Report::class, 'user_id', 'id');
+        return $this->belongsTo(Report::class, 'report_id', 'id');
     }
 
-    public function users()
+    // pemanggilan di indexnya
+    public function user()
     {
-        return $this->belongsTo(User::class, 'report_id', 'id');
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
+
+    public function reporting()
+    {
+        return $this->belongsTo(User::class, 'reporting_point', 'id');
+    }
+
+    public function types()
+    {
+        return $this->belongsTo(TypesViolations::class, 'typevio_id', 'id');
+    }
+
+    // public function types()
+    // {
+    //     return $this->belongsTo(Report::class, 'typevio_id', 'id');
+    // }
 }

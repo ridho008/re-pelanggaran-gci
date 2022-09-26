@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
+use App\Models\Point;
 
 class Report extends Model
 {
@@ -43,4 +44,18 @@ class Report extends Model
     {
         return $this->belongsTo(User::class, 'reporting', 'id');
     }
+
+    // Points
+
+    public function points()
+    {
+        return $this->hasMany(Point::class);
+    }
+
+    // public function points()
+    // {
+    //     return $this->belongsTo(Point::class, 'report_id', 'id');
+    // }
+
+
 }

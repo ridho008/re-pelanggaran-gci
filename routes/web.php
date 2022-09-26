@@ -105,6 +105,8 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
 
    // Points
    Route::get('/admin/points', [PointController::class, 'index'])->name('points.admin');
+   Route::delete('/admin/point/destroy/{id}', [PointController::class, 'destroy'])->where('id', '[0-9]+')->name('point.admin.destroy');
+   Route::get('/admin/point/detail/{id}', [PointController::class, 'detail'])->where('id', '[0-9]+')->name('point.admin.detail');
 
    // Types Violations
    Route::get('/admin/typesvio', [TypesViolationsController::class, 'index'])->name('typesVio.admin');

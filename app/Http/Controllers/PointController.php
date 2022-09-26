@@ -3,18 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Models\Point;
+use App\Models\Report;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class PointController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
-        return view('admin.points.index');
+        $points = Point::with('reports')->paginate(6);
+        // dd($points);
+        $data = [
+            'points' => $points,
+        ];
+        return view('admin.points.index', $data);
     }
 
     /**
@@ -44,9 +51,21 @@ class PointController extends Controller
      * @param  \App\Models\Point  $point
      * @return \Illuminate\Http\Response
      */
-    public function show(Point $point)
+    public function detail(Point $point, $id)
     {
-        //
+        // $row = $point->findOrFail($id);
+        // $point = Point::with('reports')->paginate(6);
+        // $point = Point::with(['reports' => function($query) use ($id) {
+        //     $query->where('points.id', $id);
+        // }])
+
+        $point = Point::where('id', '=', $id)->with('reports')->get();
+        // dd($point);
+        $data = [
+            'title' => 'Rincian Data Pelanggaran',
+            'point' => $point
+        ];
+        return view('admin.points.detail', $data);
     }
 
     /**
@@ -78,8 +97,9 @@ class PointController extends Controller
      * @param  \App\Models\Point  $point
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Point $point)
+    public function destroy(Point $point, $id)
     {
-        //
+        $point->destroy($id);
+        return redirect()->route('points.admin')->with('success', 'Berhasil menghapus data.');
     }
 }

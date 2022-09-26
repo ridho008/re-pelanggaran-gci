@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use App\Models\Report;
+use App\Models\Point;
 
 class User extends Authenticatable
 {
@@ -51,25 +52,10 @@ class User extends Authenticatable
         return new Attribute(get: fn ($value) =>  ["user", "admin"][$value]);
     }
 
-    // protected function is_active(): Attribute
-    // {
-    //     return new Attribute(get: fn ($value) =>  [0, 1][$value]);
-    // }
-
     public function reports()
     {
         return $this->hasMany(Report::class);
     }
-
-    public function points()
-    {
-        return $this->hasMany(Point::class);
-    }
-
-    // public function reportings()
-    // {
-    //     return $this->hasMany(Report::class);
-    // }
 
     public function report()
     {

@@ -2,7 +2,7 @@
 
 @section('title', 'Jenis Pelanggaran - GCI REPORT')
 @section('content')
-<h1 class="h3 mb-4 text-gray-800">Jenis Pelanggaran</h1>
+<h1 class="h3 mb-4 text-gray-800"><i class="fas fa-list-ul"></i> Jenis Pelanggaran</h1>
 
 @include('partials.messages')
 <div class="row">
@@ -31,11 +31,11 @@
                      <td>{{ $tv->name_violation }}</td>
                      <td>{{ $tv->sum_points }}</td>
                      <td>
-                        <button type="button" data-id="{{ $tv->id }}" class="btn btn-primary btn-sm formTypesVEdit" data-toggle="modal" data-target="#typesModal"><i class="fas fa-edit"></i> Edit</button>
+                        <button type="button" data-id="{{ $tv->id }}" class="btn btn-primary formTypesVEdit" data-toggle="modal" data-target="#typesModal"><i class="fas fa-edit"></i></button>
                         <form action="{{ route('typesVio.admin.destroy', $tv->id) }}" method="post">
                          @csrf
                          @method('DELETE')
-                         <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ?')"><i class="fas fa-trash"></i> Hapus</button>
+                         <button type="submit" class="btn btn-danger" onclick="return confirm('Yakin ?')"><i class="fas fa-trash"></i></button>
                         </form>
                      </td>
                   </tr>
