@@ -61,6 +61,10 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
    Route::get('/reports/agree', [ReportController::class, 'agreeReportUser'])->name('reports.agree');
    Route::get('/reports/verification', [ReportController::class, 'verifReportUser'])->name('reports.verification');
    Route::get('/reports/reject', [ReportController::class, 'rejectReportUser'])->name('reports.reject');
+
+   // Point - Users
+   Route::get('/points', [PointController::class, 'indexPoint'])->name('user.points');
+   Route::get('/point/getDetail/{id}', [PointController::class, 'getDetailPoint'])->where('id', '[0-9]+');
 });
 
 
@@ -103,7 +107,7 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
    Route::put('/admin/report/detailStatus/{id}', [ReportController::class, 'detailStatus'])->where('id', '[0-9]+')->name('admin.report.detail.status');
    Route::put('/admin/report/buttonAgreeAdmin/{id}', [ReportController::class, 'buttonAgreeAdmin'])->where('id', '[0-9]+')->name('admin.report.detail.buttonAgreeAdmin');
 
-   // Points
+   // Points - Admin
    Route::get('/admin/points', [PointController::class, 'index'])->name('points.admin');
    Route::delete('/admin/point/destroy/{id}', [PointController::class, 'destroy'])->where('id', '[0-9]+')->name('point.admin.destroy');
    Route::get('/admin/point/detail/{id}', [PointController::class, 'detail'])->where('id', '[0-9]+')->name('point.admin.detail');

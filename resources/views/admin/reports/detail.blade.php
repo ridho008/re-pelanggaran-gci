@@ -65,6 +65,10 @@
                                     <p>
                                        {{ strip_tags($r->description) }}
                                     </p>
+                                    <div class="h6 mb-0 font-weight-bold text-gray-800">Jenis Pelanggaran</div>
+                                    <p>
+                                       {{ $r->typesViolations->name_violation  }} - Point {{  $r->typesViolations->sum_points }}
+                                    </p>
                                  </div>
                                  <div class="col-md-4">
                                     <div class="h6 mb-0 font-weight-bold text-gray-800">Pelapor</div>
@@ -85,31 +89,38 @@
                                  @endif
                               </div>
                               <div class="row">
-                                 <div class="col-md-2">
+                                 <div class="col-md mb-1">
                                     <form action="{{ route('admin.report.detail.status', $r->id) }}" method="post" class="form-inline">
                                        @csrf
                                        @method('put')
                                        <div class="form-group">
                                           <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#replyModal">
-                                            Balas
+                                            <i class="fas fa-reply"></i> Kirim Pesan
                                           </button>
                                        </div>
                                     </form>
                                  </div>
-                                 <div class="col-md-2">
+                                 <div class="col-md mb-1">
                                     <form action="{{ route('admin.report.detail.buttonAgreeAdmin', $r->id) }}" method="post" class="form-inline">
                                        @csrf
                                        @method('put')
                                        <div class="form-group">
-                                          <button type="submit" class="btn btn-primary" onclick="return confirm('Yakin ?')"><i class="fas fa-check"></i> Setujui</button>
+                                          <button type="submit" class="btn btn-primary" onclick="return confirm('Yakin ?')" data-toggle="tooltip" data-placement="top" title="Setujui Laporan"><i class="fas fa-check"></i> Setujui</button>
                                        </div>
                                     </form>
                                  </div>
-                                 <div class="col-md-2">
+                                 <div class="col-md mb-1">
                                     <div class="form-group">
-                                       <a href="{{ route('reports.admin') }}" class="btn btn-secondary">Kembali</a>
+                                       <a href="{{ route('reports.admin') }}" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Kembali"><i class="fas fa-chevron-left"></i></a>
                                     </div>
                                  </div>
+                                 @foreach($point as $p)
+                                 <div class="col-md mb-1">
+                                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#detailPointModal">
+                                      Rincian Point Pelanggaran 
+                                    </button>
+                                 </div>
+                                 @endforeach
                               </div>
                               
                        </div>
@@ -137,6 +148,51 @@
             <label>Bukti Foto Pelanggaran</label>
        </div>
     </div>
+
+    {{-- Bila telah laporan disetujui, tampilkan detail dri table points --}}
+    
+
+    @foreach($point as $p)
+    <div class="modal fade" id="detailPointModal" tabindex="-1" role="dialog" aria-labelledby="detailPointModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="detailPointModalLabel">Rincian Point Pelanggaran</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+               <div class="col-md-6">
+                   <h5 class="card-title"><strong>Pelapor</strong> {{ $p->reporting->fullname }}</h5>
+                   <h5 class="card-title"><strong>Pelaku</strong> {{ $p->user->fullname }}</h5>
+                   <h5 class="card-title"><strong>Status</strong>
+                       @if($p->status === 0)
+                       <span class="badge badge-success">Setujui</span>
+                       @elseif($p->status === 1)
+                       <span class="badge badge-danger">Tolak</span>
+                       @else
+                       <span class="badge badge-info">Proses Verifikasi</span>
+                       @endif
+                   </h5>
+                   <h5 class="card-title"><strong>Jenis Pelanggaran</strong> {{ $p->types->name_violation }}</h5>
+                   <h5 class="card-title"><strong>Point</strong> {{ $p->types->sum_points }}</h5>
+                   <h5 class="card-title"><strong>Total Point</strong> {{ $p->total_point }}</h5>
+               </div>
+               <div class="col-md-6">
+                   <img class="img-thumbnail" src="{{ asset('assets/img/pelaporan/'. $p->reports->proof_fhoto) }}" alt="{{ $p->reports->proof_fhoto }}">
+               </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+            <button type="submit" class="btn btn-primary">Kirim</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    @endforeach
 
     <!-- Modal -->
     <div class="modal fade" id="replyModal" tabindex="-1" role="dialog" aria-labelledby="replyModalLabel" aria-hidden="true">

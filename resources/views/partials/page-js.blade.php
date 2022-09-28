@@ -1,9 +1,11 @@
 
 <script type="text/javascript">
+$('[data-toggle="tooltip"]').tooltip();
 // Logout
 $('#modalLogout').click(function() {
   $('.buttonLogout').html('Keluar');
 });
+
 
 @if(auth()->user()->role == 'admin')
   $('#formtypesVioTambah').click(function() {
@@ -88,6 +90,7 @@ $('#modalLogout').click(function() {
           $('.form-group #output').attr('src', '');
           $('#viewImg span').hide();
           $('#pelapor option').prop('selected', false);
+          $('#types_id option').prop('selected', false);
        });
 
       $('.formReportEdit').click(function() {
@@ -124,6 +127,7 @@ $('#modalLogout').click(function() {
 
                 // selected option edit report
                 $('#pelapor option[value="'+response.user_id+'"]').prop('selected', true);
+                $('#types_id option[value="'+response.types_id+'"]').prop('selected', true);
                 
 
                 if(response.proof_fhoto == null) {
@@ -190,7 +194,33 @@ $('#modalLogout').click(function() {
       });
 
       
+    // Detail Point User
+    $('.formMyPointDetail').click(function() {
+      const id = $(this).data('id');
 
+      var url = $('.base-url').val();
+
+      $.ajax({
+        url: `/point/getDetail/${id}`,
+        method: 'GET',
+        dataType: 'json',
+        success:function(response){
+          console.log(response);
+          $('.title').html(`<strong>Judul</strong> ${response.title}`);
+          $('.description').html(`<strong>Deskripsi</strong> ${response.description}`);
+          $('.reporting_date').html(`<strong>Tanggal Pelaporan</strong> ${response.reporting_date}`);
+          $('.point').html(`<strong>Point</strong> <button type="button" class="btn btn-circle btn-sm btn-danger">${response.point}</button>`);
+          $('.violation').html(`<strong>Pelanggaran</strong> ${response.name_violation}`);
+          $('.getImgPoint').attr('src', `${url}/assets/img/pelaporan/users/` + response.proof_fhoto);
+
+          if(response.reply_comment == null) {
+            $('.reply_comment').html(`<strong>Pesan</strong> <div class="text-info">tidak ada balasan.</div>`);
+          } else {
+            $('.reply_comment').html(`<strong>Pesan</strong> ${response.reply_comment}`);
+          }
+        }
+      });
+    });
 
 
     });

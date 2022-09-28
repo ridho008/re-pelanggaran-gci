@@ -102,4 +102,41 @@ class PointController extends Controller
         $point->destroy($id);
         return redirect()->route('points.admin')->with('success', 'Berhasil menghapus data.');
     }
+
+    // ------------------------- ROLE USERS -------------------------------------
+
+    public function indexPoint()
+    {   
+        $points = Point::where('reporting_point', auth()->user()->id)->with('types')->paginate(6);
+
+        $data = [
+            'points' => $points,
+        ];
+        return view('user.points.index', $data);
+    }
+
+    public function getDetailPoint(int $id)
+    {
+        $point = Point::where('id', $id)->with('types')->get()[0];
+        $proof_fhoto = $point->reports->proof_fhoto;
+        $title = $point->reports->title;
+        $reporting_date = $point->reports->reporting_date;
+        $description = $point->reports->description;
+        $reply_comment = $point->reports->reply_comment;
+        $pointSum = $point->types->sum_points;
+        $name_violation = $point->types->name_violation;
+
+        $data = [
+            'point' => $point,
+            'proof_fhoto' => $proof_fhoto,
+            'title' => $title,
+            'reporting_date' => $reporting_date,
+            'description' => $description,
+            'reply_comment' => $reply_comment,
+            'point' => $pointSum,
+            'name_violation' => $name_violation,
+        ];
+
+        return json_encode($data);
+    }
 }

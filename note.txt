@@ -1,0 +1,28 @@
+
+                   {{-- @forelse($reports as $report)
+                     @if(!$report->tb_report_user_id)
+                        @if($report->role != 1)
+                           <option value="{{ $report->tb_user_id }}">{{ $report->fullname }}</option>
+                        @endif
+                     @endif
+                      @empty
+                      <option value="" class="bg-danger">Data Pengguna Kosong.</option>
+                   @endforelse --}}
+
+@forelse($users as $user)
+                        @if($user->tb_user_id != 1)
+                           @if($user->tb_user_id == $report->user_id)
+                              <option value="{{ $user->tb_user_id }}" selected>{{ $user->fullname }}</option>
+                           @else
+                              <option value="{{ $user->tb_user_id }}">{{ $user->fullname }}</option>
+                           @endif
+                        @endif
+                      @empty
+                      <option value="" class="bg-danger">Data Pengguna Kosong.</option>
+                   @endforelse
+
+                   @if($nameDontKnow->fullname || $nameDontKnow->id)
+                      <option value="{{ $nameDontKnow->id }}">{{ $nameDontKnow->fullname }}</option>
+                      @else
+                      Belum ada
+                   @endif

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id')->nullable();
             // pelapor
             $table->unsignedBigInteger('reporting')->nullable();
+            $table->unsignedBigInteger('types_id')->nullable(); // types_violations (id)
             $table->string('title')->nullable();
             $table->text('description')->nullable();
             // bukti foto
@@ -31,6 +32,7 @@ return new class extends Migration
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');;
             $table->foreign('reporting')->references('id')->on('users')->onDelete('cascade');;
+            $table->foreign('types_id')->references('id')->on('types_violations')->onDelete('cascade');;
         });
     }
 

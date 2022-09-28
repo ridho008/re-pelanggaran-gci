@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Point;
+use App\Models\Report;
 
 class TypesViolations extends Model
 {
@@ -21,5 +22,10 @@ class TypesViolations extends Model
     public function points()
     {
         return $this->hasMany(Point::class);
+    }
+
+    public function reports()
+    {
+        return $this->hasMany(Report::class);
     }
 }

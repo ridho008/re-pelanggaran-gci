@@ -23,19 +23,30 @@
                 @enderror
              </div>
              <div class="form-group">
+                <label for="types_id">Jenis Pelanggaran</label>
+                <select name="types_id" id="types_id" class="form-control">
+                   <option value="">-- Jenis Pelanggaran --</option>
+                   @forelse($typesV as $tv)
+                   @isset($tv)
+                     <option value="{{ $tv->id }}" {{ ($report->typesViolations->id == $tv->id ? "selected" : '') }}>{{ $tv->name_violation }} - {{ $tv->sum_points }}</option>
+                     @endisset
+                   @empty
+                   <option value="">masih kosong</option>
+                   @endforelse
+                </select>
+                @error('types_id ')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
+             </div>
+             <div class="form-group">
                 <label for="user_id">Pengguna</label>
                 <select name="user_id" id="user_id" class="form-control @error('user_id') is-invalid @enderror">
                    <option value="">-- Pilih Pengguna --</option>
-                   @forelse($users as $user)
-                        @if($user->tb_user_id != 1)
-                           @if($user->tb_user_id == $report->user_id)
-                              <option value="{{ $user->tb_user_id }}" selected>{{ $user->fullname }}</option>
-                           @else
-                              <option value="{{ $user->tb_user_id }}">{{ $user->fullname }}</option>
-                           @endif
-                        @endif
-                      @empty
-                      <option value="" class="bg-danger">Data Pengguna Kosong.</option>
+                   @forelse($user as $u)
+                     <option value="{{ $u->id }}" {{ ($report->user->id == $u->id ? "selected" : '') }}>{{ $u->fullname }}</option>
+                   @empty
                    @endforelse
                 </select>
                 @error('user_id')

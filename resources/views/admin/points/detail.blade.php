@@ -26,9 +26,10 @@
                             <h5 class="card-title"><strong>Jenis Pelanggaran</strong> {{ $p->types->name_violation }}</h5>
                             <h5 class="card-title"><strong>Point</strong> {{ $p->types->sum_points }}</h5>
                             <h5 class="card-title"><strong>Total Point</strong> {{ $p->total_point }}</h5>
+                            <a href="{{ route('points.admin') }}" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Kembali"><i class="fas fa-chevron-left"></i></a>
                         </div>
                         <div class="col-md-6">
-                            <img class="img-thumbnail" src="{{ asset('assets/img/pelaporan/'. $p->reports->proof_fhoto) }}" alt="{{ $p->reports->proof_fhoto }}">
+                            <img class="img-thumbnail" src="{{ asset('assets/img/pelaporan/users/'. $p->reports->proof_fhoto) }}" alt="{{ $p->reports->proof_fhoto }}">
                         </div>
                     </div>
                 </div>

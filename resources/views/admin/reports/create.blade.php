@@ -21,18 +21,28 @@
                 @enderror
              </div>
              <div class="form-group">
+                <label for="types_id">Jenis Pelanggaran</label>
+                <select name="types_id" id="types_id" class="form-control">
+                   <option value="">-- Jenis Pelanggaran</option>
+                   @forelse($typesV as $tv)
+                     <option value="{{ $tv->id }}">{{ $tv->name_violation }} - {{ $tv->sum_points }}</option>
+                   @empty
+                   <option value="">masih kosong</option>
+                   @endforelse
+                </select>
+                @error('types_id ')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
+             </div>
+             <div class="form-group">
                 <label for="user_id">Pengguna</label>
                 <select name="user_id" id="user_id" class="form-control @error('user_id') is-invalid @enderror">
                    <option value="">-- Pilih Pengguna --</option>
-                   @forelse($reports as $report)
-                     @if(!$report->tb_report_user_id)
-                        @if($report->role != 1)
-                        <option value="{{ $report->tb_user_id }}">{{ $report->fullname }}</option>
-                        @endif
-                     @endif
-                      @empty
-                      <option value="" class="bg-danger">Data Pengguna Kosong.</option>
-                   @endforelse
+                   @foreach($reports as $report)
+                     <option value="{{ $report->id }}">{{ $report->fullname }}</option>
+                   @endforeach
                 </select>
                 @error('user_id')
                     <span class="invalid-feedback" role="alert">

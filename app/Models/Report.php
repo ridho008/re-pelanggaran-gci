@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use App\Models\Point;
+use App\Models\TypesViolations;
 
 class Report extends Model
 {
@@ -22,7 +23,8 @@ class Report extends Model
         'description',
         'reply_comment',
         'reporting',
-        'title'
+        'title',
+        'types_id'
     ];
 
     public function users()
@@ -45,6 +47,11 @@ class Report extends Model
         return $this->belongsTo(User::class, 'reporting', 'id');
     }
 
+    public function typesViolations()
+    {
+        return $this->belongsTo(TypesViolations::class, 'types_id', 'id');
+    }
+
     // Points
 
     public function points()
@@ -52,9 +59,24 @@ class Report extends Model
         return $this->hasMany(Point::class);
     }
 
+    // public function typesViolations()
+    // {
+    //     return $this->hasMany(TypesViolations::class);
+    // }
+
+    // public function types()
+    // {
+    //     return $this->hasMany(TypesViolations::class);
+    // }
+
     // public function points()
     // {
     //     return $this->belongsTo(Point::class, 'report_id', 'id');
+    // }
+
+    // public function repot()
+    // {
+    //     return $this->belongsTo(Point::class, 'id', 'report_id');
     // }
 
 

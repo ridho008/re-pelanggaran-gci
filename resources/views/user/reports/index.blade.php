@@ -3,19 +3,27 @@
 @section('title', 'Pelaporan Kebersihan - GCI')
 @section('content')
 <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+@if(Request::path() == 'reports/agree')
+<h1 class="h3 mb-4 text-gray-800"><i class="fas fa-file"></i> Pelaporan Setuju</h1>
+@elseif(Request::path() == 'reports/reject')
+<h1 class="h3 mb-4 text-gray-800"><i class="fas fa-file"></i> Pelaporan Penolakan</h1>
+@elseif(Request::path() == 'reports/verification')
+<h1 class="h3 mb-4 text-gray-800"><i class="fas fa-file"></i> Pelaporan Proses Verifikasi</h1>
+@elseif(Request::path() == 'reports')
 <h1 class="h3 mb-4 text-gray-800"><i class="fas fa-file"></i> Pelaporan</h1>
+@endif
 @include('partials.messages')
 <div class="row">
    <div class="col-md-6">
-      <button type="button" class="btn btn-primary" id="formReportTambah" data-toggle="modal" data-target="#reportModal">
+      <button type="button" class="btn btn-primary" id="formReportTambah" data-toggle="modal" data-target="#reportModal"><i class="fas fa-plus"></i>
         Buat Laporan
       </button>
    </div>
    <div class="col-md-6">
-      <a href="{{ route('reports.agree') }}" class="btn btn-success btn-sm float-right ml-1 {{ (Request::path() == 'reports/agree' ? 'active' : '') }} mt-1"> Setuju</a>
-      <a href="{{ route('reports.verification') }}" class="btn btn-info btn-sm float-right ml-1 {{ (Request::path() == 'reports/verification' ? 'active' : '') }} mt-1">Proses Verifikasi</a>
-      <a href="{{ route('reports.reject') }}" class="btn btn-danger btn-sm float-right ml-1 {{ (Request::path() == 'reports/reject' ? 'active' : '') }} mt-1">Tolak</a>
-      <a href="{{ route('user.report') }}" class="btn btn-secondary btn-sm float-right ml-1 {{ (Request::path() == 'reports' ? 'active' : '') }} mt-1">Lihat Semua</a>
+      <a href="{{ route('reports.agree') }}" class="btn btn-success btn-sm float-right ml-1 {{ (Request::path() == 'reports/agree' ? 'active' : '') }} mt-1"><i class="fas fa-check-circle"></i> Setuju</a>
+      <a href="{{ route('reports.verification') }}" class="btn btn-info btn-sm float-right ml-1 {{ (Request::path() == 'reports/verification' ? 'active' : '') }} mt-1"><i class="fas fa-clipboard-list"></i> Proses Verifikasi</a>
+      <a href="{{ route('reports.reject') }}" class="btn btn-danger btn-sm float-right ml-1 {{ (Request::path() == 'reports/reject' ? 'active' : '') }} mt-1"><i class="fas fa-times-circle"></i> Tolak</a>
+      <a href="{{ route('user.report') }}" class="btn btn-secondary btn-sm float-right ml-1 {{ (Request::path() == 'reports' ? 'active' : '') }} mt-1"><i class="fas fa-border-all"></i> Lihat Semua</a>
    </div>   
 </div>
 <div class="row">
@@ -59,7 +67,11 @@
     </div>
    </div>
    @empty
-   <div class="alert alert-warning">Pelaporan masih kosong.</div>
+   <div class="row">
+      <div class="col-md-12 mt-4">
+         <div class="alert alert-warning"><i class="fas fa-exclamation-circle"></i> <strong>Peringatan</strong>, Pelaporan masih kosong.</div>
+      </div>
+   </div>
    @endforelse
    @endif
 
@@ -232,14 +244,26 @@
                            @enderror
                         </div>
                         <div class="form-group">
+                           <label for="types_id">Jenis Pelanggaran</label>
+                           <select name="types_id" id="types_id" class="form-control">
+                              <option value="">-- Jenis Pelanggaran --</option>
+                              @forelse($typesV as $tv)
+                                <option value="{{ $tv->id }}">{{ $tv->name_violation }} - {{ $tv->sum_points }}</option>
+                              @empty
+                                 <option value="">masih kosong</option>
+                              @endforelse
+                           </select>
+                           @error('types_id ')
+                               <span class="invalid-feedback" role="alert">
+                                   <strong>{{ $message }}</strong>
+                               </span>
+                           @enderror
+                        </div>
+                        <div class="form-group">
                            <label for="user_id">Pelaku</label>
                            <select name="user_id" id="pelapor" class="form-control">
                               <option value="">-- Pelaku --</option>
-                              @if($nameDontKnow->fullname || $nameDontKnow->id)
-                                 <option value="{{ $nameDontKnow->id }}">{{ $nameDontKnow->fullname }}</option>
-                                 @else
-                                 Belum ada
-                              @endif
+                              
                               @foreach($users as $user)
                                  @if($user->role == "user" && $user->fullname != 'Tidak Tahu')
                                  <option value="{{ $user->id }}">{{ $user->fullname }}</option>

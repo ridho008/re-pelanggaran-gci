@@ -16,10 +16,9 @@ $reportsCount = \DB::table('report')
             
     $user = auth()->user()->role;
 
-    // dd(auth()->user()->id);
+// Role User
+$statusPoint = \App\Model\Point::where('reporting_point', auth()->user()->id)->with('types')->get();
 
-    // Notification
-    // $users = Report::join('users')->where('id', '=', $id)->get();
 @endphp
 <!DOCTYPE html>
 <html lang="en">
@@ -126,6 +125,12 @@ $reportsCount = \DB::table('report')
                 <a class="nav-link" href="{{ route('user.report') }}">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Pelaporan</span></a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('user.points') }}">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Point</span></a>
             </li>
 
             <!-- Divider -->
