@@ -61,4 +61,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(Report::class);
     }
+
+    public function types()
+    {
+        return $this->hasMany(Report::class);
+    }
 }

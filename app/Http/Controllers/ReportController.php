@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendEmail;
+use PDF;
 
 class ReportController extends Controller
 {
@@ -187,7 +188,7 @@ class ReportController extends Controller
         return redirect()->route('reports.admin')->with('success', 'Berhasil menghapus data.');
     }
 
-    public function detail($id)
+    public function detail(Request $request, $id)
     {
         // $users = Report::with('users')->where('id', '=', $id)->get();
         // $users = Report::where('id', '=', $id)->with('points')->with('users')->get();
@@ -195,9 +196,12 @@ class ReportController extends Controller
         // dd($users);
 
         $point = Point::where('report_id', '=', $id)->with('reports')->get();
+
+        $currentID = $request->route('id');
         $data = [
             'report' => $users,
             'point' => $point,
+            'currentID' => $currentID,
         ];
         return view('admin.reports.detail', $data);
     }
@@ -284,15 +288,21 @@ class ReportController extends Controller
         $fullname = auth()->user()->fullname;
         $email = auth()->user()->email;
 
+        Report::where('id', $id)
+            ->update([
+                'status' => 0
+        ]);
+
         $data = [
             'name' => $fullname,
             'email' => $email,
-            'body' => 'Testing Kirim Email di Santri Koding'
+            'body' => 'Testing Kirim Email di Santri Koding',
         ];
         
-        Mail::to('yudi89877@gmail.com')->send(new SendEmail($data));
+        $mail = Mail::to('yudi89877@gmail.com')->send(new SendEmail($data));
         
-        dd("Email Berhasil dikirim.");
+        return back()->with('success', 'Email berhasil dikirim.');
+        // dd("Email Berhasil dikirim.");
     }
 
     public function createReport(Request $request)
@@ -472,4 +482,27 @@ class ReportController extends Controller
         ];
         return view('user.reports.index', $data);
     }
+
+    public function generatePDF($id)
+    {
+        $report = Report::where('id', $id)->with('points')->first();
+        // $reporting_date = Carbon::createFromFormat('d/m/Y', $report->reporting_date)->diffForHumans();
+        // dd($report);
+
+        $data = [
+            'title' => 'Pelanggaran Kebersihan PT.Garuda Cyber Indonesia',
+            'address' => 'Alamat: Jl. HR. Soebrantas No.188, Sidomulyo Baru, Kec. Tampan, Kota Pekanbaru, Riau 28293',
+            'report' => $report,
+        ];
+        
+        $pdf = PDF::loadView('admin.generate-reporting.generate-pdf-violantion', $data);
+        return $pdf->download('pelanggaran-GCI.pdf');
+
+    }
+
+
+
+
+
+
 }

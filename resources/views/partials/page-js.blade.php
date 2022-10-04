@@ -50,7 +50,7 @@ $('#modalLogout').click(function() {
     method: 'GET',
     dataType: 'json',
     success:function(response){
-        $('.badge-counter').html(response.count);
+        $('.badge-count').html(response.count);
       $.each(response.user, function(key, value) {
         var html = `<a class="dropdown-item d-flex align-items-center" href="">
                         <div>

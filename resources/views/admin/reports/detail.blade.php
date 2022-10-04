@@ -13,6 +13,11 @@
        <div class="col-md-8">
           <div class="card border-left-info shadow h-100 py-2">
                <div class="card-body">
+                  <div class="row">
+                     <div class="col-md-2 offset-10">
+                        <a href="{{ route('admin.report.generatePDF', $currentID) }}" class="btn btn-outline-primary" data-toggle="tooltip" data-placement="top" title="Cetak PDF"><i class="fas fa-file-pdf"></i></a>
+                     </div>
+                  </div>
                    <div class="row no-gutters align-items-center">
                        <div class="col mr-2">
                            @foreach($report as $r)
@@ -52,7 +57,7 @@
                                        <span class="alert-success">Setujui</span>
                                        @elseif($r->status === 1)
                                        <span class="alert-danger">Tolak</span>
-                                       @else
+                                       @elseif($r->status === 2)
                                        <span class="alert-info">Proses Verifikasi</span>
                                        @endif
                                     </p>
@@ -89,7 +94,12 @@
                                  @endif
                               </div>
                               <div class="row">
-                                 <div class="col-md mb-1">
+                                 <div class="col-md-3 mb-1">
+                                    <div class="form-group">
+                                       <a href="{{ route('reports.admin') }}" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Kembali"><i class="fas fa-chevron-left"></i></a>
+                                    </div>
+                                 </div>
+                                 <div class="col-md-3 mb-1">
                                     <form action="{{ route('admin.report.detail.status', $r->id) }}" method="post" class="form-inline">
                                        @csrf
                                        @method('put')
@@ -100,7 +110,7 @@
                                        </div>
                                     </form>
                                  </div>
-                                 <div class="col-md mb-1">
+                                 <div class="col-md-3 mb-1">
                                     <form action="{{ route('admin.report.detail.buttonAgreeAdmin', $r->id) }}" method="post" class="form-inline">
                                        @csrf
                                        @method('put')
@@ -109,15 +119,10 @@
                                        </div>
                                     </form>
                                  </div>
-                                 <div class="col-md mb-1">
-                                    <div class="form-group">
-                                       <a href="{{ route('reports.admin') }}" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Kembali"><i class="fas fa-chevron-left"></i></a>
-                                    </div>
-                                 </div>
                                  @foreach($point as $p)
-                                 <div class="col-md mb-1">
-                                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#detailPointModal">
-                                      Rincian Point Pelanggaran 
+                                 <div class="col-md-3 mb-1">
+                                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#detailPointModal"><i class="fas fa-info-circle"></i>
+                                      Rincian
                                     </button>
                                  </div>
                                  @endforeach
@@ -131,7 +136,7 @@
        <div class="col-md-4 text-center">
           {{-- <img src="{{ asset('assets/img/pelaporan/'. $report->proof_fhoto) }}" class="img-thumbnail rounded-circle"> --}}
            <!-- Trigger the Modal -->
-          <img id="myImg" class="rounded-circle" src="{{ asset('assets/img/pelaporan/'. $r->proof_fhoto) }}" alt="{{ $r->proof_fhoto }}" style="width:100%;max-width:300px">
+          <img id="myImg" class="rounded-circle" src="{{ asset('assets/img/pelaporan/users/'. $r->proof_fhoto) }}" alt="{{ $r->proof_fhoto }}" style="width:100%;max-width:300px">
   
           <!-- The Modal -->
           <div id="myModal" class="modal-photo">
@@ -172,8 +177,8 @@
                        <span class="badge badge-success">Setujui</span>
                        @elseif($p->status === 1)
                        <span class="badge badge-danger">Tolak</span>
-                       @else
-                       <span class="badge badge-info">Proses Verifikasi</span>
+                       @elseif($r->status === 2)
+                       <span class="alert-info">Proses Verifikasi</span>
                        @endif
                    </h5>
                    <h5 class="card-title"><strong>Jenis Pelanggaran</strong> {{ $p->types->name_violation }}</h5>
@@ -181,13 +186,9 @@
                    <h5 class="card-title"><strong>Total Point</strong> {{ $p->total_point }}</h5>
                </div>
                <div class="col-md-6">
-                   <img class="img-thumbnail" src="{{ asset('assets/img/pelaporan/'. $p->reports->proof_fhoto) }}" alt="{{ $p->reports->proof_fhoto }}">
+                   <img class="img-thumbnail" src="{{ asset('assets/img/pelaporan/users/'. $p->reports->proof_fhoto) }}" alt="{{ $p->reports->proof_fhoto }}">
                </div>
             </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-            <button type="submit" class="btn btn-primary">Kirim</button>
           </div>
         </div>
       </div>

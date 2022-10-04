@@ -1,4 +1,4 @@
-
+587
                    {{-- @forelse($reports as $report)
                      @if(!$report->tb_report_user_id)
                         @if($report->role != 1)
@@ -26,3 +26,68 @@
                       @else
                       Belum ada
                    @endif
+
+
+SP1
+
+
+PT ABCDE
+Jl. Sudirman, Jakarta 
+Telp. (021) 123456
+
+Nomor        : SP/008/06/2021
+Lampiran    : 1 (satu) berkas
+Perihal        : Surat Peringatan
+
+Kepada Yth.
+Saudari Linda
+Staff Marketing PT ABCDE
+di Tempat
+
+Memperhatikan surat perjanjian kerja Tour and Travel PT ABCDE tertanggal 01 Februari 2021, dengan ini Kepala personalia PT ABCDE menginformasikan.
+Berdasarkan hasil evaluasi pemantauan dari Ketua Tim Marketing PT ABCDE. Kinerja Saudari Linda selama bekerja sebagai staff marketing  dinyatakan tidak memenuhi target yang ditetapkan perusahaan selama 3 bulan berturut-turut.
+Saudari Linda juga memiliki absensi yang buruk selama waktu yang telah disebutkan di atas.
+Oleh karenanya Saudari Linda diberikan Teguran Tertulis
+
+Demikian surat ini dibuat agar dilaksanakan dan disadari sebagaimana mestinya.
+Jakarta, 8 Juni 20212
+
+PT ABCDE
+
+ 
+
+Yusuf
+Kepala personalia
+
+
+SP2 
+
+
+PT ABCDE
+Jl. Sudirman, Jakarta 
+Telp. (021) 123456
+
+Nomor        : SP/008/06/2021
+Lampiran    : 1 (satu) berkas
+Perihal        : Surat Peringatan
+
+Kepada Yth.
+Saudari Linda
+Staff Marketing PT ABCDE
+di Tempat
+
+Bersama dengan surat ini, perusahaan harus menyampaikan surat peringatan kedua (SP-2) sebagai tindak lanjut dari surat peringatan pertama (SP-1) yang sebelumnya disampaikan kepada Saudari Linda. Namun, Saudari Linda tidak memberikan perbaikan atas surat peringatan tersebut.
+
+Agar Saudari Linda dapat memperbaiki sikap dan bekerja dengan profesional kembali, maka perusahaan menjatuhkan sanksi berdasarkan aturan yang berlaku dan disepakati, yakni:
+Pemotongan insentif sebesar 50 persen selama 2 bulan.
+Apabila dengan adanya Surat Peringatan 2 ini, saudari Linda masih belum menunjukan respon  yang baik, maka perusahaan akan mengeluarkan SP-3 yang berarti pemutusan kerja sama.
+
+Demikian Surat Peringatan 2 ini diterbitkan supaya dapat ditaati sebagaimana harusnya. Untuk Saudari Linda diharapkan agar menunjukan peningkatan sikap yang baik dan profesional.
+
+Jakarta, 08 Juni 2021
+PT ABCDE
+
+ 
+
+Yusuf
+Kepala personalia

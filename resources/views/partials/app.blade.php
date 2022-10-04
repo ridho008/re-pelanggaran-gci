@@ -17,7 +17,7 @@ $reportsCount = \DB::table('report')
     $user = auth()->user()->role;
 
 // Role User
-$statusPoint = \App\Model\Point::where('reporting_point', auth()->user()->id)->with('types')->get();
+$statusPoint = \App\Models\Point::where('reporting_point', auth()->user()->id)->with('types')->get();
 
 @endphp
 <!DOCTYPE html>
@@ -223,7 +223,7 @@ $statusPoint = \App\Model\Point::where('reporting_point', auth()->user()->id)->w
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-bell fa-fw"></i>
                                 <!-- Counter - Alerts -->
-                                <span class="badge badge-danger badge-counter"></span>
+                                <span class="badge badge-danger badge-counter badge-count"></span>
                             </a>
                             <!-- Dropdown - Alerts -->
                             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -235,11 +235,11 @@ $statusPoint = \App\Model\Point::where('reporting_point', auth()->user()->id)->w
                                     
                                 </div>
                                 
-                                <div class="dropdown-item d-flex align-items-center">
+                                {{-- <div class="dropdown-item d-flex align-items-center">
                                         <div class="small text-gray-500 mr-1"></div>
                                         <span class="font-weight-bold">Pelaporan Kosong</span>
-                                    </div>
-                                <a class="dropdown-item text-center small text-gray-500" href="{{ route('user.report') }}">Tampilkan Semua Laporan</a>
+                                    </div> --}}
+                                <a class="dropdown-item text-center small text-gray-500" href="{{ route('reports.verification') }}">Tampilkan Semua Laporan</a>
                             </div>
                         </li>
 
@@ -249,7 +249,7 @@ $statusPoint = \App\Model\Point::where('reporting_point', auth()->user()->id)->w
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-envelope fa-fw"></i>
                                 <!-- Counter - Alerts -->
-                                <span class="badge badge-danger badge-counter"></span>
+                                <span class="badge badge-danger badge-counter">{{ $statusPoint->count() }}</span>
                             </a>
                             <!-- Dropdown - Alerts -->
                             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -257,15 +257,21 @@ $statusPoint = \App\Model\Point::where('reporting_point', auth()->user()->id)->w
                                 <h6 class="dropdown-header">
                                     Laporan Pelanggaran
                                 </h6>
-                                <div class="notifUser">
-                                    
-                                </div>
-                                
-                                <div class="dropdown-item d-flex align-items-center">
-                                        <div class="small text-gray-500 mr-1"></div>
-                                        <span class="font-weight-bold">Pelaporan Kosong</span>
+                                @forelse($statusPoint as $sp)
+                                <a class="dropdown-item d-flex align-items-center" href="">
+                                    <div>
+                                        <div class="small text-gray-500">{{ $sp->reports->reporting_date }}</div>
+                                        <span class="font-weight-bold">{{ $sp->reports->title }}</span>
                                     </div>
-                                <a class="dropdown-item text-center small text-gray-500" href="{{ route('user.report') }}">Tampilkan Semua Laporan</a>
+                                </a>
+                                @empty
+                                    <div class="dropdown-item d-flex align-items-center">
+                                            <div class="small text-danger mr-1"></div>
+                                            <span class="font-weight-bold">Pelaporan Kosong</span>
+                                        </div>
+                                    <a class="dropdown-item text-center small text-gray-500" href="{{ route('user.points') }}">Tampilkan Semua Laporan</a>
+                                @endforelse
+                                
                             </div>
                         </li>
                         @endif

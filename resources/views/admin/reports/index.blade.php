@@ -51,7 +51,7 @@
                               <span class="alert alert-danger">Format tidak sesuai</span>
                               @else
                                  @if($report->proof_fhoto)
-                                 <img src="{{ asset('/assets/img/pelaporan/' . $report->proof_fhoto) }}" alt="{{ $report->proof_fhoto }}" width="100">
+                                 <img src="{{ asset('/assets/img/pelaporan/users/' . $report->proof_fhoto) }}" alt="{{ $report->proof_fhoto }}" width="100">
                                  @else
                                  <span class="alert-danger">Foto Belum Diupload.</span>
                                  @endif

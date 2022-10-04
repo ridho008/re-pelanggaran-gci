@@ -62,9 +62,13 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
    Route::get('/reports/verification', [ReportController::class, 'verifReportUser'])->name('reports.verification');
    Route::get('/reports/reject', [ReportController::class, 'rejectReportUser'])->name('reports.reject');
 
-   // Point - Users
+   // **************** Point - Users ********************
    Route::get('/points', [PointController::class, 'indexPoint'])->name('user.points');
    Route::get('/point/getDetail/{id}', [PointController::class, 'getDetailPoint'])->where('id', '[0-9]+');
+
+
+   Route::get('/point/print-sp1/{id}', [PointController::class, 'printSP1'])->where('id', '[0-9]+')->name('point.print.sp1');
+   Route::get('/point/print-sp2/{id}', [PointController::class, 'printSP2'])->where('id', '[0-9]+')->name('point.print.sp2');
 });
 
 
@@ -118,6 +122,9 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
    Route::get('/admin/typesvio/edit/{id}', [TypesViolationsController::class, 'getTypesVByID'])->where('id', '[0-9]+')->name('typesVio.admin.edit');
    Route::put('/admin/typesvio/update', [TypesViolationsController::class, 'update'])->name('typesVio.admin.update');
    Route::delete('/admin/typesvio/destroy/{id}', [TypesViolationsController::class, 'destroy'])->where('id', '[0-9]+')->name('typesVio.admin.destroy');
+
+   // Report - PDF
+   Route::get('/admin/report/generate-pdf/{id}', [ReportController::class, 'generatePDF'])->where('id', '[0-9]+')->name('admin.report.generatePDF');
 
 
 

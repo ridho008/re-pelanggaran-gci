@@ -1,3 +1,8 @@
+@php
+
+
+@endphp
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -58,7 +63,7 @@
             <hr>
             <div class="messages">
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing, elit. Quia aperiam ab mollitia temporibus eveniet distinctio, id beatae quos, itaque quasi. Atque repellat hic, error vel nobis alias asperiores perspiciatis vitae?</p>
-                <a href="" class="button-email">Lihat Foto Pelanggaran</a>
+                <a href="{{ url('/login') }}" class="button-email">Login, untuk melihat pelanggaran</a>
             </div>
             <div class="footer-email">
                 <p>Anda menerima email ini untuk memberi tahu anda tentang pelanggaran penting Garuda Report Team</p>

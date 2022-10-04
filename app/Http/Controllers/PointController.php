@@ -6,6 +6,7 @@ use App\Models\Point;
 use App\Models\Report;
 use App\Models\User;
 use Illuminate\Http\Request;
+use PDF;
 
 class PointController extends Controller
 {
@@ -17,6 +18,7 @@ class PointController extends Controller
     public function index()
     {
         $points = Point::with('reports')->paginate(6);
+
         // dd($points);
         $data = [
             'points' => $points,
@@ -108,9 +110,11 @@ class PointController extends Controller
     public function indexPoint()
     {   
         $points = Point::where('reporting_point', auth()->user()->id)->with('types')->paginate(6);
+        $pointCount = Point::join('types_violations', 'types_violations.id', 'points.typevio_id')->where('reporting_point', auth()->user()->id)->sum('sum_points');
 
         $data = [
             'points' => $points,
+            'pointCount' => $pointCount,
         ];
         return view('user.points.index', $data);
     }
@@ -138,5 +142,33 @@ class PointController extends Controller
         ];
 
         return json_encode($data);
+    }
+
+    public function printSP1($id)
+    {
+        $reportPDF = User::where('id', $id)->with('types')->get();
+
+        $data = [
+            'title' => 'PT.Garuda Cyber Indonesia',
+            'address' => 'Alamat: Jl. HR. Soebrantas No.188, Sidomulyo Baru, Kec. Tampan, Kota Pekanbaru, Riau 28293',
+            'reportPDF' => $reportPDF,
+        ];
+        
+        $pdf = PDF::loadView('user.generate-reporting.sp1', $data);
+        return $pdf->download('surat-peringatan-1-GCI.pdf');
+    }
+
+    public function printSP2($id)
+    {
+        $reportPDF = User::where('id', $id)->with('types')->get();
+
+        $data = [
+            'title' => 'PT.Garuda Cyber Indonesia',
+            'address' => 'Alamat: Jl. HR. Soebrantas No.188, Sidomulyo Baru, Kec. Tampan, Kota Pekanbaru, Riau 28293',
+            'reportPDF' => $reportPDF,
+        ];
+        
+        $pdf = PDF::loadView('user.generate-reporting.sp2', $data);
+        return $pdf->download('surat-peringatan-2-GCI.pdf');
     }
 }
