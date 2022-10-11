@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Postimage;
+use App\Exports\UsersExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class UserController extends Controller
 {
@@ -197,5 +199,15 @@ class UserController extends Controller
         ]);
 
         return redirect('/profile')->with('success', 'Berhasil memperbarui profil.');
+    }
+
+    public function exportUsers(Request $request)
+    {
+        return Excel::download(new UsersExport, 'users.csv');
+    }
+
+    public function pdfUsers(Request $request)
+    {
+        return Excel::download(new UsersExport, 'users.pdf');
     }
 }

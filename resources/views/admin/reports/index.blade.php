@@ -14,6 +14,17 @@
       @include('partials.menu-status-report')
    </div>
 </div>
+<div class="row mt-2">
+   <div class="col-md-6">
+      <a href="{{ route('excel.reports.admin') }}" data-toggle="tooltip" data-placement="top" title="Cetak Excel" class="btn btn-success"><i class="fas fa-file-excel"></i></a>
+      <a href="{{ route('pdf.reports.admin') }}" data-toggle="tooltip" data-placement="top" title="Cetak PDF" class="btn btn-danger"><i class="fas fa-file-pdf"></i></a>
+   </div>
+   <div class="col-md-6">
+      <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#exampleModalLong">
+        Cetak Excel Berdasarkan Tanggal
+      </button>
+   </div>
+</div>
 <div class="row">
    <div class="col-md-12">
       <div class="card-body">
@@ -100,6 +111,35 @@
           </div>
       </div>
    </div>
+</div>
+
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Cetak Excel Berdasarkan Tanggal</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="{{ route('excel.reports.date.admin') }}" method="get">
+           <div class="form-group">
+              <label for="from_date">Dari Tanggal</label>
+              <input type="date" name="from_date" class="form-control">
+           </div>
+           <div class="form-group">
+              <label for="to_date">Dari Tanggal</label>
+              <input type="date" name="to_date" class="form-control">
+           </div>
+         <div class="modal-footer">
+           <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+           <button type="submit" class="btn btn-primary">Cari</button>
+         </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
 
 @endsection

@@ -7,6 +7,8 @@
 <div class="row">
    <div class="col-md-6">
       <a href="{{ route('admin.user.create') }}" class="btn btn-primary"><i class="fas fa-plus"></i> Tambah Data</a>
+      <a href="{{ route('export.users.admin') }}" data-toggle="tooltip" data-placement="top" title="Cetak Excel" class="btn btn-success"><i class="fas fa-file-excel"></i></a>
+      <a href="{{ route('pdf.users.admin') }}" data-toggle="tooltip" data-placement="top" title="Cetak PDF" class="btn btn-danger"><i class="fas fa-file-pdf"></i></a>
    </div>
 </div>
 <div class="card-body">

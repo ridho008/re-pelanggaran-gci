@@ -7,6 +7,8 @@ use App\Models\Report;
 use App\Models\User;
 use Illuminate\Http\Request;
 use PDF;
+use App\Exports\PointsExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PointController extends Controller
 {
@@ -170,5 +172,15 @@ class PointController extends Controller
         
         $pdf = PDF::loadView('user.generate-reporting.sp2', $data);
         return $pdf->download('surat-peringatan-2-GCI.pdf');
+    }
+
+    public function pdfPoints()
+    {
+        return Excel::download(new PointsExport(), 'points.pdf');
+    }
+
+    public function excelPoints()
+    {
+        return Excel::download(new PointsExport(), 'points.csv');
     }
 }

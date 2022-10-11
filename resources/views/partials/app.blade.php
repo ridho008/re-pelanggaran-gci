@@ -47,6 +47,9 @@ $statusPoint = \App\Models\Point::where('reporting_point', auth()->user()->id)->
     <!-- Custom styles for this template-->
     <link href="{{ asset('assets/css/sb-admin-2.min.css') }}" rel="stylesheet">
     <script src="{{ asset('assets/vendor/ckeditor/ckeditor.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" ></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body id="page-top">
@@ -62,7 +65,7 @@ $statusPoint = \App\Models\Point::where('reporting_point', auth()->user()->id)->
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">Report <sup>2</sup></div>
+                <div class="sidebar-brand-text mx-3">Report <sup>GCI</sup></div>
             </a>
 
             <!-- Divider -->
@@ -96,7 +99,7 @@ $statusPoint = \App\Models\Point::where('reporting_point', auth()->user()->id)->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
                     aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fas fa-fw fa-wrench"></i>
+                    <i class="fas fa-fw fa-table"></i>
                     <span>Data</span>
                 </a>
                 <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
@@ -123,13 +126,13 @@ $statusPoint = \App\Models\Point::where('reporting_point', auth()->user()->id)->
 
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('user.report') }}">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fas fa-fw fa-flag"></i>
                     <span>Pelaporan</span></a>
             </li>
 
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('user.points') }}">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fas fa-fw fa-sort-numeric-up-alt"></i>
                     <span>Point</span></a>
             </li>
 
@@ -145,7 +148,7 @@ $statusPoint = \App\Models\Point::where('reporting_point', auth()->user()->id)->
 
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('myprofile') }}">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fas fa-fw fa-user-alt"></i>
                     <span>Profil Saya</span></a>
             </li>
 
@@ -409,6 +412,13 @@ $statusPoint = \App\Models\Point::where('reporting_point', auth()->user()->id)->
 
     <!-- Custom scripts for all pages-->
     <script src="{{ asset('assets/js/sb-admin-2.min.js') }}"></script>
+    <!-- Page level plugins -->
+    {{-- <script src="{{ asset('assets/vendor/chart.js/Chart.min.js') }}"></script> --}}
+
+    <!-- Page level custom scripts -->
+    {{-- <script src="{{ asset('assets/js/demo/chart-area-demo.js') }}"></script> --}}
+    {{-- <script src="{{ asset('assets/js/demo/chart-pie-demo.js') }}"></script> --}}
+
     {{-- JS with Page --}}
     @include('partials.page-js')
 </body>

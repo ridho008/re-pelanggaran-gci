@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\TypesViolations;
 use Illuminate\Http\Request;
+use App\Exports\TypesViolationsExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class TypesViolationsController extends Controller
 {
@@ -68,5 +70,15 @@ class TypesViolationsController extends Controller
     {
         TypesViolations::destroy($id);
         return redirect()->route('typesVio.admin')->with('success', 'Berhasil menghapus data.');
+    }
+
+    public function pdfTypesV()
+    {
+        return Excel::download(new TypesViolationsExport(), 'types-violations.pdf');
+    }
+
+    public function excelTypesV()
+    {
+        return Excel::download(new TypesViolationsExport(), 'types-violations.csv');
     }
 }

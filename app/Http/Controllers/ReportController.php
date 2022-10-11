@@ -12,6 +12,9 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendEmail;
 use PDF;
+use App\Exports\ReportsExport;
+use App\Exports\ReportsPerDMYSheet;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ReportController extends Controller
 {
@@ -197,12 +200,16 @@ class ReportController extends Controller
 
         $point = Point::where('report_id', '=', $id)->with('reports')->get();
 
+        $checkReportIDPoint = Point::where('report_id', $id)->first();
+
         $currentID = $request->route('id');
         $data = [
             'report' => $users,
             'point' => $point,
             'currentID' => $currentID,
+            'checkReportIDPoint' => $checkReportIDPoint,
         ];
+
         return view('admin.reports.detail', $data);
     }
 
@@ -232,19 +239,59 @@ class ReportController extends Controller
     // Page Verification
     public function status(Request $request, $id)
     {
+        $fullname = auth()->user()->fullname;
+        $email = auth()->user()->email;
 
+        
         $request->validate([
             'status' => 'required',
-        ]);
+        ]);    
 
-        Report::where('id', $id)
-            ->update([
-                'status' => $request->input('status'),
-                'updated_at' => Carbon::now(),
+        try {
+            Report::where('id', $id)
+                ->update([
+                    'status' => $request->input('status'),
+                    'updated_at' => Carbon::now(),
             ]);
 
-        $request->session()->flash('success', 'Status berhasil diperbarui.');
-        return back();
+            $reportByStatus = Report::where('status', 0)->where('id', $id)->first();
+            // dd($reportByStatus->status);
+            if($reportByStatus->status == 0) {
+                // Insert user to table points
+                Point::create([
+                    'user_id' => $request->user_id,
+                    'report_id' => $id,
+                    'reporting_point' => auth()->user()->id,
+                    'typevio_id' => $request->typevio_id,
+                ]);
+
+                $data = [
+                    'name' => $fullname,
+                    'email' => $email,
+                ];
+                
+                $mail = Mail::to('yudi89877@gmail.com')->send(new SendEmail($data));
+                
+                return back()->with('success', 'Laporan dan Email berhasil dikirim.');
+            } else {
+                return back()->with('success', 'Data laporan berhasil diperbarui.');
+            }
+            
+
+        } catch(\Exception $e) {
+            return redirect()->back()->with(['loginError' => $e->getMessage()]);
+        }
+
+        
+
+        // Report::where('id', $id)
+        //     ->update([
+        //         'status' => $request->input('status'),
+        //         'updated_at' => Carbon::now(),
+        //     ]);
+
+        // $request->session()->flash('success', 'Status berhasil diperbarui.');
+        // return back();
     }
 
     // ------------ Users ----------------
@@ -261,7 +308,7 @@ class ReportController extends Controller
         // $data->users->fullname;
         // dd($data->report->fullname);
         // dd($data->user_id);
-        
+
         $data = [
             'reports' => $reports,
             'users' => $users,
@@ -283,25 +330,40 @@ class ReportController extends Controller
         return back();
     }
 
-    public function buttonAgreeAdmin($id)
+    public function buttonAgreeAdmin(Request $request, $id)
     {
         $fullname = auth()->user()->fullname;
         $email = auth()->user()->email;
+       
+        try {
+            DB::transaction(function () use ($id, $request) {
+                Report::where('id', $id)
+                    ->update([
+                        'status' => 0
+                ]);
 
-        Report::where('id', $id)
-            ->update([
-                'status' => 0
-        ]);
+                // Insert user to table points
+                Point::create([
+                    'user_id' => $request->user_id,
+                    'report_id' => $id,
+                    'reporting_point' => auth()->user()->id,
+                    'typevio_id' => $request->typevio_id,
+                ]);
+            });
 
-        $data = [
-            'name' => $fullname,
-            'email' => $email,
-            'body' => 'Testing Kirim Email di Santri Koding',
-        ];
+            $data = [
+                'name' => $fullname,
+                'email' => $email,
+            ];
+            
+            $mail = Mail::to('yudi89877@gmail.com')->send(new SendEmail($data));
+            
+            return back()->with('success', 'Laporan dan Email berhasil dikirim.');
+        } catch(\Exception $e) {
+            return redirect()->back()->with(['loginError' => $e->getMessage()]);
+        }
+
         
-        $mail = Mail::to('yudi89877@gmail.com')->send(new SendEmail($data));
-        
-        return back()->with('success', 'Email berhasil dikirim.');
         // dd("Email Berhasil dikirim.");
     }
 
@@ -500,7 +562,21 @@ class ReportController extends Controller
 
     }
 
+    public function pdfReports()
+    {
+        return Excel::download(new ReportsExport(), 'reports.pdf');
+    }
 
+    public function excelReports()
+    {
+        return Excel::download(new ReportsExport(), 'reports.csv');
+    }
+
+    public function excelReportsByDate(Request $request)
+    {
+        return Excel::download(new ReportsPerDMYSheet(), 'reports.pdf');
+        // return (new ReportsPerDMYSheet($from_date, $to_date))->download('invoices.xlsx');
+    }
 
 
 

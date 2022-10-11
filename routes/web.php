@@ -84,6 +84,8 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
    Route::get('/admin/user/edit/{id}', [UserController::class, 'edit'])->name('admin.user.edit');
    Route::post('/admin/user/update/{id}', [UserController::class, 'update'])->name('admin.user.update');
    Route::delete('/admin/user/delete/{id}', [UserController::class, 'destroy'])->name('admin.user.destroy');
+   Route::get('/export-users',[UserController::class, 'exportUsers'])->name('export.users.admin');
+   Route::get('/pdf-users',[UserController::class, 'pdfUsers'])->name('pdf.users.admin');
 
    // Report
    Route::get('/admin/reports', [ReportController::class, 'index'])->name('reports.admin');
@@ -92,6 +94,11 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
 
    Route::get('/admin/report/edit/{id}', [ReportController::class, 'edit'])->where('id', '[0-9]+')->name('admin.report.edit');
    Route::put('/admin/report/update/{id}', [ReportController::class, 'update'])->where('id', '[0-9]+')->name('admin.report.update');
+
+   // Print
+   Route::get('/pdf-reports',[ReportController::class, 'pdfReports'])->name('pdf.reports.admin');
+   Route::get('/excel-reports',[ReportController::class, 'excelReports'])->name('excel.reports.admin');
+   Route::get('/excel-reports-by-date',[ReportController::class, 'excelReportsByDate'])->name('excel.reports.date.admin');
 
    Route::delete('/admin/report/destroy/{id}', [ReportController::class, 'destroy'])->where('id', '[0-9]+')->name('admin.report.destroy');
    Route::get('/admin/report/detail/{id}', [ReportController::class, 'detail'])->where('id', '[0-9]+')->name('admin.report.detail');
@@ -116,12 +123,20 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
    Route::delete('/admin/point/destroy/{id}', [PointController::class, 'destroy'])->where('id', '[0-9]+')->name('point.admin.destroy');
    Route::get('/admin/point/detail/{id}', [PointController::class, 'detail'])->where('id', '[0-9]+')->name('point.admin.detail');
 
+   // Points - Print
+   Route::get('/pdf-points',[PointController::class, 'pdfPoints'])->name('pdf.points.admin');
+   Route::get('/excel-points',[PointController::class, 'excelPoints'])->name('excel.points.admin');
+
    // Types Violations
    Route::get('/admin/typesvio', [TypesViolationsController::class, 'index'])->name('typesVio.admin');
    Route::post('/admin/typesvio/store', [TypesViolationsController::class, 'store'])->name('typesVio.admin.store');
    Route::get('/admin/typesvio/edit/{id}', [TypesViolationsController::class, 'getTypesVByID'])->where('id', '[0-9]+')->name('typesVio.admin.edit');
    Route::put('/admin/typesvio/update', [TypesViolationsController::class, 'update'])->name('typesVio.admin.update');
    Route::delete('/admin/typesvio/destroy/{id}', [TypesViolationsController::class, 'destroy'])->where('id', '[0-9]+')->name('typesVio.admin.destroy');
+
+   // Types Violations - Print
+   Route::get('/pdf-typesv',[TypesViolationsController::class, 'pdfTypesV'])->name('pdf.typesV.admin');
+   Route::get('/excel-typesv',[TypesViolationsController::class, 'excelTypesV'])->name('excel.typesV.admin');
 
    // Report - PDF
    Route::get('/admin/report/generate-pdf/{id}', [ReportController::class, 'generatePDF'])->where('id', '[0-9]+')->name('admin.report.generatePDF');

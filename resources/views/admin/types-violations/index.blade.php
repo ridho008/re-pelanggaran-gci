@@ -13,6 +13,13 @@
       </button>
    </div>
 </div>
+<div class="row mt-2">
+   <div class="col-md-6">
+      <a href="{{ route('excel.typesV.admin') }}" data-toggle="tooltip" data-placement="top" title="Cetak Excel" class="btn btn-success"><i class="fas fa-file-excel"></i></a>
+      <a href="{{ route('pdf.typesV.admin') }}" data-toggle="tooltip" data-placement="top" title="Cetak PDF" class="btn btn-danger"><i class="fas fa-file-pdf"></i></a>
+   </div>
+   
+</div>
 <div class="card-body">
     <div class="table-responsive">
         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -101,4 +108,6 @@
     </div>
   </div>
 </div>
+
+
 @endsection

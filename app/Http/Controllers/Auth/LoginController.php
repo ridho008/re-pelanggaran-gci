@@ -52,16 +52,17 @@ class LoginController extends Controller
         ]);
         // dd($user);
 
+        
         if(auth()->attempt(array('email' => $input['email'], 'password' => $input['password']))) {
-            if (auth()->user()->role == 'admin') {
-                return redirect()->route('admin.index');
-            } else if (auth()->user()->role == 'user') {
-                return redirect()->route('user.index');
-            }
-            
+                if (auth()->user()->role == 'admin') {
+                    return redirect()->route('admin.index');
+                } else if (auth()->user()->role == 'user') {
+                    return redirect()->route('user.index');
+                }  
         } else {
             return back()->with('loginError', 'Login gagal!');
         }
+        
     }
 
     public function logout(Request $request)

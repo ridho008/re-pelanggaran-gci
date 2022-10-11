@@ -110,15 +110,19 @@
                                        </div>
                                     </form>
                                  </div>
+                                 @if(!isset($checkReportIDPoint->report_id))
                                  <div class="col-md-3 mb-1">
                                     <form action="{{ route('admin.report.detail.buttonAgreeAdmin', $r->id) }}" method="post" class="form-inline">
                                        @csrf
                                        @method('put')
+                                       <input type="hidden" name="user_id" value="{{ $r->users->id }}">
+                                       <input type="hidden" name="typevio_id" value="{{ $r->typesViolations->sum_points }}">
                                        <div class="form-group">
                                           <button type="submit" class="btn btn-primary" onclick="return confirm('Yakin ?')" data-toggle="tooltip" data-placement="top" title="Setujui Laporan"><i class="fas fa-check"></i> Setujui</button>
                                        </div>
                                     </form>
                                  </div>
+                                 @endif
                                  @foreach($point as $p)
                                  <div class="col-md-3 mb-1">
                                     <button type="button" class="btn btn-info" data-toggle="modal" data-target="#detailPointModal"><i class="fas fa-info-circle"></i>

@@ -14,3 +14,13 @@ npm-debug.log
 yarn-error.log
 /.idea
 /.vscode
+
+.DS_Store
+oracle.sqlite
+.phpintel
+test_keys.json
+testing_keys.json
+/build
+docs/_build
+*.swp
+/composer.lock

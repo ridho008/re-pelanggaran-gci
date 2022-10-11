@@ -48,9 +48,12 @@
                            </td>
                           <td>{{ date('d-m-Y', strtotime($report->reporting_date)) }}</td>
                           <td>
+                           {{-- <form action="{{ route('admin.report.status', $report->id) }}" method="post" class="form-inline"> --}}
                            <form action="{{ route('admin.report.status', $report->id) }}" method="post" class="form-inline">
                               @csrf
                               @method('put')
+                              <input type="hidden" name="user_id" value="{{ $report->users->id }}">
+                              <input type="hidden" name="typevio_id" value="{{ $report->typesViolations->sum_points }}">
                               {{-- Setujui --}}
                              @if($report->status === 0)
                              <div class="form-group">
