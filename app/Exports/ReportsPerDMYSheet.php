@@ -12,18 +12,18 @@ use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Carbon\Carbon;
 
-class ReportsPerDMYSheet implements FromCollection, WithHeadings, WithMapping
+class ReportsPerDMYSheet implements FromView
 {
     // use Exportable;
 
-    // protected $from_date;
-    // protected $to_date;
+    protected $from_date;
+    protected $to_date;
 
-    // public function __construct($from_date, $to_date)
-    // {
-    //     $this->from_date = $from_date;
-    //     $this->to_date  = $to_date;
-    // }
+    public function __construct($from_date, $to_date)
+    {
+        $this->from_date = $from_date;
+        $this->to_date  = $to_date;
+    }
 
     
 
@@ -34,46 +34,49 @@ class ReportsPerDMYSheet implements FromCollection, WithHeadings, WithMapping
     //         ->with('user');
     // }
 
-    public function collection()
-    {
-        $from_date = request()->input('from_date');
-        $to_date = request()->input('to_date');
-        // dd($to_date);
-        return Report::with('user')->whereBetween('created_at', [$from_date, $to_date])->get();
-    }
-
-    public function map($report): array
-    {
-        return [
-            $report->id,
-            $report->user->fullname,
-            $report->report->fullname,
-            $report->title,
-            $report->typesViolations->name_violation,
-            strip_tags($report->description),
-            $report->reply_comment ?? "kosong",
-            Carbon::parse($report->reporting_date)->toFormattedDateString(),
-        ];
-    }
-
-    public function headings(): array
-    {
-        return [
-            '#',
-            'Pelaku',
-            'Pelapor',
-            'Judul',
-            'Jenis Pelanggaran',
-            'Deskripsi',
-            'Balasan',
-            'Tanggal Pelapor',
-        ];
-    }
-
-    // public function view(): View
+    // public function collection()
     // {
-    //     return view('admin.reports.exports.reports', [
-    //         'reports' => Report::with('user')->whereBetween('created_at',[ $this->from_date,$this->to_date])->get(),
-    //     ]);
+    //     $from_date = request()->input('from_date');
+    //     $to_date = request()->input('to_date');
+
+    //     return Report::with('user')->whereBetween('created_at', [$from_date, $to_date])->get();
     // }
+
+    // public function map($report): array
+    // {
+    //     return [
+    //         $report->id,
+    //         $report->user->fullname,
+    //         $report->report->fullname,
+    //         $report->title,
+    //         $report->typesViolations->name_violation,
+    //         strip_tags($report->description),
+    //         $report->reply_comment ?? "kosong",
+    //         Carbon::parse($report->reporting_date)->toFormattedDateString(),
+    //     ];
+    // }
+
+    // public function headings(): array
+    // {
+    //     return [
+    //         '#',
+    //         'Pelaku',
+    //         'Pelapor',
+    //         'Judul',
+    //         'Jenis Pelanggaran',
+    //         'Deskripsi',
+    //         'Balasan',
+    //         'Tanggal Pelapor',
+    //     ];
+    // }
+
+    public function view(): View
+    {
+
+        return view('admin.reports.exports.reports', [
+            'reports' => Report::with('user')->whereBetween('created_at', [$this->from_date, $this->to_date])->get(),
+            'fromDate' => Carbon::parse($this->from_date)->toFormattedDateString(),
+            'toDate' => Carbon::parse($this->to_date)->toFormattedDateString(),
+        ]);
+    }
 }

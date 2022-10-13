@@ -53,7 +53,9 @@
                               @csrf
                               @method('put')
                               <input type="hidden" name="user_id" value="{{ $report->users->id }}">
-                              <input type="hidden" name="typevio_id" value="{{ $report->typesViolations->sum_points }}">
+                              <input type="hidden" name="reporting_point" value="{{ $report->report->id }}">
+                              <input type="hidden" name="typevio_id" value="{{ $report->typesViolations->id }}">
+                              <input type="hidden" name="report_id" value="{{ $report->id }}">
                               {{-- Setujui --}}
                              @if($report->status === 0)
                              <div class="form-group">

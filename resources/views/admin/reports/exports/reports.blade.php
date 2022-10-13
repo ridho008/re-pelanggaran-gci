@@ -1,13 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Pelanggaran Kebersihan PT.Garuda Cyber Indonesia</title>
-</head>
-<body>
+
         <h1>Laporan Pelangaran PT.Garuda Cyber Indonesia</h1>
-        <p>Alamat: Jl. HR. Soebrantas No.188, Sidomulyo Baru, Kec. Tampan, Kota Pekanbaru, Riau 28293</p>
-        <hr>
-        <table cellspacing="0" cellpadding="10" width="100%">
+        <p>Dari Tanggal : {{ $fromDate }}</p>
+        <p>Hingga Tanggal : {{ $toDate }}</p>
+        <table>
            <thead>
               <tr>
                  <th>No</th>
@@ -36,5 +31,3 @@
               @endforeach
            </tbody>
         </table>
-</body>
-</html>

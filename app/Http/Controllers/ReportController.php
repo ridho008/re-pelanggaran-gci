@@ -254,28 +254,49 @@ class ReportController extends Controller
                     'updated_at' => Carbon::now(),
             ]);
 
-            $reportByStatus = Report::where('status', 0)->where('id', $id)->first();
             // dd($reportByStatus->status);
-            if($reportByStatus->status == 0) {
-                // Insert user to table points
-                Point::create([
-                    'user_id' => $request->user_id,
-                    'report_id' => $id,
-                    'reporting_point' => auth()->user()->id,
-                    'typevio_id' => $request->typevio_id,
-                ]);
+            $reportByStatus = Report::where('id', $id)->first();
+            // $users = User::select('id')->get();
+            // dd($user);
 
-                $data = [
-                    'name' => $fullname,
-                    'email' => $email,
-                ];
-                
-                $mail = Mail::to('yudi89877@gmail.com')->send(new SendEmail($data));
-                
-                return back()->with('success', 'Laporan dan Email berhasil dikirim.');
-            } else {
-                return back()->with('success', 'Data laporan berhasil diperbarui.');
-            }
+            // foreach($users as $user) {
+            //     foreach($report as $r) {
+            //         dd($r);
+
+            //     }
+            // }
+
+                $report = Point::where('report_id', $id)->first();
+                // dd($report->report_id);
+                if($reportByStatus->status == 0) {
+                    if(empty($report->report_id)) {
+                       // Insert user to table points
+                       Point::create([
+                           'user_id' => $request->user_id,
+                           'report_id' => $id,
+                           'reporting_point' => $request->reporting_point,
+                           'typevio_id' => $request->typevio_id,
+                       ]);
+
+                       $data = [
+                           'name' => $fullname,
+                           'email' => $email,
+                       ];
+                       
+                       $mail = Mail::to('yudi89877@gmail.com')->send(new SendEmail($data));
+                       
+                        return back()->with('success', 'Laporan dan Email berhasil dikirim.');
+                    }
+                        return back()->with(['loginError' => 'Data ini telah boleh duplikat.']);;
+                } else {
+                    if($reportByStatus->status == 1 || $reportByStatus->status == 2) {
+                        Point::where('report_id', $id)->delete();
+                        return back()->with('success', 'Status Laporan berhasil di perbarui');
+                    }
+                    // return back()->with('success', 'Status Laporan berhasil di perbarui');
+                }
+
+            
             
 
         } catch(\Exception $e) {
@@ -574,7 +595,9 @@ class ReportController extends Controller
 
     public function excelReportsByDate(Request $request)
     {
-        return Excel::download(new ReportsPerDMYSheet(), 'reports.pdf');
+        $from_date = request()->input('from_date');
+        $to_date = request()->input('to_date');
+        return Excel::download(new ReportsPerDMYSheet($from_date, $to_date), 'reports' . time() . '.csv');
         // return (new ReportsPerDMYSheet($from_date, $to_date))->download('invoices.xlsx');
     }
 

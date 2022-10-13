@@ -124,13 +124,17 @@
       </div>
       <div class="modal-body">
         <form action="{{ route('excel.reports.date.admin') }}" method="get">
-           <div class="form-group">
-              <label for="from_date">Dari Tanggal</label>
-              <input type="date" name="from_date" class="form-control">
-           </div>
-           <div class="form-group">
-              <label for="to_date">Dari Tanggal</label>
-              <input type="date" name="to_date" class="form-control">
+           <div class="row">
+              <div class="col-md-12">
+                 <div class="form-group">
+                    <label for="from_date">Dari Tanggal</label>
+                    <input type="date" name="from_date" class="form-control">
+                 </div>
+                 <div class="form-group">
+                    <label for="to_date">Hingga Tanggal</label>
+                    <input type="date" name="to_date" class="form-control">
+                 </div>
+              </div>
            </div>
          <div class="modal-footer">
            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
