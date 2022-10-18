@@ -9,13 +9,13 @@
    @if($pointCount == 10)
       <div class="col-md-12">
          <div class="alert alert-warning alert-dismissible fade show" role="alert">
-           <strong>Peringatan! 10</strong> Anda telah mencapai batas pelanggaran kebersihan. <a href="#myModal" class="trigger-btn" data-toggle="modal">LIHAT</a>.
+           <strong>Peringatan! SP1 </strong> Anda telah mencapai batas pelanggaran kebersihan. <a href="#myModal" class="trigger-btn" data-toggle="modal">LIHAT</a>.
          </div>
       </div>
       @elseif($pointCount == 20)
          <div class="col-md-12">
             <div class="alert alert-warning alert-dismissible fade show" role="alert">
-              <strong>Peringatan! 20</strong> Anda telah mencapai batas pelanggaran kebersihan. <a href="#myModal" class="trigger-btn" data-toggle="modal">LIHAT</a>.
+              <strong>Peringatan! SP2</strong> Anda telah mencapai batas pelanggaran kebersihan. <a href="#myModal" class="trigger-btn" data-toggle="modal">LIHAT</a>.
             </div>
          </div>
       {{-- @else

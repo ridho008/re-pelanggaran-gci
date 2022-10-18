@@ -7,7 +7,7 @@
     "require": {
         "php": "^8.0.2",
         "barryvdh/laravel-dompdf": "^2.0",
-        "captcha-com/laravel-captcha": "4.*",
+        "captcha-com/laravel-captcha": "^4.2",
         "guzzlehttp/guzzle": "^7.2",
         "josiasmontag/laravel-recaptchav3": "^1.0",
         "laravel/framework": "^9.19",

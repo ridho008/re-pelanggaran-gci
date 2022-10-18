@@ -28,6 +28,7 @@ class HomeController extends Controller
     public function index()
     {
         // Graph
+        // $totalPoint = User::select(DB::raw('SUM(amount_total) as paidsum');
         $userGraph = Point::select('*')
                     ->join('users', 'users.id', '=', 'points.reporting_point')
                     ->join('types_violations', 'types_violations.id', '=', 'points.typevio_id')

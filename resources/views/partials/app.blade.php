@@ -79,7 +79,7 @@ $statusPoint = \App\Models\Point::where('reporting_point', auth()->user()->id)->
                     <span>Dashboard</span></a>
             </li>
             @else
-            <li class="nav-item">
+            <li class="nav-item {{ (Request::path() == 'dashboard' ? 'active' : '') }}">
                 <a class="nav-link" href="{{ route('user.index') }}">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
@@ -124,13 +124,13 @@ $statusPoint = \App\Models\Point::where('reporting_point', auth()->user()->id)->
                 Pengelola Data
             </div>
 
-            <li class="nav-item">
+            <li class="nav-item {{ (Request::path() == 'reports' ? 'active' : '') }}">
                 <a class="nav-link" href="{{ route('user.report') }}">
                     <i class="fas fa-fw fa-flag"></i>
                     <span>Pelaporan</span></a>
             </li>
 
-            <li class="nav-item">
+            <li class="nav-item {{ (Request::path() == 'points' ? 'active' : '') }}">
                 <a class="nav-link" href="{{ route('user.points') }}">
                     <i class="fas fa-fw fa-sort-numeric-up-alt"></i>
                     <span>Point</span></a>
@@ -146,7 +146,7 @@ $statusPoint = \App\Models\Point::where('reporting_point', auth()->user()->id)->
                 Pengaturan
             </div>
 
-            <li class="nav-item">
+            <li class="nav-item {{ (Request::path() == 'profile' ? 'active' : '') }}">
                 <a class="nav-link" href="{{ route('myprofile') }}">
                     <i class="fas fa-fw fa-user-alt"></i>
                     <span>Profil Saya</span></a>
