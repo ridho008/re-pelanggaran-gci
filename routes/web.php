@@ -69,6 +69,9 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
 
    Route::get('/point/print-sp1/{id}', [PointController::class, 'printSP1'])->where('id', '[0-9]+')->name('point.print.sp1');
    Route::get('/point/print-sp2/{id}', [PointController::class, 'printSP2'])->where('id', '[0-9]+')->name('point.print.sp2');
+
+   // Caphta
+   Route::get('/reload-captcha', [ReportController::class, 'reloadCaptcha']);
 });
 
 

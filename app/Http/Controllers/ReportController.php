@@ -372,6 +372,7 @@ class ReportController extends Controller
             'user_id' => 'required',
             'reporting_date' => 'required',
             'proof_fhoto' => 'mimes:jpg,bmp,png',
+            'captcha' => 'required',
         ]);
 
         if($request->file('proof_fhoto') != null){
@@ -435,6 +436,7 @@ class ReportController extends Controller
             'description' => 'required',
             'reporting_date' => 'required',
             'proof_fhoto' => 'mimes:jpg,bmp,png',
+            'captcha' => 'required',
         ]);
 
         if($request->file('proof_fhoto') != null){
@@ -576,7 +578,10 @@ class ReportController extends Controller
         // return (new ReportsPerDMYSheet($from_date, $to_date))->download('invoices.xlsx');
     }
 
-
+    public function reloadCaptcha()
+    {
+        return response()->json(['captcha'=> captcha_img()]);
+    }
 
 
 }

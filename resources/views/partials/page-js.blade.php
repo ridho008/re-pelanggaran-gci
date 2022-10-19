@@ -43,6 +43,19 @@ $('#modalLogout').click(function() {
 @endif
 
 @if(auth()->user()->role == 'user')
+  // $('.captcha span img').attr('style', 'width:200px;object-fit: cover;');
+  // $('.imgCaptcha')
+  $('#reload').click(function () {
+      $.ajax({
+          type: 'GET',
+          url: 'reload-captcha',
+          success: function (data) {
+              $(".captcha span").html(data.captcha);
+          }
+      });
+  });
+
+
   // view notif users
   var userID = $('#idUserLogin').val();
   $.ajax({

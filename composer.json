@@ -9,12 +9,12 @@
         "barryvdh/laravel-dompdf": "^2.0",
         "captcha-com/laravel-captcha": "^4.2",
         "guzzlehttp/guzzle": "^7.2",
-        "josiasmontag/laravel-recaptchav3": "^1.0",
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
         "laravel/ui": "^4.0",
         "maatwebsite/excel": "^3.1",
+        "mews/captcha": "^3.2",
         "phpoffice/phpspreadsheet": "^1.25",
         "psr/simple-cache": "^2.0"
     },

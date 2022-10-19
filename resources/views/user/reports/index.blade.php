@@ -331,6 +331,22 @@
                            <span class="font-weight-bold">Ganti Foto ?</span><br>
                           <img src="" class="img-thumbnail" id="output">
                        </div>
+                       <div class="form-group">
+                          <div class="captcha">
+                               <span>{!! captcha_img() !!}</span>
+                               <button type="button" class="btn btn-danger" class="reload" id="reload">
+                                   &#x21bb;
+                               </button>
+                           </div>
+                       </div>
+                       <div class="form-group">
+                           <input id="captcha" type="text" class="form-control @error('captcha') is-invalid @enderror" placeholder="Enter Captcha" name="captcha">
+                           @error('captcha ')
+                               <span class="invalid-feedback" role="alert">
+                                   <strong>{{ $message }}</strong>
+                               </span>
+                           @enderror
+                       </div>
                     </div>
                  </div>
                   <div class="modal-footer">
