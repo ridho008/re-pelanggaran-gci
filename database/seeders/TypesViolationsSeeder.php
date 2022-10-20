@@ -14,8 +14,33 @@ class TypesViolationsSeeder extends Seeder
      */
     public function run()
     {
-        \App\Model\TypesViolations::create([
-            'name_violation' => ''
-        ]);
+        // \App\Model\TypesViolations::create([
+        //     'name_violation' => ''
+        // ]);
+
+        $violantions = [
+            [
+                'name_violation' => 'Mencuri',
+                'sum_points' => 15,
+                'created_at' => new \DateTime,
+            ],
+            [
+                'name_violation' => 'Membuang Sampah Sembarang',
+                'sum_points' => 5,
+                'created_at' => new \DateTime,
+            ],
+            [
+                'name_violation' => 'Tidak Meletakan Barang Pada Tempatnya',
+                'sum_points' => 5,
+                'created_at' => new \DateTime,
+            ],
+            [
+                'name_violation' => 'Parkir Sembarangan',
+                'sum_points' => 3,
+                'created_at' => new \DateTime,
+            ],
+        ];
+
+        \DB::table('types_violations')->insert($violantions);
     }
 }

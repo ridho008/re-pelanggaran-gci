@@ -110,7 +110,7 @@
                                        </div>
                                     </form>
                                  </div>
-                                 @if(!isset($checkReportIDPoint->report_id))
+                                 {{-- @if(!isset($checkReportIDPoint->report_id)) --}}
                                  <div class="col-md-3 mb-1">
                                     <form action="{{ route('admin.report.detail.buttonAgreeAdmin', $r->id) }}" method="post" class="form-inline">
                                        @csrf
@@ -122,14 +122,14 @@
                                        </div>
                                     </form>
                                  </div>
-                                 @endif
-                                 @foreach($point as $p)
+                                 {{-- @endif --}}
+                                 {{-- @foreach($point as $p) --}}
                                  <div class="col-md-3 mb-1">
                                     <button type="button" class="btn btn-info" data-toggle="modal" data-target="#detailPointModal"><i class="fas fa-info-circle"></i>
                                       Rincian
                                     </button>
                                  </div>
-                                 @endforeach
+                                 {{-- @endforeach --}}
                               </div>
                               
                        </div>
@@ -161,7 +161,7 @@
     {{-- Bila telah laporan disetujui, tampilkan detail dri table points --}}
     
 
-    @foreach($point as $p)
+    {{-- @foreach($point as $p)
     <div class="modal fade" id="detailPointModal" tabindex="-1" role="dialog" aria-labelledby="detailPointModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -197,7 +197,7 @@
         </div>
       </div>
     </div>
-    @endforeach
+    @endforeach --}}
 
     <!-- Modal -->
     <div class="modal fade" id="replyModal" tabindex="-1" role="dialog" aria-labelledby="replyModalLabel" aria-hidden="true">

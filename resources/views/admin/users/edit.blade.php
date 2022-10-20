@@ -48,6 +48,19 @@
          @enderror
       </div>
       <div class="form-group">
+         <label for="is_active">Status</label>
+         <select name="is_active" id="is_active" name="is_active" class="form-control">
+            <option value="">-- Status --</option>
+            <option value="1" {{ $user->is_active == 1 ? 'selected' : '' }}>Aktif</option>
+            <option value="0" {{ $user->is_active == 0 ? 'selected' : '' }}>Tidak Aktif</option>
+         </select>
+         @error('status')
+             <span class="invalid-feedback" role="alert">
+                 <strong>{{ $message }}</strong>
+             </span>
+         @enderror
+      </div>
+      <div class="form-group">
          <button type="submit" class="btn btn-primary">Ubah</button>
          <a href="{{ route('users.admin') }}" class="btn btn-secondary">Kembali</a>
       </div>

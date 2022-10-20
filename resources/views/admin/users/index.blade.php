@@ -20,6 +20,7 @@
                     <th>Nama</th>
                     <th>Email</th>
                     <th>Akses</th>
+                    <th>Status</th>
                     <th style="width: 20px;">Aksi</th>
                 </tr>
             </thead>
@@ -31,7 +32,19 @@
                   <td>{{ $user->email }}</td>
                   <td>{{ $user->role }}</td>
                   <td>
+                     @if($user->is_active == 0)
+                        <span class="badge badge-danger btn-sm">Tidak Aktif</span>
+                     @elseif($user->is_active == 1)
+                        <span class="badge badge-success btn-sm">Aktif</span>
+                     @endif
+                  </td>
+                  <td>
                      <a href="{{ url('admin/user/edit/' . $user->id) }}" class="btn btn-info btn-block mb-1"><i class="fas fa-edit"></i></a>
+                     @if($user->is_active == 0)
+                     <a href="{{ route('isActive.users.admin', $user->id) }}" onclick="return confirm('Yakin ?')" class="btn btn-success btn-block mb-1" data-toggle="tooltip" data-placement="top" title="Aktifkan"><i class="fas fa-check"></i></a>
+                     @elseif($user->is_active == 1)
+                     <a href="{{ route('isNonActive.users.admin', $user->id) }}" onclick="return confirm('Yakin ?')" class="btn btn-warning btn-block mb-1" data-toggle="tooltip" data-placement="top" title="Non Aktifkan"><i class="fas fa-times"></i></a>
+                     @endif
                      <form action="{{ route('admin.user.destroy', $user->id) }}" method="post">
                         @csrf
                         @method('DELETE')

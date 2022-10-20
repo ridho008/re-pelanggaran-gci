@@ -19,7 +19,7 @@ class ReportFactory extends Factory
         return [
             'user_id' => fake()->numberBetween(1,10),
             'reporting' => fake()->numberBetween(1,10),
-            'types_id' => fake()->numberBetween(1,10),
+            'types_id' => fake()->numberBetween(1,6),
             'title' => fake()->name(),
             'description' => fake()->name(),
             'proof_fhoto' => fake()->name(),

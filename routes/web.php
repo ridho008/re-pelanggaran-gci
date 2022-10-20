@@ -63,12 +63,12 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
    Route::get('/reports/reject', [ReportController::class, 'rejectReportUser'])->name('reports.reject');
 
    // **************** Point - Users ********************
-   Route::get('/points', [PointController::class, 'indexPoint'])->name('user.points');
-   Route::get('/point/getDetail/{id}', [PointController::class, 'getDetailPoint'])->where('id', '[0-9]+');
+   // Route::get('/points', [PointController::class, 'indexPoint'])->name('user.points');
+   // Route::get('/point/getDetail/{id}', [PointController::class, 'getDetailPoint'])->where('id', '[0-9]+');
 
 
-   Route::get('/point/print-sp1/{id}', [PointController::class, 'printSP1'])->where('id', '[0-9]+')->name('point.print.sp1');
-   Route::get('/point/print-sp2/{id}', [PointController::class, 'printSP2'])->where('id', '[0-9]+')->name('point.print.sp2');
+   // Route::get('/point/print-sp1/{id}', [PointController::class, 'printSP1'])->where('id', '[0-9]+')->name('point.print.sp1');
+   // Route::get('/point/print-sp2/{id}', [PointController::class, 'printSP2'])->where('id', '[0-9]+')->name('point.print.sp2');
 
    // Caphta
    Route::get('/reload-captcha', [ReportController::class, 'reloadCaptcha']);
@@ -89,6 +89,8 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
    Route::delete('/admin/user/delete/{id}', [UserController::class, 'destroy'])->name('admin.user.destroy');
    Route::get('/export-users',[UserController::class, 'exportUsers'])->name('export.users.admin');
    Route::get('/pdf-users',[UserController::class, 'pdfUsers'])->name('pdf.users.admin');
+   Route::get('/admin/user/is-active/{id}',[UserController::class, 'isActive'])->name('isActive.users.admin');
+   Route::get('/admin/user/is-non-active/{id}',[UserController::class, 'isNonActive'])->name('isNonActive.users.admin');
 
    // Report
    Route::get('/admin/reports', [ReportController::class, 'index'])->name('reports.admin');
@@ -122,13 +124,13 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
    Route::put('/admin/report/buttonAgreeAdmin/{id}', [ReportController::class, 'buttonAgreeAdmin'])->where('id', '[0-9]+')->name('admin.report.detail.buttonAgreeAdmin');
 
    // Points - Admin
-   Route::get('/admin/points', [PointController::class, 'index'])->name('points.admin');
-   Route::delete('/admin/point/destroy/{id}', [PointController::class, 'destroy'])->where('id', '[0-9]+')->name('point.admin.destroy');
-   Route::get('/admin/point/detail/{id}', [PointController::class, 'detail'])->where('id', '[0-9]+')->name('point.admin.detail');
+   // Route::get('/admin/points', [PointController::class, 'index'])->name('points.admin');
+   // Route::delete('/admin/point/destroy/{id}', [PointController::class, 'destroy'])->where('id', '[0-9]+')->name('point.admin.destroy');
+   // Route::get('/admin/point/detail/{id}', [PointController::class, 'detail'])->where('id', '[0-9]+')->name('point.admin.detail');
 
    // Points - Print
-   Route::get('/pdf-points',[PointController::class, 'pdfPoints'])->name('pdf.points.admin');
-   Route::get('/excel-points',[PointController::class, 'excelPoints'])->name('excel.points.admin');
+   // Route::get('/pdf-points',[PointController::class, 'pdfPoints'])->name('pdf.points.admin');
+   // Route::get('/excel-points',[PointController::class, 'excelPoints'])->name('excel.points.admin');
 
    // Types Violations
    Route::get('/admin/typesvio', [TypesViolationsController::class, 'index'])->name('typesVio.admin');

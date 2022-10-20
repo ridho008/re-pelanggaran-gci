@@ -91,3 +91,9 @@ PT ABCDE
 
 Yusuf
 Kepala personalia
+
+
+SELECT user_id, sum(point) jml_point FROM `report` 
+where reporting_date BETWEEN '2022-10-01' and '2022-10-30'
+and status = 0 
+group by user_id

@@ -195,19 +195,19 @@ class ReportController extends Controller
     {
         // $users = Report::with('users')->where('id', '=', $id)->get();
         // $users = Report::where('id', '=', $id)->with('points')->with('users')->get();
-        $users = Report::where('id', '=', $id)->with('points')->get();
+        $users = Report::where('id', '=', $id)->with('typesViolations')->get();
         // dd($users);
 
-        $point = Point::where('report_id', '=', $id)->with('reports')->get();
+        // $point = Point::where('report_id', '=', $id)->with('reports')->get();
 
-        $checkReportIDPoint = Point::where('report_id', $id)->first();
+        // $checkReportIDPoint = Point::where('report_id', $id)->first();
 
         $currentID = $request->route('id');
         $data = [
             'report' => $users,
-            'point' => $point,
+            // 'point' => $point,
             'currentID' => $currentID,
-            'checkReportIDPoint' => $checkReportIDPoint,
+            // 'checkReportIDPoint' => $checkReportIDPoint,
         ];
 
         return view('admin.reports.detail', $data);

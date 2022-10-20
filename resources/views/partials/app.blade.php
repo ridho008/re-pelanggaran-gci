@@ -17,7 +17,7 @@ $reportsCount = \DB::table('report')
     $user = auth()->user()->role;
 
 // Role User
-$statusPoint = \App\Models\Point::where('reporting_point', auth()->user()->id)->with('types')->get();
+// $statusPoint = \App\Models\Point::where('reporting_point', auth()->user()->id)->with('types')->get();
 
 @endphp
 <!DOCTYPE html>
@@ -108,7 +108,7 @@ $statusPoint = \App\Models\Point::where('reporting_point', auth()->user()->id)->
                         <h6 class="collapse-header">Custom Data</h6>
                         <a class="collapse-item" href="{{ route('users.admin') }}">Pengguna</a>
                         <a class="collapse-item" href="{{ route('reports.admin') }}">Pelaporan</a>
-                        <a class="collapse-item" href="{{ route('points.admin') }}">Point Pelanggaran</a>
+                        {{-- <a class="collapse-item" href="{{ route('points.admin') }}">Point Pelanggaran</a> --}}
                         <a class="collapse-item" href="{{ route('typesVio.admin') }}">Jenis Pelanggaran</a>
                         <a class="collapse-item" href="{{ route('admin.reports.verified') }}">Verifikasi</a>
                     </div>
@@ -130,11 +130,11 @@ $statusPoint = \App\Models\Point::where('reporting_point', auth()->user()->id)->
                     <span>Pelaporan</span></a>
             </li>
 
-            <li class="nav-item {{ (Request::path() == 'points' ? 'active' : '') }}">
+            {{-- <li class="nav-item {{ (Request::path() == 'points' ? 'active' : '') }}">
                 <a class="nav-link" href="{{ route('user.points') }}">
                     <i class="fas fa-fw fa-sort-numeric-up-alt"></i>
                     <span>Point</span></a>
-            </li>
+            </li> --}}
 
             <!-- Divider -->
             <hr class="sidebar-divider">
@@ -247,12 +247,12 @@ $statusPoint = \App\Models\Point::where('reporting_point', auth()->user()->id)->
                         </li>
 
                         {{-- Laporan Pelanggaran yang telah di lakukan oleh user --}}
-                        <li class="nav-item dropdown no-arrow mx-1">
+                        {{-- <li class="nav-item dropdown no-arrow mx-1">
                             <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-envelope fa-fw"></i>
                                 <!-- Counter - Alerts -->
-                                <span class="badge badge-danger badge-counter">{{ $statusPoint->count() }}</span>
+                                <span class="badge badge-danger badge-counter">{{ 'on comming' }}</span>
                             </a>
                             <!-- Dropdown - Alerts -->
                             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -276,7 +276,7 @@ $statusPoint = \App\Models\Point::where('reporting_point', auth()->user()->id)->
                                 @endforelse
                                 
                             </div>
-                        </li>
+                        </li> --}}
                         @endif
 
                         @if($user == 'admin')

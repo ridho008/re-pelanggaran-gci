@@ -18,7 +18,7 @@ class UserController extends Controller
 
     public function index()
     {
-        $users = User::select('id', 'fullname', 'role', 'email')->paginate(5);
+        $users = User::select('id', 'fullname', 'role', 'email', 'is_active')->paginate(5);
         $data = [
             'users' => $users,
         ];
@@ -62,6 +62,7 @@ class UserController extends Controller
             'email' => $request->input('email'),
             'password' => Hash::make($request->input('password')),
             'role' => 0,
+            'is_active' => $request->is_active,
         ]);
 
         $user->save();
@@ -76,9 +77,16 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function isActive($id)
     {
-        //
+        User::where('id', $id)->update(['is_active' => 1]);
+        return back()->with('success', 'Akun berhasil di aktifkan.');
+    }
+
+    public function isNonActive($id)
+    {
+        User::where('id', $id)->update(['is_active' => 0]);
+        return back()->with('success', 'Akun berhasil di nonaktifkan.');
     }
 
     /**
@@ -130,6 +138,7 @@ class UserController extends Controller
             'email' => $request->input('email'),
             'password' => Hash::make($request->input('password')),
             'role' => $request->input('role'),
+            'is_active' => $request->input('is_active'),
         ]);
 
         // $userUpdate->save();
