@@ -7,6 +7,7 @@ use App\Http\Controllers\TypesViolationsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\PointController;
+use App\Http\Controllers\FilterViolationController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 /*
@@ -63,12 +64,12 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
    Route::get('/reports/reject', [ReportController::class, 'rejectReportUser'])->name('reports.reject');
 
    // **************** Point - Users ********************
-   // Route::get('/points', [PointController::class, 'indexPoint'])->name('user.points');
-   // Route::get('/point/getDetail/{id}', [PointController::class, 'getDetailPoint'])->where('id', '[0-9]+');
+   Route::get('/points', [PointController::class, 'indexPoint'])->name('user.points');
+   Route::get('/point/getDetail/{id}', [PointController::class, 'getDetailPoint'])->where('id', '[0-9]+');
 
 
-   // Route::get('/point/print-sp1/{id}', [PointController::class, 'printSP1'])->where('id', '[0-9]+')->name('point.print.sp1');
-   // Route::get('/point/print-sp2/{id}', [PointController::class, 'printSP2'])->where('id', '[0-9]+')->name('point.print.sp2');
+   Route::get('/point/print-sp1/{id}', [PointController::class, 'printSP1'])->where('id', '[0-9]+')->name('point.print.sp1');
+   Route::get('/point/print-sp2/{id}', [PointController::class, 'printSP2'])->where('id', '[0-9]+')->name('point.print.sp2');
 
    // Caphta
    Route::get('/reload-captcha', [ReportController::class, 'reloadCaptcha']);
@@ -146,7 +147,10 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
    // Report - PDF
    Route::get('/admin/report/generate-pdf/{id}', [ReportController::class, 'generatePDF'])->where('id', '[0-9]+')->name('admin.report.generatePDF');
 
-
+   // ---- Filter Violation -------
+   Route::get('/admin/filter-violation',[FilterViolationController::class, 'index'])->name('filter.admin');
+   Route::get('/admin/filter-violation/active',[FilterViolationController::class, 'activeFilterViolation'])->name('filter.admin.active');
+   Route::get('/admin/filter-violation/nonActive',[FilterViolationController::class, 'nonActiveFilterViolation'])->name('filter.admin.nonActive');
 
 });
 

@@ -50,6 +50,11 @@ $reportsCount = \DB::table('report')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" ></script>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    {{-- Datatables --}}
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/DataTables/datatables.css') }}">
+     
+    
 </head>
 
 <body id="page-top">
@@ -108,6 +113,7 @@ $reportsCount = \DB::table('report')
                         <h6 class="collapse-header">Custom Data</h6>
                         <a class="collapse-item" href="{{ route('users.admin') }}">Pengguna</a>
                         <a class="collapse-item" href="{{ route('reports.admin') }}">Pelaporan</a>
+                        <a class="collapse-item" href="{{ route('filter.admin') }}">Filter Pelanggaran</a>
                         {{-- <a class="collapse-item" href="{{ route('points.admin') }}">Point Pelanggaran</a> --}}
                         <a class="collapse-item" href="{{ route('typesVio.admin') }}">Jenis Pelanggaran</a>
                         <a class="collapse-item" href="{{ route('admin.reports.verified') }}">Verifikasi</a>
@@ -130,11 +136,11 @@ $reportsCount = \DB::table('report')
                     <span>Pelaporan</span></a>
             </li>
 
-            {{-- <li class="nav-item {{ (Request::path() == 'points' ? 'active' : '') }}">
+            <li class="nav-item {{ (Request::path() == 'points' ? 'active' : '') }}">
                 <a class="nav-link" href="{{ route('user.points') }}">
                     <i class="fas fa-fw fa-sort-numeric-up-alt"></i>
                     <span>Point</span></a>
-            </li> --}}
+            </li>
 
             <!-- Divider -->
             <hr class="sidebar-divider">
@@ -412,6 +418,7 @@ $reportsCount = \DB::table('report')
 
     <!-- Custom scripts for all pages-->
     <script src="{{ asset('assets/js/sb-admin-2.min.js') }}"></script>
+    <script type="text/javascript" charset="utf8" src="{{ asset('assets/vendor/DataTables/datatables.js') }}"></script>
     <!-- Page level plugins -->
     {{-- <script src="{{ asset('assets/vendor/chart.js/Chart.min.js') }}"></script> --}}
 

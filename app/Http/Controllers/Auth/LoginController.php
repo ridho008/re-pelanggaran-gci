@@ -56,9 +56,7 @@ class LoginController extends Controller
         if(auth()->attempt(array('email' => $input['email'], 'password' => $input['password']))) {
             if (auth()->user()->is_active != 1) {
                 Auth::logout();
-                $request->session()->invalidate();
-                $request->session()->regenerateToken();
-                    return back()->with('loginError', 'Akun belum diaktifkan!');
+                return back()->with('loginError', 'Akun belum diaktifkan!');
             }
                 if (auth()->user()->role == 'admin') {
                     return redirect()->route('admin.index');

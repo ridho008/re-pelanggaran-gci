@@ -111,8 +111,12 @@ class PointController extends Controller
 
     public function indexPoint()
     {   
-        $points = Point::where('reporting_point', auth()->user()->id)->with('types')->paginate(6);
-        $pointCount = Point::join('types_violations', 'types_violations.id', 'points.typevio_id')->where('reporting_point', auth()->user()->id)->sum('sum_points');
+        // $points = Point::where('reporting_point', auth()->user()->id)->with('types')->paginate(6);
+        $points = Report::where('user_id', auth()->user()->id)->with('typesViolations')->paginate(6);
+        // $pointCount = Point::join('types_violations', 'types_violations.id', 'points.typevio_id')->where('reporting_point', auth()->user()->id)->sum('sum_points');
+        $pointCount = Report::select('types_violations.sum_points')
+                        ->join('types_violations', 'types_violations.id', '=', 'report.types_id')
+                        ->where('user_id', auth()->user()->id)->sum('sum_points');
 
         $data = [
             'points' => $points,
@@ -123,14 +127,15 @@ class PointController extends Controller
 
     public function getDetailPoint(int $id)
     {
-        $point = Point::where('id', $id)->with('types')->get()[0];
-        $proof_fhoto = $point->reports->proof_fhoto;
-        $title = $point->reports->title;
-        $reporting_date = $point->reports->reporting_date;
-        $description = $point->reports->description;
-        $reply_comment = $point->reports->reply_comment;
-        $pointSum = $point->types->sum_points;
-        $name_violation = $point->types->name_violation;
+        // $point = Point::where('id', $id)->with('types')->get()[0];
+        $point = Report::where('id', $id)->with('typesViolations')->get()[0];
+        $proof_fhoto = $point->proof_fhoto;
+        $title = $point->title;
+        $reporting_date = $point->reporting_date;
+        $description = $point->description;
+        $reply_comment = $point->reply_comment;
+        $pointSum = $point->typesViolations->sum_points;
+        $name_violation = $point->typesViolations->name_violation;
 
         $data = [
             'point' => $point,

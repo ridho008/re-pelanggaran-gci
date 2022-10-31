@@ -14,7 +14,7 @@
           <div class="card border-left-info shadow h-100 py-2">
                <div class="card-body">
                   <div class="row">
-                     <div class="col-md-2 offset-10">
+                     <div class="col-md-2">
                         <a href="{{ route('admin.report.generatePDF', $currentID) }}" class="btn btn-outline-primary" data-toggle="tooltip" data-placement="top" title="Cetak PDF"><i class="fas fa-file-pdf"></i></a>
                      </div>
                   </div>
@@ -123,13 +123,6 @@
                                     </form>
                                  </div>
                                  {{-- @endif --}}
-                                 {{-- @foreach($point as $p) --}}
-                                 <div class="col-md-3 mb-1">
-                                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#detailPointModal"><i class="fas fa-info-circle"></i>
-                                      Rincian
-                                    </button>
-                                 </div>
-                                 {{-- @endforeach --}}
                               </div>
                               
                        </div>
@@ -158,46 +151,6 @@
        </div>
     </div>
 
-    {{-- Bila telah laporan disetujui, tampilkan detail dri table points --}}
-    
-
-    {{-- @foreach($point as $p)
-    <div class="modal fade" id="detailPointModal" tabindex="-1" role="dialog" aria-labelledby="detailPointModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="detailPointModalLabel">Rincian Point Pelanggaran</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <div class="row">
-               <div class="col-md-6">
-                   <h5 class="card-title"><strong>Pelapor</strong> {{ $p->reporting->fullname }}</h5>
-                   <h5 class="card-title"><strong>Pelaku</strong> {{ $p->user->fullname }}</h5>
-                   <h5 class="card-title"><strong>Status</strong>
-                       @if($p->status === 0)
-                       <span class="badge badge-success">Setujui</span>
-                       @elseif($p->status === 1)
-                       <span class="badge badge-danger">Tolak</span>
-                       @elseif($r->status === 2)
-                       <span class="alert-info">Proses Verifikasi</span>
-                       @endif
-                   </h5>
-                   <h5 class="card-title"><strong>Jenis Pelanggaran</strong> {{ $p->types->name_violation }}</h5>
-                   <h5 class="card-title"><strong>Point</strong> {{ $p->types->sum_points }}</h5>
-                   <h5 class="card-title"><strong>Total Point</strong> {{ $p->total_point }}</h5>
-               </div>
-               <div class="col-md-6">
-                   <img class="img-thumbnail" src="{{ asset('assets/img/pelaporan/users/'. $p->reports->proof_fhoto) }}" alt="{{ $p->reports->proof_fhoto }}">
-               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    @endforeach --}}
 
     <!-- Modal -->
     <div class="modal fade" id="replyModal" tabindex="-1" role="dialog" aria-labelledby="replyModalLabel" aria-hidden="true">

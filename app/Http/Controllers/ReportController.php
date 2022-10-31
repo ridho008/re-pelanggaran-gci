@@ -255,36 +255,21 @@ class ReportController extends Controller
             ]);
 
             $reportByStatus = Report::where('id', $id)->first();
-
-            $report = Point::where('report_id', $id)->first();
+            
+            // $report = Point::where('report_id', $id)->first();
 
             if($reportByStatus->status == 0) {
-                if(empty($report->report_id)) {
-                   // Insert user to table points
-                   Point::create([
-                       'user_id' => $request->user_id,
-                       'report_id' => $id,
-                       'reporting_point' => $request->reporting_point,
-                       'typevio_id' => $request->typevio_id,
-                   ]);
-
-                   $data = [
-                       'name' => $fullname,
-                       'email' => $email,
-                   ];
-                   
-                   $mail = Mail::to('yudi89877@gmail.com')->send(new SendEmail($data));
-                   
-                    return back()->with('success', 'Laporan dan Email berhasil dikirim.');
-                }
-                    return back()->with(['loginError' => 'Data ini telah boleh duplikat.']);;
-            } else {
-                if($reportByStatus->status == 1 || $reportByStatus->status == 2) {
-                    Point::where('report_id', $id)->delete();
-                    return back()->with('success', 'Status Laporan berhasil di perbarui');
-                }
-                // return back()->with('success', 'Status Laporan berhasil di perbarui');
+                $data = [
+                    'name' => $fullname,
+                    'email' => $email,
+                ];
+                
+                $mail = Mail::to('yudi89877@gmail.com')->send(new SendEmail($data));
+                
+                return back()->with('success', 'Laporan dan Email berhasil dikirim.');
+                    // return back()->with(['loginError' => 'Data ini telah boleh duplikat.']);;
             }
+            return back()->with('success', 'Status Laporan berhasil di perbarui');
         } catch(\Exception $e) {
             return redirect()->back()->with(['loginError' => $e->getMessage()]);
         }
@@ -339,12 +324,12 @@ class ReportController extends Controller
                 ]);
 
                 // Insert user to table points
-                Point::create([
-                    'user_id' => $request->user_id,
-                    'report_id' => $id,
-                    'reporting_point' => auth()->user()->id,
-                    'typevio_id' => $request->typevio_id,
-                ]);
+                // Point::create([
+                //     'user_id' => $request->user_id,
+                //     'report_id' => $id,
+                //     'reporting_point' => auth()->user()->id,
+                //     'typevio_id' => $request->typevio_id,
+                // ]);
             });
 
             $data = [
@@ -372,7 +357,7 @@ class ReportController extends Controller
             'user_id' => 'required',
             'reporting_date' => 'required',
             'proof_fhoto' => 'mimes:jpg,bmp,png',
-            'captcha' => 'required',
+            'captcha' => 'required|captcha',
         ]);
 
         if($request->file('proof_fhoto') != null){
@@ -436,7 +421,7 @@ class ReportController extends Controller
             'description' => 'required',
             'reporting_date' => 'required',
             'proof_fhoto' => 'mimes:jpg,bmp,png',
-            'captcha' => 'required',
+            'captcha' => 'required|captcha',
         ]);
 
         if($request->file('proof_fhoto') != null){
@@ -545,7 +530,7 @@ class ReportController extends Controller
 
     public function generatePDF($id)
     {
-        $report = Report::where('id', $id)->with('points')->first();
+        $report = Report::where('id', $id)->with('typesViolations')->first();
         // $reporting_date = Carbon::createFromFormat('d/m/Y', $report->reporting_date)->diffForHumans();
         // dd($report);
 

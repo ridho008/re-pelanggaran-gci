@@ -12,7 +12,7 @@
            <strong>Peringatan! SP1 </strong> Anda telah mencapai batas pelanggaran kebersihan. <a href="#myModal" class="trigger-btn" data-toggle="modal">LIHAT</a>.
          </div>
       </div>
-      @elseif($pointCount == 20)
+      @elseif($pointCount >= 20)
          <div class="col-md-12">
             <div class="alert alert-warning alert-dismissible fade show" role="alert">
               <strong>Peringatan! SP2</strong> Anda telah mencapai batas pelanggaran kebersihan. <a href="#myModal" class="trigger-btn" data-toggle="modal">LIHAT</a>.
@@ -29,20 +29,20 @@
    <div class="col-md-4">
         <div class="card shadow mb-4">
           <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">{{ $point->reports->title }}</h6>
+              <h6 class="m-0 font-weight-bold text-primary">{{ $point->title }}</h6>
           </div>
           <div class="card-body">
               <ul class="list-group list-group-flush">
                   <li class="list-group-item"><strong>Status</strong> 
-                    @if($point->reports->status == 2)
+                    @if($point->status == 2)
                        <span class="badge badge-info">Proses Verifikasi</span>
-                    @elseif($point->reports->status == 0)
+                    @elseif($point->status == 0)
                        <span class="badge badge-success">Setuju</span>
-                    @elseif($point->reports->status == 1)
+                    @elseif($point->status == 1)
                        <span class="badge badge-danger">Tolak</span>
                     @endif
                    </li>
-                  <li class="list-group-item"><strong>Tanggal Pelaporan</strong> {{ date('d-m-Y', strtotime($point->reports->reporting_date)) }}</li>
+                  <li class="list-group-item"><strong>Tanggal Pelaporan</strong> {{ date('d-m-Y', strtotime($point->reporting_date)) }}</li>
                 </ul>
                 <div class="card-body text-center">
                    <button type="button" data-id="{{ $point->id }}" class="btn btn-info btn-sm formMyPointDetail" data-toggle="modal" data-target="#myPointDetailModal"><i class="fas fa-info"></i> Rincian</button>
@@ -110,7 +110,7 @@
             <p>Kamu telah melanggar kebersihan dan mendapatkan point pelanggaran dengan jumlah <strong>{{ $pointCount }} Point</strong>. silahkan cetak surat peringatan.</p>
             @if($pointCount == 10)
                <a href="{{ route('point.print.sp1', auth()->user()->id) }}" class="btn btn-secondary"><span>Cetak Surat</span> <i class="fas fa-print"></i></a>
-            @elseif($pointCount == 20)
+            @elseif($pointCount >= 20)
                <a href="{{ route('point.print.sp2', auth()->user()->id) }}" class="btn btn-secondary"><span>Cetak Surat</span> <i class="fas fa-print"></i></a>
             @endif
          </div>

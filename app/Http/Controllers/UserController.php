@@ -55,13 +55,14 @@ class UserController extends Controller
             'email' => $validateEmail,
             'password' => 'required',
             'fullname' => 'required',
+            'role' => 'required',
         ]);
 
         $user = User::create([
             'fullname' => $request->input('fullname'),
             'email' => $request->input('email'),
             'password' => Hash::make($request->input('password')),
-            'role' => 0,
+            'role' => $request->role,
             'is_active' => $request->is_active,
         ]);
 

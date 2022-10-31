@@ -13,6 +13,15 @@
 <h1 class="h3 mb-4 text-gray-800"><i class="fas fa-file"></i> Pelaporan</h1>
 @endif
 @include('partials.messages')
+@if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div><br />
+        @endif
 <div class="row">
    <div class="col-md-6">
       <button type="button" class="btn btn-primary" id="formReportTambah" data-toggle="modal" data-target="#reportModal"><i class="fas fa-plus"></i>

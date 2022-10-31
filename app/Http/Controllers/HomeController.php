@@ -52,17 +52,28 @@ class HomeController extends Controller
 
         $labels = $graph->keys();
         $dataGraph = $graph->values();
-        // dd($labels);
 
         // SELECT user_id, sum(point) jml_point FROM `report` 
         // where reporting_date BETWEEN '2022-10-01' and '2022-10-30'
         // and status = 0 
         // group by user_id
 
+        $employeePoint = Report::select('users.is_active','types_violations.sum_points', 'report.user_id', 'users.fullname', DB::raw('SUM(types_violations.sum_points) as typesSum'))
+                        ->join('types_violations', 'types_violations.id', '=', 'report.types_id')
+                        ->join('users', 'users.id', '=', 'report.user_id')
+                        ->where('report.status', 0)
+                        ->where('users.role', 0)
+                        ->where('users.is_active', 1)
+                        ->whereMonth('report.reporting_date', date('m'))
+                        ->groupBy('report.user_id')
+                        ->get();
+        // dd($employeePoint);
+
         $data = [
             'title' => 'Admin Dashboard',
             'labels' => $labels,
             'data' => $dataGraph,
+            'employeePoint' => $employeePoint,
         ];
         return view('admin.index', $data);
     }

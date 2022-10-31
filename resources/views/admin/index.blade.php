@@ -3,17 +3,13 @@
 @section('title', 'Admin Dashboard')
 @section('content')
 <h1 class="h3 mb-4 text-gray-800">Admin Dashboard</h1>
-@php
-date_default_timezone_set("Asia/Jakarta");
-// echo date_default_timezone_get();
-@endphp
 <div class="row">
    <div class="col-md-6">
-      <div class="card shadow mb-4">
+      <div class="card shadow">
            <!-- Card Header - Dropdown -->
            <div
                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-               <h6 class="m-0 font-weight-bold text-primary">Karyawan Terbanyak Mendapatkan Point Bulan {{ date('M') }}</h6>
+               <h6 class="m-0 font-weight-bold text-primary">Grafik Karyawan Terbanyak Mendapatkan Point Bulan {{ date('M') }}</h6>
                <div class="dropdown no-arrow">
                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -35,6 +31,27 @@ date_default_timezone_set("Asia/Jakarta");
            </div>
        </div>
    </div>
+   <div class="col-md-6">
+       <div class="card shadow">
+            <div
+                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Karyawan Terbanyak Mendapatkan Point Bulan {{ date('M') }}</h6>
+            </div>
+            <div class="card-body">
+                <ul class="list-group">
+                @forelse($employeePoint as $ep)
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{ ucwords($ep->fullname) }}
+                    <span class="badge badge-primary badge-pill">{{ $ep->typesSum }}</span>
+                  </li>
+                    @empty
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                      <strong>Data Kosong! </strong>
+                    </div>
+                  @endforelse
+                </ul>
+           </div>
+       </div>
    </div>
 </div>
 

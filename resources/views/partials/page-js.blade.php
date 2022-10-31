@@ -8,6 +8,25 @@ $('#modalLogout').click(function() {
 
 
 @if(auth()->user()->role == 'admin')
+  // DATATABLES
+  
+  // var table = $('#dataTable').DataTable({
+  //     initComplete: function () {
+  //         // Apply the search
+  //         this.api()
+  //             .columns()
+  //             .every(function () {
+  //                 var that = this;
+
+  //                 $('input', this.footer()).on('keyup change clear', function () {
+  //                     if (that.search() !== this.value) {
+  //                         that.search(this.value).draw();
+  //                     }
+  //                 });
+  //             });
+  //     },
+  // });
+
   $('#formtypesVioTambah').click(function() {
     $('#typesVioModalLabel').html('Tambah Data Jenis Pelanggaran');
     $('.modal-body form').attr('action', '{{ route('typesVio.admin.store') }}');
@@ -40,6 +59,190 @@ $('#modalLogout').click(function() {
         }
     });
   });
+
+  // Column Search Types Violations - Administrator
+  // DataTable
+     var dataTable = $('#dataTableFilter').DataTable({
+       processing: true,
+       serverSide: true,
+       serverMethod: 'post',
+       searching: true, // Set false to Remove default Search Control
+       ajax: {
+         url: '/admin/filter-violation/rangeDate',
+         data: function(data){
+            // Read values
+            console.log(data);
+            var from_date = $('#search_fromdate').val();
+            var to_date = $('#search_todate').val();
+
+            // Append to data
+            data.searchByFromdate = from_date;
+            data.searchByTodate = to_date;
+         }
+       },
+       'columns': [
+          { data: 'emp_name' },
+          { data: 'email' },
+          { data: 'date_of_joining' },
+          { data: 'salary' },
+          { data: 'city' },
+       ]
+    });
+
+    // Search button
+    $('#btn_search').click(function(){
+       dataTable.draw();
+    });
+
+  // $('.btnActiveFilter').click(function() {
+  //   $('.title-filter').text('Filter Pelanggaran Sedang Aktif');
+
+  //   $('.tb-filter').empty();
+  //   $('.insertTable').empty();
+  //   const htmlTb = `
+  //         <table class="table table-bordered " id="dataTable" width="100%" cellspacing="0">
+  //             <thead class="text-center">
+  //                 <tr>
+  //                     <th width="20px">No</th>
+  //                     <th>Nama</th>
+  //                     <th>Email</th>
+  //                     <th>Akses</th>
+  //                     <th>Status</th>
+  //                     <th>Pelaporan</th>
+  //                     <th>Point</th>
+  //                     <th style="width: 20px;">Aksi</th>
+  //                 </tr>
+  //             </thead>
+  //             <tbody class="insertTable">
+                 
+  //             </tbody>
+  //          </table>
+  //   `;
+
+  //   $('.tb-filter').append(htmlTb);
+
+  //   $.ajax({
+  //       url: `/admin/filter-violation/active`,
+  //       method: "GET",
+  //       dataType: 'json',
+  //       success: function (response) {
+  //           console.log(response);
+  //           response.forEach(function(currentValue, index, arr) {
+  //             console.log(currentValue.title);
+  //             var no = index + 1;
+  //             if(currentValue.status == 0) {
+  //               var statusStr = "Setujui";
+  //             } else if(currentValue.status == 1) {
+  //               var statusStr = "Tolak";
+  //             } else if(currentValue.status == 2) {
+  //               var statusStr = "Proses Verifikasi";
+  //             }
+
+  //             if(currentValue.role == 0) {
+  //               var roleStr = "Admin";
+  //             } else if(currentValue.role == 1) {
+  //               var roleStr = "User";
+  //             }
+
+  //             var html = `
+  //             <tr>
+  //                 <td>${no}</td>
+  //                 <td>${currentValue.title}</td>
+  //                 <td>${currentValue.email}</td>
+  //                 <td>${roleStr}</td>
+  //                 <td>${statusStr}</td>
+  //                 <td>${currentValue.reporting_date}</td>
+  //                 <td>${currentValue.sum_points}</td>
+  //             </tr>
+  //               `;
+
+  //             //   console.log(html);
+              
+  //             $('.insertTable').append(html);
+  //           })
+            
+
+
+  //       }
+  //   });
+  // });
+
+  // $('.btnNonActiveFilter').click(function() {
+  //   $('.title-filter').text('Filter Pelanggaran Non Aktif');
+  //   $(document).ready( function () {
+  //     $('#dataTable').DataTable();
+  //   });
+
+  //   $('.tb-filter').empty();
+  //   $('.insertTable').empty();
+    
+
+  //   const htmlTb = `
+  //         <table class="table table-bordered " id="dataTable" width="100%" cellspacing="0">
+  //             <thead class="text-center">
+  //                 <tr>
+  //                     <th width="20px">No</th>
+  //                     <th>Nama</th>
+  //                     <th>Email</th>
+  //                     <th>Akses</th>
+  //                     <th>Status</th>
+  //                     <th>Pelaporan</th>
+  //                     <th>Point</th>
+  //                     <th style="width: 20px;">Aksi</th>
+  //                 </tr>
+  //             </thead>
+  //             <tbody class="insertTable">
+                 
+  //             </tbody>
+  //          </table>
+  //   `;
+
+  //   $('.tb-filter').append(htmlTb);
+
+  //   $.ajax({
+  //       url: `/admin/filter-violation/nonActive`,
+  //       method: "GET",
+  //       dataType: 'json',
+  //       success: function (response) {
+  //           console.log(response);
+  //           response.forEach(function(currentValue, index, arr) {
+  //             // console.log(currentValue.title);
+  //             let no = index + 1;
+  //             if(currentValue.status == 0) {
+  //               var statusStr = "Setujui";
+  //             } else if(currentValue.status == 1) {
+  //               var statusStr = "Tolak";
+  //             } else if(currentValue.status == 2) {
+  //               var statusStr = "Proses Verifikasi";
+  //             }
+
+  //             if(currentValue.role == 0) {
+  //               var roleStr = "Admin";
+  //             } else if(currentValue.role == 1) {
+  //               var roleStr = "User";
+  //             }
+
+  //             var html = `
+  //             <tr>
+  //                 <td>${no}</td>
+  //                 <td>${currentValue.title}</td>
+  //                 <td>${currentValue.email}</td>
+  //                 <td>${roleStr}</td>
+  //                 <td>${statusStr}</td>
+  //                 <td>${currentValue.reporting_date}</td>
+  //                 <td>${currentValue.sum_points}</td>
+  //             </tr>
+  //               `;
+
+  //             //   console.log(html);
+              
+  //             $('.insertTable').append(html);
+  //           })
+  //       }
+  //   });
+
+
+  // });
 @endif
 
 @if(auth()->user()->role == 'user')
@@ -210,7 +413,7 @@ $('#modalLogout').click(function() {
     // Detail Point User
     $('.formMyPointDetail').click(function() {
       const id = $(this).data('id');
-
+      console.log(id);
       var url = $('.base-url').val();
 
       $.ajax({
@@ -218,7 +421,6 @@ $('#modalLogout').click(function() {
         method: 'GET',
         dataType: 'json',
         success:function(response){
-          console.log(response);
           $('.title').html(`<strong>Judul</strong> ${response.title}`);
           $('.description').html(`<strong>Deskripsi</strong> ${response.description}`);
           $('.reporting_date').html(`<strong>Tanggal Pelaporan</strong> ${response.reporting_date}`);
