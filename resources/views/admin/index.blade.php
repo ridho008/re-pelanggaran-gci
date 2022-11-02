@@ -46,7 +46,7 @@
                   </li>
                     @empty
                     <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                      <strong>Data Kosong! </strong>
+                      <strong>Belum ada pengguna melakukan pelanggaran. </strong>
                     </div>
                   @endforelse
                 </ul>
@@ -58,55 +58,55 @@
 <script type="text/javascript">
     var labels =  {{ Js::from($labels) }};
     var users =  {{ Js::from($data) }};
+   if(Array.isArray(labels) && Array.isArray(users)) {
+       console.log(labels);
+       console.log(users);
 
-    const data = {
-      labels: labels,
-      datasets: [{
-        label: 'Peringkat Point Terbanyak Bulan Ini',
-        backgroundColor: [
-        'rgba(255, 99, 132, 0.9)',
-        'rgba(54, 162, 235, 0.9)',
-        'rgba(255, 206, 86, 0.9)',
-        'rgba(75, 192, 192, 0.9)',
-        'rgba(153, 102, 255, 0.9)',
-        'rgba(255, 159, 64, 0.9)'
-        ],
-        borderColor: [
-        'rgba(255,99,132,1)',
-        'rgba(54, 162, 235, 1)',
-        'rgba(255, 206, 86, 1)',
-        'rgba(75, 192, 192, 1)',
-        'rgba(153, 102, 255, 1)',
-        'rgba(255, 159, 64, 1)'
-        ],
-        data: users,
-      }]
-    };
+       const data = {
+         labels: labels,
+         datasets: [{
+           label: 'Peringkat Point Terbanyak Bulan Ini',
+           backgroundColor: [
+           'rgba(255, 99, 132, 0.9)',
+           'rgba(54, 162, 235, 0.9)',
+           'rgba(255, 206, 86, 0.9)',
+           'rgba(75, 192, 192, 0.9)',
+           'rgba(153, 102, 255, 0.9)',
+           'rgba(255, 159, 64, 0.9)'
+           ],
+           borderColor: [
+           'rgba(255,99,132,1)',
+           'rgba(54, 162, 235, 1)',
+           'rgba(255, 206, 86, 1)',
+           'rgba(75, 192, 192, 1)',
+           'rgba(153, 102, 255, 1)',
+           'rgba(255, 159, 64, 1)'
+           ],
+           data: users,
+         }]
+       };
 
-    const config = {
+       const config = {
+         type: 'doughnut',
+         data: data,
+         options: {
+             responsive: true,
+             plugins: {
+               legend: {
+                 position: 'top',
+               },
+               title: {
+                 display: true,
+                 text: 'Chart.js Doughnut Chart'
+               }
+             }
+           },
+       };
 
-            type: 'doughnut',
-
-            data: data,
-
-            options: {
-                responsive: true,
-                plugins: {
-                  legend: {
-                    position: 'top',
-                  },
-                  title: {
-                    display: true,
-                    text: 'Chart.js Doughnut Chart'
-                  }
-                }
-              },
-
-          };
-
-    const myChart = new Chart(
-            document.getElementById('myChart'),
-        config
-    );
+      const myChart = new Chart(document.getElementById('myChart'),config);
+   } else if(labels.length = 0) {
+      console.log("kosong gan.");
+   }
+    
 </script>
 @endsection

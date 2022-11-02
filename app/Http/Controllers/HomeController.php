@@ -46,13 +46,13 @@ class HomeController extends Controller
             ->join('types_violations', 'types_violations.id', '=', 'report.types_id')
             ->join('users', 'users.id', '=', 'report.user_id')
             ->where('report.status', 0)
-            ->whereMonth('report.reporting_date', date('m'))
+            ->whereMonth('report.reporting_date', 11)
             ->groupBy('report.user_id')
             ->pluck('typesSum', 'users.fullname');
 
         $labels = $graph->keys();
         $dataGraph = $graph->values();
-
+        // dd($labels, $dataGraph);
         // SELECT user_id, sum(point) jml_point FROM `report` 
         // where reporting_date BETWEEN '2022-10-01' and '2022-10-30'
         // and status = 0 
@@ -64,7 +64,7 @@ class HomeController extends Controller
                         ->where('report.status', 0)
                         ->where('users.role', 0)
                         ->where('users.is_active', 1)
-                        ->whereMonth('report.reporting_date', date('m'))
+                        ->whereMonth('report.reporting_date', 10)
                         ->groupBy('report.user_id')
                         ->get();
         // dd($employeePoint);

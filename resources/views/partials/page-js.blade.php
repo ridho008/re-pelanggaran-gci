@@ -62,187 +62,175 @@ $('#modalLogout').click(function() {
 
   // Column Search Types Violations - Administrator
   // DataTable
-     var dataTable = $('#dataTableFilter').DataTable({
-       processing: true,
-       serverSide: true,
-       serverMethod: 'post',
-       searching: true, // Set false to Remove default Search Control
-       ajax: {
-         url: '/admin/filter-violation/rangeDate',
-         data: function(data){
-            // Read values
-            console.log(data);
-            var from_date = $('#search_fromdate').val();
-            var to_date = $('#search_todate').val();
 
-            // Append to data
-            data.searchByFromdate = from_date;
-            data.searchByTodate = to_date;
-         }
-       },
-       'columns': [
-          { data: 'emp_name' },
-          { data: 'email' },
-          { data: 'date_of_joining' },
-          { data: 'salary' },
-          { data: 'city' },
-       ]
-    });
+// Button NonActive - Menu Filter Pelanggaran
+$('.btnNonActiveFilter').click(function() {
+  // $('.tb-filter').empty();
+  $('.title-filter').text('Filter Pelanggaran Non Aktif');
+  var table = $('#dataTableFilter').DataTable().destroy();
+  // table.clear().draw();
+  $('#dataTableFilter').DataTable({
+      processing: true,
+      serverSide: true,
+      searching: true,
+      language: {
+          lengthMenu: "Tampilkan _MENU_ pelaporan per halaman",
+          zeroRecords: "Tidak ada yang ditemukan",
+          info: "Menampilkan halaman _PAGE_ dari _PAGES_",
+          infoEmpty: "Tidak ada pelaporan yang tersedia",
+          infoFiltered: "(difilter dari _MAX_ total data)"
+      },
+      ajax: '/admin/filter-violation/nonActive', // memanggil route yang menampilkan data json
+      columns: [{ // mengambil & menampilkan kolom sesuai tabel database
+              data: 'id',
+              name: 'id',
+              orderable: true,
+          },
+          {
+              data: 'fullname',
+              name: 'fullname',
+              searchable: true,
+          },
+          {
+              data: 'email',
+              name: 'email',
+              searchable: true,
+          },
+          {
+              data: `reporting_date`,
+              name: 'reporting_date'
+          },
+          {
+              data: `sum_points`,
+              name: 'sum_points'
+          },
+      ],
+      search: {
+        "regex": true
+      }
+  });
+});
 
-    // Search button
-    $('#btn_search').click(function(){
-       dataTable.draw();
-    });
+// Button Active - Menu Filter Pelanggaran
+$('.btnActiveFilter').click(function() {
+  // $('.tb-filter').empty();
+  $('.title-filter').text('Filter Pelanggaran Sedang Aktif');
+  var table = $('#dataTableFilter').DataTable().destroy();
+  // table.clear().draw();
+  $('#dataTableFilter').DataTable({
+      processing: true,
+      serverSide: true,
+      searching: true,
+      language: {
+          lengthMenu: "Tampilkan _MENU_ pelaporan per halaman",
+          zeroRecords: "Tidak ada yang ditemukan",
+          info: "Menampilkan halaman _PAGE_ dari _PAGES_",
+          infoEmpty: "Tidak ada pelaporan yang tersedia",
+          infoFiltered: "(difilter dari _MAX_ total data)"
+      },
+      ajax: '/admin/filter-violation/active', // memanggil route yang menampilkan data json
+      columns: [{ // mengambil & menampilkan kolom sesuai tabel database
+              data: 'id',
+              name: 'id',
+              orderable: true,
+          },
+          {
+              data: 'fullname',
+              name: 'fullname',
+              searchable: true,
+          },
+          {
+              data: 'email',
+              name: 'email',
+              searchable: true,
+          },
+          {
+              data: `reporting_date`,
+              name: 'reporting_date'
+          },
+          {
+              data: `sum_points`,
+              name: 'sum_points'
+          },
+      ],
+      search: {
+        "regex": true
+      }
+  });
+});
 
-  // $('.btnActiveFilter').click(function() {
-  //   $('.title-filter').text('Filter Pelanggaran Sedang Aktif');
+// Button Search - Menu Filter Pelanggaran
 
-  //   $('.tb-filter').empty();
-  //   $('.insertTable').empty();
-  //   const htmlTb = `
-  //         <table class="table table-bordered " id="dataTable" width="100%" cellspacing="0">
-  //             <thead class="text-center">
-  //                 <tr>
-  //                     <th width="20px">No</th>
-  //                     <th>Nama</th>
-  //                     <th>Email</th>
-  //                     <th>Akses</th>
-  //                     <th>Status</th>
-  //                     <th>Pelaporan</th>
-  //                     <th>Point</th>
-  //                     <th style="width: 20px;">Aksi</th>
-  //                 </tr>
-  //             </thead>
-  //             <tbody class="insertTable">
-                 
-  //             </tbody>
-  //          </table>
-  //   `;
+load_data();
 
-  //   $('.tb-filter').append(htmlTb);
+ function load_data(month = '', year = '')
+ {
+  $('#dataTableFilter').DataTable({
+   processing: true,
+   serverSide: true,
+   language: {
+        lengthMenu: "Tampilkan _MENU_ pelaporan per halaman",
+        zeroRecords: "Tidak ada yang ditemukan",
+        info: "Menampilkan halaman _PAGE_ dari _PAGES_",
+        infoEmpty: "Tidak ada pelaporan yang tersedia",
+        infoFiltered: "(difilter dari _MAX_ total data)"
+    },
+   ajax: {
+    url: `/admin/filter-violation`,
+    data:{month:month, year:year}
+   },
+   columns: [
+   {
+        data: 'id',
+        name: 'id',
+    },
+    {
+        data: 'fullname',
+        name: 'fullname',
+        searchable: true,
+    },
+    {
+        data: 'email',
+        name: 'email',
+        searchable: true,
+    },
+    {
+        data: `reporting_date`,
+        name: 'reporting_date'
+    },
+    {
+        data: `sum_points`,
+        name: 'sum_points'
+    },
+   ]
+  });
+ }
 
-  //   $.ajax({
-  //       url: `/admin/filter-violation/active`,
-  //       method: "GET",
-  //       dataType: 'json',
-  //       success: function (response) {
-  //           console.log(response);
-  //           response.forEach(function(currentValue, index, arr) {
-  //             console.log(currentValue.title);
-  //             var no = index + 1;
-  //             if(currentValue.status == 0) {
-  //               var statusStr = "Setujui";
-  //             } else if(currentValue.status == 1) {
-  //               var statusStr = "Tolak";
-  //             } else if(currentValue.status == 2) {
-  //               var statusStr = "Proses Verifikasi";
-  //             }
+ $('#filter').click(function(){
+  $('.title-filter').text('Filter Pelanggaran');
+  var month = $('#month').val();
+  var year = $('#year').val();
+  console.log(month);
+  console.log(year);
+  if(month != '' &&  year != '')
+  {
+   $('#dataTableFilter').DataTable().destroy();
+   load_data(month, year);
+  }
+  else
+  {
+   alert('Both Date is required');
+  }
+ });
 
-  //             if(currentValue.role == 0) {
-  //               var roleStr = "Admin";
-  //             } else if(currentValue.role == 1) {
-  //               var roleStr = "User";
-  //             }
-
-  //             var html = `
-  //             <tr>
-  //                 <td>${no}</td>
-  //                 <td>${currentValue.title}</td>
-  //                 <td>${currentValue.email}</td>
-  //                 <td>${roleStr}</td>
-  //                 <td>${statusStr}</td>
-  //                 <td>${currentValue.reporting_date}</td>
-  //                 <td>${currentValue.sum_points}</td>
-  //             </tr>
-  //               `;
-
-  //             //   console.log(html);
-              
-  //             $('.insertTable').append(html);
-  //           })
-            
-
-
-  //       }
-  //   });
-  // });
-
-  // $('.btnNonActiveFilter').click(function() {
-  //   $('.title-filter').text('Filter Pelanggaran Non Aktif');
-  //   $(document).ready( function () {
-  //     $('#dataTable').DataTable();
-  //   });
-
-  //   $('.tb-filter').empty();
-  //   $('.insertTable').empty();
-    
-
-  //   const htmlTb = `
-  //         <table class="table table-bordered " id="dataTable" width="100%" cellspacing="0">
-  //             <thead class="text-center">
-  //                 <tr>
-  //                     <th width="20px">No</th>
-  //                     <th>Nama</th>
-  //                     <th>Email</th>
-  //                     <th>Akses</th>
-  //                     <th>Status</th>
-  //                     <th>Pelaporan</th>
-  //                     <th>Point</th>
-  //                     <th style="width: 20px;">Aksi</th>
-  //                 </tr>
-  //             </thead>
-  //             <tbody class="insertTable">
-                 
-  //             </tbody>
-  //          </table>
-  //   `;
-
-  //   $('.tb-filter').append(htmlTb);
-
-  //   $.ajax({
-  //       url: `/admin/filter-violation/nonActive`,
-  //       method: "GET",
-  //       dataType: 'json',
-  //       success: function (response) {
-  //           console.log(response);
-  //           response.forEach(function(currentValue, index, arr) {
-  //             // console.log(currentValue.title);
-  //             let no = index + 1;
-  //             if(currentValue.status == 0) {
-  //               var statusStr = "Setujui";
-  //             } else if(currentValue.status == 1) {
-  //               var statusStr = "Tolak";
-  //             } else if(currentValue.status == 2) {
-  //               var statusStr = "Proses Verifikasi";
-  //             }
-
-  //             if(currentValue.role == 0) {
-  //               var roleStr = "Admin";
-  //             } else if(currentValue.role == 1) {
-  //               var roleStr = "User";
-  //             }
-
-  //             var html = `
-  //             <tr>
-  //                 <td>${no}</td>
-  //                 <td>${currentValue.title}</td>
-  //                 <td>${currentValue.email}</td>
-  //                 <td>${roleStr}</td>
-  //                 <td>${statusStr}</td>
-  //                 <td>${currentValue.reporting_date}</td>
-  //                 <td>${currentValue.sum_points}</td>
-  //             </tr>
-  //               `;
-
-  //             //   console.log(html);
-              
-  //             $('.insertTable').append(html);
-  //           })
-  //       }
-  //   });
+ $('#refresh').click(function(){
+  $('.title-filter').text('Filter Pelanggaran');
+  $('#dataTableFilter').DataTable().destroy();
+  load_data();
+ });
 
 
-  // });
+
 @endif
 
 @if(auth()->user()->role == 'user')

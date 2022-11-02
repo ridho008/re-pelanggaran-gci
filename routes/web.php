@@ -151,6 +151,7 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
    Route::get('/admin/filter-violation',[FilterViolationController::class, 'index'])->name('filter.admin');
    Route::get('/admin/filter-violation/active',[FilterViolationController::class, 'activeFilterViolation'])->name('filter.admin.active');
    Route::get('/admin/filter-violation/nonActive',[FilterViolationController::class, 'nonActiveFilterViolation'])->name('filter.admin.nonActive');
+   Route::get('/admin/filter-violation/range/{month}/{year}',[FilterViolationController::class, 'rangeDate'])->name('filter.admin.rangeDate');
 
 });
 
