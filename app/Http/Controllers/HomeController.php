@@ -46,8 +46,12 @@ class HomeController extends Controller
             ->join('types_violations', 'types_violations.id', '=', 'report.types_id')
             ->join('users', 'users.id', '=', 'report.user_id')
             ->where('report.status', 0)
-            ->whereMonth('report.reporting_date', 11)
+            ->where('users.is_active', 1)
+            ->where('users.role', 0)
+            ->whereMonth('report.reporting_date', 10)
             ->groupBy('report.user_id')
+            ->orderBy('types_violations.sum_points', 'DESC')
+            ->skip(0)->take(5)
             ->pluck('typesSum', 'users.fullname');
 
         $labels = $graph->keys();
@@ -58,7 +62,7 @@ class HomeController extends Controller
         // and status = 0 
         // group by user_id
 
-        $employeePoint = Report::select('users.is_active','types_violations.sum_points', 'report.user_id', 'users.fullname', DB::raw('SUM(types_violations.sum_points) as typesSum'))
+        $employeePoint = Report::select('types_violations.sum_points', 'users.is_active','types_violations.sum_points', 'report.user_id', 'users.fullname', DB::raw('SUM(types_violations.sum_points) as typesSum'))
                         ->join('types_violations', 'types_violations.id', '=', 'report.types_id')
                         ->join('users', 'users.id', '=', 'report.user_id')
                         ->where('report.status', 0)
@@ -66,6 +70,8 @@ class HomeController extends Controller
                         ->where('users.is_active', 1)
                         ->whereMonth('report.reporting_date', 10)
                         ->groupBy('report.user_id')
+                        ->orderBy('types_violations.sum_points', 'DESC')
+                        ->skip(0)->take(5)
                         ->get();
         // dd($employeePoint);
 

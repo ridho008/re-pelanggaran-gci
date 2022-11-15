@@ -1,5 +1,8 @@
 @php
 
+$pointIcon = \DB::table('report')->where('user_id', auth()->user()->id)->count();
+// dd($points);
+
 $reports = \DB::table('report')
             ->join('users', 'users.id', '=', 'report.user_id')
             ->select('report.*', 'users.*')
@@ -78,7 +81,7 @@ $reportsCount = \DB::table('report')
 
             <!-- Nav Item - Dashboard -->
             @if($user == 'admin')
-            <li class="nav-item">
+            <li class="nav-item {{ (Request::path() == 'admin/dashboard' ? 'active' : '') }}">
                 <a class="nav-link" href="{{ route('admin.index') }}">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
@@ -101,22 +104,32 @@ $reportsCount = \DB::table('report')
             </div>
 
             <!-- Nav Item - Utilities Collapse Menu -->
-            <li class="nav-item">
+            <li class="nav-item {{ 
+                Request::path() == 'admin/users' ? 'active' : 
+                (Request::path() == 'admin/reports' ? 'active' : 
+                (Request::path() == 'admin/filter-violation' ? 'active' : 
+                (Request::path() == 'admin/verif' ? 'active' : 
+                (Request::path() == 'admin/typesvio' ? 'active' : '')))) }}">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
                     aria-expanded="true" aria-controls="collapseUtilities">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Data</span>
                 </a>
-                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
+                <div id="collapseUtilities" class="collapse {{ 
+                    Request::path() == 'admin/users' ? 'show' : 
+                    (Request::path() == 'admin/reports' ? 'show' : 
+                    (Request::path() == 'admin/filter-violation' ? 'show' : 
+                    (Request::path() == 'admin/verif' ? 'show' : 
+                    (Request::path() == 'admin/typesvio' ? 'show' : '')))) }}" aria-labelledby="headingUtilities"
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Custom Data</h6>
-                        <a class="collapse-item" href="{{ route('users.admin') }}">Pengguna</a>
-                        <a class="collapse-item" href="{{ route('reports.admin') }}">Pelaporan</a>
-                        <a class="collapse-item" href="{{ route('filter.admin') }}">Filter Pelanggaran</a>
+                        <a class="collapse-item {{ (Request::path() == 'admin/users' ? 'active' : '') }}" href="{{ route('users.admin') }}">Pengguna</a>
+                        <a class="collapse-item {{ (Request::path() == 'admin/reports' ? 'active' : '') }}" href="{{ route('reports.admin') }}">Pelaporan</a>
+                        <a class="collapse-item {{ (Request::path() == 'admin/filter-violation' ? 'active' : '') }}" href="{{ route('filter.admin') }}">Filter Pelanggaran</a>
                         {{-- <a class="collapse-item" href="{{ route('points.admin') }}">Point Pelanggaran</a> --}}
-                        <a class="collapse-item" href="{{ route('typesVio.admin') }}">Jenis Pelanggaran</a>
-                        <a class="collapse-item" href="{{ route('admin.reports.verified') }}">Verifikasi</a>
+                        <a class="collapse-item {{ (Request::path() == 'admin/typesvio' ? 'active' : '') }}" href="{{ route('typesVio.admin') }}">Jenis Pelanggaran</a>
+                        <a class="collapse-item {{ (Request::path() == 'admin/verif' ? 'active' : '') }}" href="{{ route('admin.reports.verified') }}">Verifikasi</a>
                     </div>
                 </div>
             </li>
@@ -139,7 +152,13 @@ $reportsCount = \DB::table('report')
             <li class="nav-item {{ (Request::path() == 'points' ? 'active' : '') }}">
                 <a class="nav-link" href="{{ route('user.points') }}">
                     <i class="fas fa-fw fa-sort-numeric-up-alt"></i>
-                    <span>Point</span></a>
+                    <span>Point 
+                        @if($pointIcon)
+                            <p class="badge badge-primary badge-pill bg-danger"><i class="fas fa-exclamation-circle"></i></p>
+                        @endif
+                    </span></a>
+                    {{-- <span>Point <p><i class="fas fa-exclamation-circle"></p></span></a> --}}
+
             </li>
 
             <!-- Divider -->
@@ -184,7 +203,7 @@ $reportsCount = \DB::table('report')
                     </button>
 
                     <!-- Topbar Search -->
-                    <form
+                    {{-- <form
                         class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                         <div class="input-group">
                             <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
@@ -195,7 +214,7 @@ $reportsCount = \DB::table('report')
                                 </button>
                             </div>
                         </div>
-                    </form>
+                    </form> --}}
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">

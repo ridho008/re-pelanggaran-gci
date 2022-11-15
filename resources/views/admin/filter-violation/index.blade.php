@@ -57,7 +57,6 @@
               <table class="table table-bordered " id="dataTableFilter" width="100%" cellspacing="0">
                  <thead class="text-center">
                      <tr>
-                         <th width="20px">No</th>
                          <th>Pelaku</th>
                          <th>Email</th>
                          <th>Pelaporan</th>

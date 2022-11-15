@@ -66,6 +66,7 @@ $('#modalLogout').click(function() {
 // Button NonActive - Menu Filter Pelanggaran
 $('.btnNonActiveFilter').click(function() {
   // $('.tb-filter').empty();
+  $('.btnNonActiveFilter').toggleClass('active');
   $('.title-filter').text('Filter Pelanggaran Non Aktif');
   var table = $('#dataTableFilter').DataTable().destroy();
   // table.clear().draw();
@@ -73,6 +74,7 @@ $('.btnNonActiveFilter').click(function() {
       processing: true,
       serverSide: true,
       searching: true,
+      order: [[3, 'desc']],
       language: {
           lengthMenu: "Tampilkan _MENU_ pelaporan per halaman",
           zeroRecords: "Tidak ada yang ditemukan",
@@ -81,11 +83,7 @@ $('.btnNonActiveFilter').click(function() {
           infoFiltered: "(difilter dari _MAX_ total data)"
       },
       ajax: '/admin/filter-violation/nonActive', // memanggil route yang menampilkan data json
-      columns: [{ // mengambil & menampilkan kolom sesuai tabel database
-              data: 'id',
-              name: 'id',
-              orderable: true,
-          },
+      columns: [
           {
               data: 'fullname',
               name: 'fullname',
@@ -114,6 +112,7 @@ $('.btnNonActiveFilter').click(function() {
 // Button Active - Menu Filter Pelanggaran
 $('.btnActiveFilter').click(function() {
   // $('.tb-filter').empty();
+  $('.btnActiveFilter').toggleClass('active');
   $('.title-filter').text('Filter Pelanggaran Sedang Aktif');
   var table = $('#dataTableFilter').DataTable().destroy();
   // table.clear().draw();
@@ -121,6 +120,7 @@ $('.btnActiveFilter').click(function() {
       processing: true,
       serverSide: true,
       searching: true,
+      order: [[3, 'desc']],
       language: {
           lengthMenu: "Tampilkan _MENU_ pelaporan per halaman",
           zeroRecords: "Tidak ada yang ditemukan",
@@ -129,11 +129,7 @@ $('.btnActiveFilter').click(function() {
           infoFiltered: "(difilter dari _MAX_ total data)"
       },
       ajax: '/admin/filter-violation/active', // memanggil route yang menampilkan data json
-      columns: [{ // mengambil & menampilkan kolom sesuai tabel database
-              data: 'id',
-              name: 'id',
-              orderable: true,
-          },
+      columns: [
           {
               data: 'fullname',
               name: 'fullname',
@@ -168,6 +164,7 @@ load_data();
   $('#dataTableFilter').DataTable({
    processing: true,
    serverSide: true,
+   order: [[3, 'desc']],
    language: {
         lengthMenu: "Tampilkan _MENU_ pelaporan per halaman",
         zeroRecords: "Tidak ada yang ditemukan",
@@ -180,10 +177,6 @@ load_data();
     data:{month:month, year:year}
    },
    columns: [
-   {
-        data: 'id',
-        name: 'id',
-    },
     {
         data: 'fullname',
         name: 'fullname',

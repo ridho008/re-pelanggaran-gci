@@ -22,6 +22,7 @@ class FilterViolationController extends Controller
                     ->whereYear('reporting_date', $request->year)
                     // ->whereBetween('reporting_date', [$request->from_date, $request->to_date])
                     ->where('users.is_active', 1) // active account
+                    ->orderBy('types_violations.sum_points', 'DESC')
                     ->get();
            // $data = Report::table('tbl_order');
            //   ->whereBetween('order_date', array($request->from_date, $request->to_date))
