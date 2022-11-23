@@ -10,9 +10,9 @@
    <div class="col-md-6">
       <a href="{{ route('admin.report.create') }}" class="btn btn-primary"><i class="fas fa-plus"></i> Tambah Data</a>
    </div>
-   <div class="col-md-6">
+   {{-- <div class="col-md-6">
       @include('partials.menu-status-report')
-   </div>
+   </div> --}}
 </div>
 <div class="row mt-2">
    <div class="col-md-6">
@@ -29,7 +29,7 @@
    <div class="col-md-12">
       <div class="card-body">
           <div class="table-responsive">
-              <table class="table table-bordered table-striped" width="100%" cellspacing="0">
+              <table class="table table-bordered table-striped" id="dataTableAll" width="100%" cellspacing="0">
                   <thead class="text-center">
                       <tr>
                           <th>No</th>
@@ -48,7 +48,7 @@
                      @endphp
                      @forelse($reports as $key => $report)
                         <tr>
-                           <td>{{ $key + $reports->firstitem() }}</td>
+                           <td>{{ $no++ }}</td>
                            <td>{{ $report->title == null ? "judul kosong" : $report->title }}</td>
                            <td>
                               @if($report->user_id == null)
@@ -105,9 +105,9 @@
               </table>
           </div>
           <div class="row">
-             <div class="col-md-6">
+             {{-- <div class="col-md-6">
                 {{ $reports->links() }}
-             </div>
+             </div> --}}
           </div>
       </div>
    </div>

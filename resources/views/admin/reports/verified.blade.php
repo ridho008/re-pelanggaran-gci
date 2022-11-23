@@ -13,7 +13,7 @@
    <div class="row">
       <div class="col-md-12">
          <div class="table-responsive">
-             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+             <table class="table table-bordered" id="dataTableAll" width="100%" cellspacing="0">
                  <thead>
                      <tr>
                          <th>No</th>
@@ -120,9 +120,9 @@
       </div>
    </div>
    <div class="row">
-      <div class="col-md-6">
+      {{-- <div class="col-md-6">
          {{ $reports->links() }}
-      </div>
+      </div> --}}
    </div>
 </div>
 

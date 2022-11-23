@@ -8,6 +8,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\PointController;
 use App\Http\Controllers\FilterViolationController;
+use App\Http\Controllers\FilterReportController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 /*
@@ -152,6 +153,10 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
    Route::get('/admin/filter-violation/active',[FilterViolationController::class, 'activeFilterViolation'])->name('filter.admin.active');
    Route::get('/admin/filter-violation/nonActive',[FilterViolationController::class, 'nonActiveFilterViolation'])->name('filter.admin.nonActive');
    Route::get('/admin/filter-violation/range/{month}/{year}',[FilterViolationController::class, 'rangeDate'])->name('filter.admin.rangeDate');
+
+   // ----- Filter Reports User yang pointnya lebih dari 20
+   Route::get('/admin/filter-reports', [FilterReportController::class, 'index'])->name('filter.report.admin');
+   Route::get('/admin/filter-reports-active/{id}', [FilterReportController::class, 'activeReportFil'])->where('id', '[0-9]+')->name('filter.report.nonActive.admin');
 
 });
 

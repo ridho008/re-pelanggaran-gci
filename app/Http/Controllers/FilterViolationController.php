@@ -48,8 +48,6 @@ class FilterViolationController extends Controller
             'bulan' => $bulan,
         ];
         return view('admin.filter-violation.index', $data);
-        
-
     }
 
     public function activeFilterViolation()

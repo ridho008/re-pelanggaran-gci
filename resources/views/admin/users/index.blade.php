@@ -13,7 +13,7 @@
 </div>
 <div class="card-body">
     <div class="table-responsive">
-        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+        <table class="table table-bordered" id="dataTableAll" width="100%" cellspacing="0">
             <thead class="text-center">
                 <tr>
                     <th width="20px">No</th>
@@ -25,9 +25,12 @@
                 </tr>
             </thead>
             <tbody>
+               @php
+               $no = 1;
+               @endphp
                @foreach($users as $key => $user)
                <tr>
-                  <td>{{ $key + $users->firstitem() }}</td>
+                  <td>{{ $no++ }}</td>
                   <td>{{ $user->fullname }}</td>
                   <td>{{ $user->email }}</td>
                   <td>{{ $user->role }}</td>
@@ -57,9 +60,9 @@
         </table>
     </div>
     <div class="row">
-       <div class="col-md-6">
+       {{-- <div class="col-md-6">
           {{ $users->links() }}
-       </div>
+       </div> --}}
     </div>
 </div>
 

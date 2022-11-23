@@ -25,7 +25,7 @@ class ReportController extends Controller
 
     public function index(Request $request)
     {
-        $reports = Report::with('users')->paginate(5);
+        $reports = Report::with('users')->get();
         // dd($reports);
         $request->validate([
             'proof_fhoto' => 'mimes:jpg,bmp,png',
@@ -228,7 +228,7 @@ class ReportController extends Controller
 
     public function verified()
     {
-        $reports = Report::with('users')->paginate(5);
+        $reports = Report::with('users')->get();
 
         $data = [
             'reports' => $reports,

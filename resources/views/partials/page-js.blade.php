@@ -8,6 +8,7 @@ $('#modalLogout').click(function() {
 
 
 @if(auth()->user()->role == 'admin')
+  $('#dataTableAll').DataTable();
   // DATATABLES
   
   // var table = $('#dataTable').DataTable({
@@ -220,6 +221,73 @@ load_data();
   $('.title-filter').text('Filter Pelanggaran');
   $('#dataTableFilter').DataTable().destroy();
   load_data();
+ });
+
+load_data_filter_report();
+
+ // Filter Report Pelanggaran Point
+ function load_data_filter_report()
+ {
+  $('#dataTableFilterReport').DataTable({
+   processing: true,
+   serverSide: true,
+   order: [[3, 'desc']],
+   language: {
+        lengthMenu: "Tampilkan _MENU_ pelaporan per halaman",
+        zeroRecords: "Tidak ada yang ditemukan",
+        info: "Menampilkan halaman _PAGE_ dari _PAGES_",
+        infoEmpty: "Tidak ada pelaporan yang tersedia",
+        infoFiltered: "(difilter dari _MAX_ total data)"
+    },
+   ajax: {
+    url: `/admin/filter-reports`,
+   },
+   columnDefs: [
+        { targets :4, data : name, 
+          data: function ( data, type, val, meta ) { 
+            // console.log(data);
+            return `<a data-id="${data.id}" href="filter-reports-active/${data.id}" onclick="return confirm('Yakin ?')" class="btn btn-warning btn-block mb-1 btnStatActive" data-toggle="tooltip" data-placement="top" title="Non Aktifkan"><i class="fas fa-times"></i></a>`;
+   }}],
+   columns: [
+    {
+        data: 'fullname',
+        name: 'fullname',
+        searchable: true,
+    },
+    {
+        data: 'email',
+        name: 'email',
+        searchable: true,
+    },
+    {
+        data: `reporting_date`,
+        name: 'reporting_date'
+    },
+    {
+        data: `total`,
+        name: `total`
+    },
+    // {
+    //     targets: 4,
+    //     data: function ( row, type, val, meta ) {
+    //       console.log(row.id);
+    //     },
+    //     defaultContent: `<a href="" onclick="return confirm('Yakin ?')" class="btn btn-warning btn-block mb-1" data-toggle="tooltip" data-placement="top" title="Non Aktifkan"><i class="fas fa-times"></i></a>`,
+    // },
+   ]
+  });
+ }
+
+ $('.btnStatActive').click(function() {
+  const id = $(this).data('id');
+  console.log(id);
+  $.ajax({
+    url: `/admin/filter-reports-active/${id}`,
+    method: 'GET',
+    success: function(data) {
+      console.log(data);
+    }
+  });
  });
 
 

@@ -18,7 +18,7 @@ class UserController extends Controller
 
     public function index()
     {
-        $users = User::select('id', 'fullname', 'role', 'email', 'is_active')->paginate(5);
+        $users = User::select('id', 'fullname', 'role', 'email', 'is_active')->get();
         $data = [
             'users' => $users,
         ];
