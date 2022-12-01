@@ -86,8 +86,10 @@ class HomeController extends Controller
 
     public function userDashboard()
     {
+        $menu_status = User::where('id', auth()->user()->id)->get();
         $data = [
-            'title' => 'User Dashboard'
+            'title' => 'User Dashboard',
+            'menuStatus' => $menu_status,
         ];
         return view('user.index', $data);
     }
