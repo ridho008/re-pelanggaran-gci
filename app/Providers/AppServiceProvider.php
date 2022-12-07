@@ -7,6 +7,7 @@ use Illuminate\Pagination\Paginator;
 use PDOException;
 use Exception;
 use DB;
+// use Illuminate\Support\Facades\Schema;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -27,12 +28,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        try {
-            DB::connection()
-                ->getPdo();
             Paginator::useBootstrap();
-        } catch (Exception $e) {
-            abort($e instanceof PDOException ? 500 : 503);
-        }
+            // Schema::defaultStringLength(191);
+        // try {
+        //     DB::connection()
+        //         ->getPdo();
+        // } catch (Exception $e) {
+        //     abort($e instanceof PDOException ? 500 : 503);
+        // }
     }
 }

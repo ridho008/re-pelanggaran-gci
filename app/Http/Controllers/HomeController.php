@@ -42,14 +42,14 @@ class HomeController extends Controller
         // $dataGraph = $userGraph->values(); // jml pelanggaran
         // dd($userGraph);
 
-        $graph = Report::select('users.*', 'report.*', 'types_violations.*', DB::raw('SUM(types_violations.sum_points) as typesSum'))
-            ->join('types_violations', 'types_violations.id', '=', 'report.types_id')
-            ->join('users', 'users.id', '=', 'report.user_id')
-            ->where('report.status', 0)
+        $graph = Report::select('users.*', 'reports.*', 'types_violations.*', DB::raw('SUM(types_violations.sum_points) as typesSum'))
+            ->join('types_violations', 'types_violations.id', '=', 'reports.types_id')
+            ->join('users', 'users.id', '=', 'reports.user_id')
+            ->where('reports.status', 0)
             ->where('users.is_active', 1)
             ->where('users.role', 0)
-            ->whereMonth('report.reporting_date', 10)
-            ->groupBy('report.user_id')
+            ->whereMonth('reports.reporting_date', 11)
+            ->groupBy('reports.user_id')
             ->orderBy('types_violations.sum_points', 'DESC')
             ->skip(0)->take(5)
             ->pluck('typesSum', 'users.fullname');
@@ -62,14 +62,14 @@ class HomeController extends Controller
         // and status = 0 
         // group by user_id
 
-        $employeePoint = Report::select('types_violations.sum_points', 'users.is_active','types_violations.sum_points', 'report.user_id', 'users.fullname', DB::raw('SUM(types_violations.sum_points) as typesSum'))
-                        ->join('types_violations', 'types_violations.id', '=', 'report.types_id')
-                        ->join('users', 'users.id', '=', 'report.user_id')
-                        ->where('report.status', 0)
+        $employeePoint = Report::select('types_violations.sum_points', 'users.is_active','types_violations.sum_points', 'reports.user_id', 'users.fullname', DB::raw('SUM(types_violations.sum_points) as typesSum'))
+                        ->join('types_violations', 'types_violations.id', '=', 'reports.types_id')
+                        ->join('users', 'users.id', '=', 'reports.user_id')
+                        ->where('reports.status', 0)
                         ->where('users.role', 0)
                         ->where('users.is_active', 1)
-                        ->whereMonth('report.reporting_date', 10)
-                        ->groupBy('report.user_id')
+                        ->whereMonth('reports.reporting_date', 11)
+                        ->groupBy('reports.user_id')
                         ->orderBy('types_violations.sum_points', 'DESC')
                         ->skip(0)->take(5)
                         ->get();

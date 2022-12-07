@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('report', function (Blueprint $table) {
+        Schema::create('reports', function (Blueprint $table) {
             $table->id();
             // pelaku
             $table->unsignedBigInteger('user_id')->nullable();
@@ -43,6 +43,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('report');
+        Schema::dropIfExists('reports');
     }
 };

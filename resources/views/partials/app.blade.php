@@ -1,18 +1,18 @@
 @php
 
-$pointIcon = \DB::table('report')->where('user_id', auth()->user()->id)->count();
+$pointIcon = \DB::table('reports')->where('user_id', auth()->user()->id)->count();
 // dd($points);
 
-$reports = \DB::table('report')
-            ->join('users', 'users.id', '=', 'report.user_id')
-            ->select('report.*', 'users.*')
+$reports = \DB::table('reports')
+            ->join('users', 'users.id', '=', 'reports.user_id')
+            ->select('reports.*', 'users.*')
             ->where('status', 2)
             ->orWhere('status', null)
             ->take(5)
-            ->orderBy('report.id', 'desc')
+            ->orderBy('reports.id', 'desc')
             ->get();
 
-$reportsCount = \DB::table('report')
+$reportsCount = \DB::table('reports')
             ->where('status', 2)
             ->orWhere('status', null)
             ->get();

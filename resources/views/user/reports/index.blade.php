@@ -275,7 +275,9 @@
                               
                               @foreach($users as $user)
                                  @if($user->role == "user" && $user->fullname != 'Tidak Tahu')
+                                    @if($user->id != auth()->user()->id)
                                  <option value="{{ $user->id }}">{{ $user->fullname }}</option>
+                                    @endif
                                  @endif
                               @endforeach
                            </select>

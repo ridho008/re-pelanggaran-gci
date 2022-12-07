@@ -2,7 +2,7 @@
 
 @section('title', 'User Dashboard')
 @section('content')
-<h1 class="h3 mb-4 text-gray-800">User Dashboard</h1>
+<h1 class="h3 mb-4 text-gray-800">Selamat Datang {{ auth()->user()->fullname }}</h1>
 @foreach($menuStatus as $ms)
 @if($ms->menu_report_status == 1)
    <div class="alert alert-warning" role="alert">

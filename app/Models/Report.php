@@ -12,7 +12,7 @@ class Report extends Model
 {
     use HasFactory;
 
-    protected $table = 'report';
+    protected $table = 'reports';
 
     protected $fillable = [
         'id',
@@ -24,7 +24,7 @@ class Report extends Model
         'reply_comment',
         'reporting',
         'title',
-        'types_id'
+        'types_id',
     ];
 
     public function users()

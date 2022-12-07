@@ -112,10 +112,11 @@ class PointController extends Controller
     public function indexPoint()
     {   
         // $points = Point::where('reporting_point', auth()->user()->id)->with('types')->paginate(6);
-        $points = Report::where('user_id', auth()->user()->id)->with('typesViolations')->paginate(6);
+        $points = Report::where('status', 0)->where('user_id', auth()->user()->id)->with('typesViolations')->paginate(6);
         // $pointCount = Point::join('types_violations', 'types_violations.id', 'points.typevio_id')->where('reporting_point', auth()->user()->id)->sum('sum_points');
         $pointCount = Report::select('types_violations.sum_points')
-                        ->join('types_violations', 'types_violations.id', '=', 'report.types_id')
+                        ->join('types_violations', 'types_violations.id', '=', 'reports.types_id')
+                        ->where('status', 0)
                         ->where('user_id', auth()->user()->id)->sum('sum_points');
 
         $data = [

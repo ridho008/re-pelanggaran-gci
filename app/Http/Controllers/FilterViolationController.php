@@ -13,10 +13,10 @@ class FilterViolationController extends Controller
     {
         if(request()->ajax()) {
           if(!empty($request->month)) {
-            $model = Report::query()->select('report.*', 'types_violations.*', 'users.*')
-                    ->join('types_violations', 'types_violations.id', '=', 'report.types_id')
-                    ->join('users', 'users.id', '=', 'report.user_id')
-                    ->where('report.status', 0)
+            $model = Report::query()->select('reports.*', 'types_violations.*', 'users.*')
+                    ->join('types_violations', 'types_violations.id', '=', 'reports.types_id')
+                    ->join('users', 'users.id', '=', 'reports.user_id')
+                    ->where('reports.status', 0)
                     ->where('users.role', 0)
                     ->whereMonth('reporting_date', $request->month)
                     ->whereYear('reporting_date', $request->year)
@@ -28,10 +28,10 @@ class FilterViolationController extends Controller
            //   ->whereBetween('order_date', array($request->from_date, $request->to_date))
            //   ->get();
           } else {
-            $model = Report::query()->select('report.*', 'types_violations.*', 'users.*')
-                    ->join('types_violations', 'types_violations.id', '=', 'report.types_id')
-                    ->join('users', 'users.id', '=', 'report.user_id')
-                    ->where('report.status', 0)
+            $model = Report::query()->select('reports.*', 'types_violations.*', 'users.*')
+                    ->join('types_violations', 'types_violations.id', '=', 'reports.types_id')
+                    ->join('users', 'users.id', '=', 'reports.user_id')
+                    ->where('reports.status', 0)
                     ->where('users.role', 0)
                     // ->where('users.is_active', 1) // active account
                     ->get();
@@ -61,10 +61,10 @@ class FilterViolationController extends Controller
         //         // ->whereMonth('report.reporting_date', date('m'))
         //         ->get();
         // return json_encode($data);
-        $model = Report::query()->select('report.*', 'types_violations.*', 'users.*')
-                ->join('types_violations', 'types_violations.id', '=', 'report.types_id')
-                ->join('users', 'users.id', '=', 'report.user_id')
-                ->where('report.status', 0)
+        $model = Report::query()->select('reports.*', 'types_violations.*', 'users.*')
+                ->join('types_violations', 'types_violations.id', '=', 'reports.types_id')
+                ->join('users', 'users.id', '=', 'reports.user_id')
+                ->where('reports.status', 0)
                 ->where('users.role', 0)
                 ->where('users.is_active', 1) // active account
                 // ->whereMonth('report.reporting_date', date('m'))
@@ -85,10 +85,10 @@ class FilterViolationController extends Controller
         //         ->get();
         // return json_encode($data);
 
-        $model = Report::query()->select('report.*', 'types_violations.*', 'users.*')
-                ->join('types_violations', 'types_violations.id', '=', 'report.types_id')
-                ->join('users', 'users.id', '=', 'report.user_id')
-                ->where('report.status', 0)
+        $model = Report::query()->select('reports.*', 'types_violations.*', 'users.*')
+                ->join('types_violations', 'types_violations.id', '=', 'reports.types_id')
+                ->join('users', 'users.id', '=', 'reports.user_id')
+                ->where('reports.status', 0)
                 ->where('users.role', 0)
                 ->where('users.is_active', 0) // active account
                 // ->whereMonth('report.reporting_date', date('m'))

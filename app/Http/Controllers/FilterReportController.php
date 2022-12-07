@@ -41,16 +41,16 @@ class FilterReportController extends Controller
         // SELECT types_violations.id, users.*, SUM(types_violations.sum_points) AS total FROM report INNER JOIN users ON users.id = report.user_id INNER JOIN types_violations ON types_violations.id = report.types_id WHERE report.status = 0 AND users.role = 0 AND users.is_active = 1 GROUP BY report.user_id HAVING total >= 20 
         // dd($model);
         if(request()->ajax()) {
-          $model = Report::query()->select('report.*', 'types_violations.*', 'users.*', DB::raw('SUM(types_violations.sum_points) as total'))
-                  ->join('types_violations', 'types_violations.id', '=', 'report.types_id')
-                  ->join('users', 'users.id', '=', 'report.user_id')
-                  ->where('report.status', 0)
+          $model = Report::query()->select('reports.*', 'types_violations.*', 'users.*', DB::raw('SUM(types_violations.sum_points) as total'))
+                  ->join('types_violations', 'types_violations.id', '=', 'reports.types_id')
+                  ->join('users', 'users.id', '=', 'reports.user_id')
+                  ->where('reports.status', 0)
                   ->where('users.role', 0)
                   ->where('users.menu_report_status', 0)
                   // ->where('types_violations.sum_points', 20, '>=')
                   ->where('users.is_active', 1) // active account
                   // ->process()
-                  ->groupBy('report.user_id')
+                  ->groupBy('reports.user_id')
                   ->having('total', '>=', 20)
                   ->get();
           return DataTables::of($model)->toJson();

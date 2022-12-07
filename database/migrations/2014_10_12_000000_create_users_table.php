@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('image')->default('default.svg')->nullable();
             // ketika mendaftar, harus verifikasi terlebih dahulu oleh admin
             $table->integer('is_active')->comment('0 = nonActive, 1 = Active')->nullable();
+            $table->integer('menu_report_status')->default(0)->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
