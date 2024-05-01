@@ -24,3 +24,4 @@ testing_keys.json
 docs/_build
 *.swp
 /composer.lock
+.vercel
